@@ -64,8 +64,8 @@ Data|Versão|Descrição|Autor
 
 ### 3.1. <a name="1_1">Comunicação Interna</a>
 
-<p align = "justify"> &emsp;&emsp; A comunicação interna entre os times de EPS e MDS, ocorrerá ferramentas descritas na tabela acima. Os times terão reuniões semanalmente, podendo ser presenciais ou remotas. Essas reuniões são fixas e ocorrerão todo sábado, com horário de início definido às 14:00 e horário de término previsto até às 18:00. Caso tenha necessidade de uma reunião para a discussão ou resolução de problemas urgentes, a reunião poderá acontecer qualquer dia da semana de forma que maior quantidade de membros possam estar presentes.
+<p align = "justify"> &emsp;&emsp; A comunicação interna entre os time, ocorrerá por meio das ferramentas descritas acima. Os times terão reuniões semanalmente. Essas reuniões são fixas e ocorrerão toda terça, com horário de início definido às 16:00 e horário de término previsto até às 18:00. Caso tenha necessidade de uma reunião para a discussão ou resolução de problemas urgentes, a reunião poderá acontecer qualquer dia da semana de forma que maior quantidade de membros possam estar presentes.
 
 ### 3.1. <a name="1_1">Comunicação Externa</a>
 
-<p align = "justify"> &emsp;&emsp; No caso do projeto, não há um cliente real. Porém esclarecimentos são realizados por meio da comunicação com os professores Carla e Joênio no apoio ao desenvolvimento do projeto pela ferramenta telegram ou por reuniões semanais que acontecem geralmente ao término das aulas das disciplinas. Outras comunicações ocorrem com o Pablo Diego e com Rodrigo Oliveira para demais dúvidas e introdução do projeto.
+<p align = "justify"> &emsp;&emsp; No caso do projeto, não há um cliente real. Porém esclarecimentos são realizados por meio da comunicação com a professora Carla no apoio ao desenvolvimento do projeto pela ferramenta telegram ou por reuniões semanais que acontecem geralmente ao término das aulas das disciplinas.
