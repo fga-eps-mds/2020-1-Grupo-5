@@ -14,28 +14,21 @@
 
 ### 3: Descrições da Parte Interessada e do Usuário
 
- - Demográficos de Mercado:
  - Resumo da Parte Interessada:
- - Resumo do Usuário:
  - Ambiente do Usuário:
- - Perfis das Partes Interessadas:
+ - Perfis dos Envolvidos:
  - Perfis do Usuário:
- - Principais Necessidades da Parte Interessada ou do Usuário:
+ - Principais Necessidades dos Usuário ou dos Envolvidos:
  - Alternativas e Concorrência:
 
 ### 4: Visão Geral do Produto
 
  - Perspectiva do Produto:
- - Resumo das Capacidades:
- - Suposições e Dependências:
- - Custo e Precificação:
- - Licenciamento e Instalação:
+ - Resumo dos Recursos
 
 ### 5: Recursos do Produto
 
- - Recurso 1:
- - Recurso 2:
 
 ### 6: Restrições
 
-### 7: Outros Requisitos do Produto
+
