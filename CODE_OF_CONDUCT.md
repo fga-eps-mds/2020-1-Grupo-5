@@ -28,7 +28,7 @@ Os mantenedores do projeto têm o direito e a responsabilidade de remover, edita
 Este Código de Conduta se aplica aos espaços do projeto e aos espaços públicos quando um indivíduo está representando o projeto ou sua comunidade. Exemplos de representar um projeto ou comunidade incluem o uso de um e-mail oficial do projeto, publicação por meio de uma conta oficial de mídia social, ou atuando como representante designado em um evento on-line ou off-line. A representação de um projeto pode ser definido e esclarecido pelos mantenedores do projeto.
 
 ## Execução
-Instâncias de comportamento abusivo, de assédio ou de outra forma inaceitável podem ser comunicadas ao contactar a equipe do projeto em rocha.carla@gmail.com. A equipe do projeto irá rever e investigar todas as queixas, e responderá da forma que julgar apropriada às circunstâncias. A equipe do projeto é obrigada a manter a confidencialidade em relação ao repórter de um incidente. Mais detalhes sobre políticas de execução específicas podem ser publicados separadamente.
+Instâncias de comportamento abusivo, de assédio ou de outra forma inaceitável podem ser comunicadas ao contactar a equipe do projeto em bot.doctors@gmail.com. A equipe do projeto irá rever e investigar todas as queixas, e responderá da forma que julgar apropriada às circunstâncias. A equipe do projeto é obrigada a manter a confidencialidade em relação ao repórter de um incidente. Mais detalhes sobre políticas de execução específicas podem ser publicados separadamente.
 
 Os mantenedores do projeto que não seguem ou aplicam o Código de Conduta de boa fé podem enfrentar repercussões temporárias ou permanentes, conforme determinado por outros membros da liderança do projeto.
 
