@@ -12,9 +12,10 @@
  - Instrução do Problema:
  - Instrução de Posição do Produto
 
-### 3: Descrições da Parte Interessada e do Usuário
+### 3: Descrição da Parte Envolvida e do Usuário:
 
- - Resumo da Parte Interessada:
+ - Resumo dos Envolvidos:
+ - Resumo do Usuárioo:
  - Ambiente do Usuário:
  - Perfis dos Envolvidos:
  - Perfis do Usuário:
