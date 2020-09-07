@@ -62,7 +62,7 @@ Representante|Monitorado
 |**Tipo**|Monitorado.|
 |**Responsabilidade**| Utilizar o aparelho para o propósito.|
 |**Critérios de Sucesso**| Permanencia da saúde.|
-|**Envolvimento**|médio.|
+|**Envolvimento**|Médio.|
 |**Problemas/Comentários**| - |
 
 
