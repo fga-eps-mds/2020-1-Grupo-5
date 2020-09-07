@@ -2,8 +2,8 @@
 
 Data|Versão|Descrição|Autor
 -|-|-|-
-31/08|1.0.0|Adição do template do Documento| X |
-01/09|1.1.0|Adição dos subitens do item 3| Marcos Adriano|
+x/08|1.0.0|Adição do template do Documento| X |
+07/09|1.1.0|Adição dos subitens do item 3| Marcos Adriano|
 
 ### 1: Introdução
 
@@ -37,7 +37,7 @@ Nome|Descrição
 
 ##### 3.2 <a name="3_2">Ambiente do Usuário</a>
 
-<p align = "justify">A aplicação será utilizada no mensageiro Telegram, o mesmo atende a plataforamas celulares e web.</p>
+<p align = "justify">A aplicação será utilizada no mensageiro Telegram, o mesmo atende as plataformas <i>mobile</i> e <i>web</i>.</p>
 
 ##### 3.3 <a name="3_3">Perfis dos Envolvidos</a>
 
