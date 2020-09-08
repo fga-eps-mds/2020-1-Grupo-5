@@ -15,9 +15,27 @@ x/08|1.0.0|Adição do template do Documento| X |
 
 ### 2: Posicionando
 
- - Oportunidade de Negócios:
- - Instrução do Problema:
- - Instrução de Posição do Produto
+##### 2.1 <a name="2_1">Oportunidade de Negócio</a>
+
+<p align="justify">&emsp;&emsp; O aplicativo Guardiões da Saúde é de extrema importância para obter informações de como está a saúde das pessoas em nossa comunidade neste tempo de pandemia. O nosso projeto pretende facilitar e expandir essa comunicação ao maior número de pessoas possível, utilizando de uma rede social que é de comum uso entre os membros da nossa comunidade. </p>
+
+##### 2.2 <a name="2_2">Descrição do problema</a>
+
+|**O problema é**|Pouco acesso ao aplicativo Guardiões da Saúde.|
+|:---:|:---:|
+|**afeta**|Orgãos que utilizam dos dados obtidos pelo app.|
+|**cujo impacto é**|Dificuldade, por meio das autoridades públicas, no planejamento do combate a pandemia.|
+|**uma boa solução seria**|O uso do ChatBot para facilitar a comunicação e obtenção de dados.|
+
+##### 2.3 <a name="2_3">Instrução de Posição do Produto</a>
+
+|**Para** |Usuários do app <i>Telegram</i>.|
+|:---:|:---:|
+|**Que** ||
+|**O DoctorS_bot é**| Um ChatBot integrado ao <i>Telegram</i>.|
+|**Que**| Obtém dados dos usuários.|
+|**Diferente de**||
+|**Nosso produto**||
 
 ### 3: Descrições da Parte Interessada e do Usuário
 
