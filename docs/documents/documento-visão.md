@@ -3,9 +3,10 @@
 Data|Versão|Descrição|Autor
 -|-|-|-
 x/08|1.0.0|Adição do template do Documento| X |
-07/09|1.1.0|Adição dos subitens do item 3| Marcos Adriano|
+07/09|1.0.1|Adição dos subitens do item 3| Marcos Adriano|
+08/09|1.0.2|Adição dos subitens do item 5| João Alves|
 
-### 1: Introdução
+## **1. Introdução**
 
  - Propósito:
  - Escopo:
@@ -13,7 +14,7 @@ x/08|1.0.0|Adição do template do Documento| X |
  - Referências: 
  - Visão geral:
 
-### 2: Posicionando
+## **2. Posicionando**
 
 ##### 2.1 <a name="2_1">Oportunidade de Negócio</a>
 
@@ -37,9 +38,7 @@ x/08|1.0.0|Adição do template do Documento| X |
 |**Diferente de**||
 |**Nosso produto**||
 
-### 3: Descrições da Parte Interessada e do Usuário
-
-### 3. <a name="3">Descrições da parte interessada e dos Usuários</a>
+## **3. Descrições da Parte Interessada e do Usuário**
 
 Nome|Descrição|Responsabilidade
 |:--:|:--:|:--:|
@@ -94,7 +93,7 @@ Necessidade|Prioridade|Interesse|Solução Atual|Solução Proposta
 
 <p align = "justify"> &emsp;&emsp; A proposta é justamente garantir as funcionalidades de um aplicativo que já se encontra no mercado. E é justificada por associar que os usuarios em geral terão uma maior aceitação da ideia se este já estiver inserido no contexto dos mesmos, que no caso é o mensageiro <i>Telegram</i>.</p>
 
-### 4: Visão Geral do Produto
+## **4. Visão Geral do Produto**
 
  - Perspectiva do Produto:
  - Resumo das Capacidades:
@@ -102,11 +101,25 @@ Necessidade|Prioridade|Interesse|Solução Atual|Solução Proposta
  - Custo e Precificação:
  - Licenciamento e Instalação:
 
-### 5: Recursos do Produto
+## **5. Recursos do Produto**
 
- - Recurso 1:
- - Recurso 2:
+O produto possuirá o sistema de login, armazenando os usuários e informações únicas com o intuíto de armazenar e gerar relatórios quanto aos infectados em cada região.
 
-### 6: Restrições
+### 5.1 Recursos de usuário
+ 
+ * Cadastrar usário
+ * Informe físico diário (Quanto aos sintomas)
+ * Armazenar informações
 
-### 7: Outros Requisitos do Produto
+### 5.2 Recursos de relatório
+
+ * Armazenar relatórios de usuário
+ * Fornecer relatórios ao usuário
+
+### 5.3 Recursos adcionais
+
+ * Fornecer informações relevantes para o cuidado da saúde
+ 
+## **6. Restrições**
+
+## **7. Outros Requisitos do Produto**
