@@ -2,9 +2,9 @@
 
 Data|Versão|Descrição|Autor
 -|-|-|-
-x/08|1.0.0|Adição do template do Documento| X |
-07/09|1.0.1|Adição dos subitens do item 3| Marcos Adriano|
-08/09|1.0.2|Adição dos subitens do item 5| João Alves|
+x/08|0.1.0|Adição do template do Documento| X |
+07/09|0.1.1|Adição dos subitens do item 3| Marcos Adriano|
+08/09|0.1.2|Adição dos subitens do item 5| João Alves|
 
 ## **1. Introdução**
 
