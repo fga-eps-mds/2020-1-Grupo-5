@@ -8,6 +8,7 @@ x/08|0.1.0|Adição do template do Documento| X |
 08/09|0.1.3|Adição dos subitens do item 6| Lucas Rodrigues|
 08/09|0.1.4|Adição dos subitens 2 e 3 do item 4| Gabriel Batalha|
 08/09|0.1.5|Adição do subitem 1 do item 4| Lucas Rodrigues|
+08/09|0.1.6|Adição dos subitens do item 2| João Pedro|
 
 ## **1. Introdução**
 
