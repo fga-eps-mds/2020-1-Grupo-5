@@ -7,6 +7,7 @@ x/08|0.1.0|Adição do template do Documento| X |
 08/09|0.1.2|Adição dos subitens do item 5| João Alves|
 08/09|0.1.3|Adição dos subitens do item 6| Lucas Rodrigues|
 08/09|0.1.4|Adição dos subitens 2 e 3 do item 4| Gabriel Batalha|
+08/09|0.1.5|Adição do subitem 1 do item 4| Lucas Rodrigues|
 
 ## **1. Introdução**
 
@@ -97,9 +98,9 @@ Necessidade|Prioridade|Interesse|Solução Atual|Solução Proposta
 
 ## **4. Visão Geral do Produto**
 
- - Perspectiva do Produto (4.1):
- - Custo e Precificação (4.4):
- - Licenciamento e Instalação (4.5):
+### 4.1 Perspectiva do Produto
+O produto tem como objetivo estender para o Telegram as funcionalidades do aplicativo mobile Guardiões da Saúde, utilizando um chatbot. Os usuários cadastrados devem informar diariamente sobre o aparecimento ou não de sintomas relacionados ao COVID-19. Com as informações coletadas são gerados relatórios contendo estatísticas e dados relacionados a esse problema. Dessa forma, ele pode auxiliar no combate à doença.
+
  ### 4.2 Resumo das Capacidades
  
  | **Benefícios para o Cliente**                                 | **Recursos de suporte**                    |
