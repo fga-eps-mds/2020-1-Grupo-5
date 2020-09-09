@@ -9,16 +9,40 @@ x/08|0.1.0|Adição do template do Documento| X |
 08/09|0.1.4|Adição dos subitens 2 e 3 do item 4| Gabriel Batalha|
 08/09|0.1.5|Adição do subitem 1 do item 4| Lucas Rodrigues|
 08/09|0.1.6|Adição dos subitens do item 2| João Pedro|
+09/09|0.1.7|Adição dos subitens do item 1| Kevin Luis|
 
 ## **1. Introdução**
 
- - Propósito:
- - Escopo:
- - Definições, acrônimos e abreviações:
- - Referências: 
- - Visão geral:
+##### 1.1 <a name="1_1">Propósito</a>
 
-## **2. Posicionando**
+<p align="justify">&emsp;&emsp; Este documento tem objetivo de apresentar uma visão geral sobre o ChatBot DoctorS, mostrando suas características e seu objetivo. </p>
+
+##### 1.2 <a name="1_2">Escopo</a>
+
+<p align="justify">&emsp;&emsp; O ChatBot DoctorS é um sistema desenvolvido para coletar informações do estado de saúde diariamente dos usuários. </p>
+
+##### 1.3 <a name="1_3">Definições, acrônimos e abreviações</a>
+
+DoctorS: O nome do ChatBot
+ChatBot: Software que através de inteligencia artificial conduz uma conversa para automatizar os processos
+FGA: Faculdade do Gama
+MDS: Equipe de Métodos de Desenvolvimento de Software
+Telegram: Aplicativo de mensagens instantâneas 
+UnB: Universidade de Brasilia
+
+##### 1.4 <a name="1_4">Referências</a>
+
+- IBM Knowledge Center - Documento de Visão: A estrutura de tópicos do documento de visão. Disponível em: https://www.ibm.com/support/knowledgecenter/pt-br/SSWMEQ_4.0.6/com.ibm.rational.rrm.help.doc/topics/r_vision_doc.html. Acesso em: 01 set. 2020;
+- Disponível em: https://github.com/fga-eps-mds/2018.1_Gerencia_mais/blob/master/docs/documentos/Mds/Documento_de_Visao.md#1. Acesso em: 01 set. 2020.
+- Disponível em: https://fga-eps-mds.github.io/2019.1-ADA/#/docs/product/vision_document. Acesso em 01 set. 2020.
+
+##### 1.5 <a name="1_5">Visão Geral</a>
+
+<p align="justify">&emsp;&emsp; Esse é um documento informativo sobre o ChatBot DoctorS em que estão descritos os detalhes do software.
+Ele está organizado no formato de tópicos e subtópicos sequenciais numerados. A ordem desses tópicos é: Introdução; Posicionamento; Descrições da Parte Interessada e do Usuário; Visão Geral do Produto; Recursos do Produto; Restrições; Outros Requisitos do Produto. </p>
+
+
+## **2. Posicionamento**
 
 ##### 2.1 <a name="2_1">Oportunidade de Negócio</a>
 
