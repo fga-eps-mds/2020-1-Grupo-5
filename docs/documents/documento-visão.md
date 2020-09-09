@@ -6,6 +6,7 @@ x/08|0.1.0|Adição do template do Documento| X |
 07/09|0.1.1|Adição dos subitens do item 3| Marcos Adriano|
 08/09|0.1.2|Adição dos subitens do item 5| João Alves|
 08/09|0.1.3|Adição dos subitens do item 6| Lucas Rodrigues|
+08/09|0.1.4|Adição dos subitens 2 e 3 do item 4| Gabriel Batalha|
 
 ## **1. Introdução**
 
@@ -96,11 +97,23 @@ Necessidade|Prioridade|Interesse|Solução Atual|Solução Proposta
 
 ## **4. Visão Geral do Produto**
 
- - Perspectiva do Produto:
- - Resumo das Capacidades:
- - Suposições e Dependências:
- - Custo e Precificação:
- - Licenciamento e Instalação:
+ - Perspectiva do Produto (4.1):
+ - Custo e Precificação (4.4):
+ - Licenciamento e Instalação (4.5):
+ ### 4.2 Resumo das Capacidades
+ 
+ | **Benefícios para o Cliente**                                 | **Recursos de suporte**                    |
+ |---------------------------------------------------------------|--------------------------------------------|
+ | Acesso às próprias informações                                | Criação de Usuário                         |
+ | Capacidade de oferecer informações para o mapeamento de saúde | Informe estado físico diário               |
+ | Acesso a relatórios de saúde                                  | Envio de relatórios produzidos pelo Bot    |
+ | Acesso a dicas para cuidar da saúde                           | Dicas e práticas saudáveis                 |
+ 
+ ### 4.3 Suposições e Dependências
+ - O usuário deve ter em alcance o aplicativo **Telegram**
+ - O usuário deve estar conectado à Internet
+
+
 
 ## **5. Recursos do Produto**
 
