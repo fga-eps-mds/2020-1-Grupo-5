@@ -5,6 +5,7 @@ Data|Versão|Descrição|Autor
 x/08|0.1.0|Adição do template do Documento| X |
 07/09|0.1.1|Adição dos subitens do item 3| Marcos Adriano|
 08/09|0.1.2|Adição dos subitens do item 5| João Alves|
+08/09|0.1.3|Adição dos subitens do item 6| Lucas Rodrigues|
 
 ## **1. Introdução**
 
@@ -121,5 +122,20 @@ O produto possuirá o sistema de login, armazenando os usuários e informações
  * Fornecer informações relevantes para o cuidado da saúde
  
 ## **6. Restrições**
+
+### 6.1 Restrições de Implementação
+O chatbot será desenvolvido utilizando a linguagem de programação Python e implementado com a API disponibilizada para o Telegram.
+ 
+### 6.2 Restrições de Design
+A interação com o chatbot se dá de forma simples, espontânea e de fácil entendimento, dentro da interface do aplicativo ou site do Telegram.
+ 
+### 6.3 Restrições de Uso
+Para interagir com o chatbot se faz necessário utilizar um dispositivo que tenha conexão com a internet, além de acesso ao Telegram.
+ 
+### 6.4 Restrições Externas
+Falta de conhecimento e de experiência em relação a API de chatbot do Telegram e possíveis complicações relacionadas ao trabalho em equipe.
+ 
+### 6.5 Restrições de Confiabilidade
+Cada uma das funcionalidades implementadas deve passar por testes que garantam o funcionamento correto e a estabilidade da mesma.
 
 ## **7. Outros Requisitos do Produto**
