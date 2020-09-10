@@ -23,12 +23,12 @@ x/08|0.1.0|Adição do template do Documento| X |
 
 ##### 1.3 <a name="1_3">Definições, acrônimos e abreviações</a>
 
-DoctorS: O nome do ChatBot
-ChatBot: Software que através de inteligencia artificial conduz uma conversa para automatizar os processos
-FGA: Faculdade do Gama
-MDS: Equipe de Métodos de Desenvolvimento de Software
-Telegram: Aplicativo de mensagens instantâneas 
-UnB: Universidade de Brasilia
+- DoctorS: O nome do ChatBot
+- ChatBot: Software que através de inteligencia artificial conduz uma conversa para automatizar os processos
+- FGA: Faculdade do Gama
+- MDS: Equipe de Métodos de Desenvolvimento de Software
+- Telegram: Aplicativo de mensagens instantâneas 
+- UnB: Universidade de Brasilia
 
 ##### 1.4 <a name="1_4">Referências</a>
 
