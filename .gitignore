@@ -1,2 +1,8 @@
+#Pasta de configurações do VS Code
 .vscode
 
+#Pasta de cache do python
+__pycache__
+
+#Arquivo temporário contendo o token do bot
+token.txt
