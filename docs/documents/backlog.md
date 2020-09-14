@@ -20,8 +20,10 @@
 |Épicos|Features|Descrição|
 |:--:|-----|:--:|
 ||F1|Cadastro do usuário|
-||F2|Informe do estado físico diário|
-||F3|Envio de relatórios|
+|EP3|F2|Informe do estado físico diário|
+|EP4|F3|Envio de relatórios|
+|EP1, EP2|F4|Comunicação com o usuário|
+|EP5|F5|Gerenciamento do Bot|
 
 ## 3. Histórias do usuário
 
