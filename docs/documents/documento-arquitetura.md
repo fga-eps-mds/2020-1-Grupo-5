@@ -5,12 +5,17 @@
 |11/09|0.1|Adicionando subitem 1.1|Kevin Luis|
 |13/09|0.2|Adicionando subitem 3.1|Gabriel Batalha|
 |13/09|0.3|Adicionando subitem 3.2|Lucas Rodrigues|
+|14/09|0.4|Adicionando subitem 1.2|Lucas Rodrigues|
 
 ## 1. Introdução
 
 ### 1.1 Finalidade 
 
 <p align="justify"> Esse documento tem como finalidade apresentar a arquitetura do projeto de software DoctorS. Mostrando as funcionalidades como um todo e ajudando os desenvolvedores e gestores com informações ao longo do período de desenvolvimento. </p>
+
+### 1.2 Escopo
+
+<p align="justify"> Por meio desse documento, pretende-se apresentar de forma estruturada a construção da arquitetura do projeto, permitindo assim um melhor entendimento ao leitor, e a compreensão do funcionamento do sistema e suas partes, além de apresentar as métricas, restrições, abordagens e demais parâmetros concernentes a arquitetura em desenvolvimento. </p>
 
 ## 3. Metas e restrições da arquitetura
 
