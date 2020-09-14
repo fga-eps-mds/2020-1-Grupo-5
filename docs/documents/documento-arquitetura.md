@@ -48,15 +48,16 @@ O projeto será desenvolvido utilizando o padrão MVC(Model-View-Controller), po
   <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/python.png" />
 </p>
 
-O projeto em sua maior parte será feito na linguagem [Python](https://www.python.org), esse que ficará em sua maior parte responsável pela camada de Controller, ocorrendo a validação de entradas, também fará toda a comunicação entre a API responsável pelo armazenamento de dados e a API responsável pela entrada de dados.
+O projeto em sua maior parte será feito na linguagem [Python](https://www.python.org), esta que será predominante na camada de Controller, ocorrendo a validação de entradas, também fará toda a comunicação entre a API responsável pelo armazenamento de dados e a API responsável pela entrada de dados.
 
-
+<br>
 <p align="center">
   <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/telegram.png" />
 </p>
 
 A entrada de dados ocorre somente por meio do Telegram, no qual o Telegram fornece uma API que envia todas as mensagens(dados) recebidas para nossa API do python e lá ocorre a validação de dados, reconhecimento de comandos e mensagens recebidas.
 
+<br>
 <p align="center">
   <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/GuardioesLogo.png" />
 </p>
