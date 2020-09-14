@@ -5,7 +5,7 @@
 |11/09|0.1|Adicionando subitem 1.1|Kevin Luis|
 |13/09|0.2|Adicionando subitem 3.1|Gabriel Batalha|
 |13/09|0.3|Adicionando subitem 3.2|Lucas Rodrigues|
-|14/09|0.4|Adicionando subitem 1.2|Lucas Rodrigues|
+|14/09|0.4|Adicionando subitem 1.2|Marcos Adriano|
 
 ## 1. Introdução
 
