@@ -60,11 +60,11 @@ O aplicativo Guardiões da Saúde é de extrema importância para obter informa�
 
 |**Para** |Usuários do app <i>Telegram</i>.|
 |:---:|:---:|
-|**Que** ||
+|**Que** |Querem receber relatórios diários sobre seu estado de saúde|
 |**O DoctorS_bot é**| Um ChatBot integrado ao <i>Telegram</i>.|
 |**Que**| Obtém dados dos usuários.|
-|**Diferente de**||
-|**Nosso produto**||
+|**Diferente de**|Precisar se deslocar a um médico, em qualquer sinal de sintoma da Covid-19.|
+|**Nosso produto**|Facilita a comunicação e informa ao usuário, caso esteja com algum sintoma da Covid-19, se necessário ir ao hospital.|
 
 ## **3. Descrições da Parte Interessada e do Usuário**
 
