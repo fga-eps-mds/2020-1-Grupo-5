@@ -5,17 +5,18 @@
 |14/09|0.0.1|Adicionando tópico 2|Kevin Luis|
 |14/09|0.0.2|Adicionando tópico 1|Marcos Adriano|
 |14/09|0.0.3|Adicionando tópico 3|Lucas Rodrigues|
+|15/09|0.0.4|Atualizando tópico 1|Marcos Adriano|
 
 ## 1. Épicos
 
 |Épicos|Descrição|
 |:-----------------------------------------------------------------:|:-------------------------------------------:|
-|EP1| Eu, enquanto usuário, gostaria de uma apresentação do produto.|
-|EP2| Eu, enquanto usuário, desejo saber quais as permissões para instalação do bot.|
-|EP3| Eu, enquanto usuário, gostaria de uma comunicação limpa.|
-|EP4| Eu, enquanto usuário, gostaria de receber meus relatórios em uma dada frequência.|
-|EP5| Eu, enquanto administrador, gostaria de ser capaz de alterar funcionalidades.|
-|EP6| Eu, enquanto usuario, gostaria de me cadastrar.|
+|EP1| Apresentação do produto.|
+|EP2| Instalação do bot.|
+|EP3| Comunicação.|
+|EP4| Relatórios.|
+|EP5| Alterar funcionalidades.|
+|EP6| Cadastro.|
 
 ## 2. Features
 
