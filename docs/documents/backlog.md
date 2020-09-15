@@ -15,12 +15,13 @@
 |EP3| Eu, enquanto usuário, gostaria de uma comunicação limpa.|
 |EP4| Eu, enquanto usuário, gostaria de receber meus relatórios em uma dada frequência.|
 |EP5| Eu, enquanto administrador, gostaria de ser capaz de alterar funcionalidades.|
+|EP6| Eu, enquanto usuario, gostaria de me cadastrar.|
 
 ## 2. Features
 
 |Épicos|Features|Descrição|
 |:--:|-----|:--:|
-||F1|Cadastro do usuário|
+|EP6|F1|Cadastro do usuário|
 |EP3|F2|Informe do estado físico diário|
 |EP4|F3|Envio de relatórios|
 |EP1, EP2|F4|Comunicação com o usuário|
