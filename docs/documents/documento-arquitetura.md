@@ -7,6 +7,7 @@
 |13/09|0.3|Adicionando subitem 3.2|Lucas Rodrigues|
 |14/09|0.4|Adicionando subitem 1.2|Marcos Adriano|
 |14/09|0.5|Adcionado item 2, subitem 2.1 2.2| João Alves|
+|16/09|0.6|Adcionado item 4, subitem 4.1 | João Pedro|
 
 ## 1. Introdução
 
@@ -81,3 +82,33 @@ Os objetivos do DoctorS são :
 - O ChatBot será desenvolvido em Python e será utilizada a API do Guardiões da Saúde
 - A interação com o ChatBot deve ser intuitiva
 - O código deve ter boa qualidade, sendo consistente, fácil de entender, ler, estudar e realizar manutenção
+
+## 4. Visão Lógica
+
+### 4.1 Diagrama de Pacotes
+
+Os diagramas de pacotes mostram a interação entre as relações das pastas e seus arquivos.
+
+<p align="center">
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Telegram.pdf" />
+</p>
+
+Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
+
+<p align="center">
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Guardi%C3%B5es.pdf" />
+</p>
+
+Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saúde.
+
+<p align="center">
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Python.pdf" />
+</p>
+
+Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
+
+<p align="center">
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral.pdf" />
+</p>
+
+Imagem 8 - Diagrama de pacotes geral dos Microsserviços.
