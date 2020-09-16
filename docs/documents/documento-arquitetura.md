@@ -90,25 +90,25 @@ Os objetivos do DoctorS são :
 Os diagramas de pacotes mostram a interação entre as relações das pastas e seus arquivos.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Telegram.pdf" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Telegram.png" />
 </p>
 
 Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Guardi%C3%B5es.pdf" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Guardi%C3%B5es.png" />
 </p>
 
 Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saúde.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Python.pdf" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Python.png" />
 </p>
 
 Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral.pdf" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral.png" />
 </p>
 
 Imagem 8 - Diagrama de pacotes geral dos Microsserviços.
