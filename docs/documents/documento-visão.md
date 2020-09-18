@@ -2,7 +2,7 @@
 
 Data|Versão|Descrição|Autor
 -|-|-|-
-x/08|0.1.0|Adição do template do documento| X |
+03/09|0.1.0|Adição do template do documento| Kevin Luis |
 07/09|0.1.1|Adição dos subitens do item 3| Marcos Adriano|
 08/09|0.1.2|Adição dos subitens do item 5| João Alves|
 08/09|0.1.3|Adição dos subitens do item 6| Lucas Rodrigues|
