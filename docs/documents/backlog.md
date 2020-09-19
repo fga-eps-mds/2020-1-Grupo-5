@@ -6,17 +6,18 @@
 |14/09|0.0.2|Adicionando tópico 1|Marcos Adriano|
 |14/09|0.0.3|Adicionando tópico 3|Lucas Rodrigues|
 |15/09|0.0.4|Atualizando tópico 1|Marcos Adriano|
+|18/09|0.0.5|Revisão do documento|Lucas Rodrigues|
 
 ## 1. Épicos
 
 |Épicos|Descrição|
 |:-----------------------------------------------------------------:|:-------------------------------------------:|
-|EP1| Apresentação do produto.|
-|EP2| Instalação do bot.|
-|EP3| Comunicação.|
-|EP4| Relatórios.|
-|EP5| Alterar funcionalidades.|
-|EP6| Cadastro.|
+|EP1| Apresentação do produto|
+|EP2| Instalação do bot|
+|EP3| Comunicação|
+|EP4| Relatórios|
+|EP5| Alterar funcionalidades|
+|EP6| Cadastro|
 
 ## 2. Features
 
