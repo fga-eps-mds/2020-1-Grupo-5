@@ -1,14 +1,28 @@
-
-import requests
+from telegram import ReplyKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler)
+import requests, utils, json
+import time
 
 
 #Envia o menu para o usuario
 def start(update, context):
-    resposta = ("Bem vindo ao DoctorS Bot, digite a opção que desejar:\n\n"
-                "/Sobre - Para mais informações\n")
-    context.bot.send_message(
-        chat_id=update.effective_chat.id, text=resposta
+    reply_keyboard = [['Login','Registrar'],
+                      ['Sobre','Finalizar']]
+
+    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+
+    resposta = ("Bem vindo ao DoctorS Bot, selecione a opção desejada.\n\n"
+                "Caso deseje voltar ao menu, digite /menu ou /start.\n")
+
+    update.message.reply_text(
+        resposta, reply_markup=markup
     )
+
+#Cadastra novo user
+def signup_handler(update, context):
+    signup(update,context)
+        
+
 
 #Envia informaçoes sobre o bot
 def sobre(update, context):
@@ -16,7 +30,7 @@ def sobre(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id, text=resposta
     )
-
+    
 
 #Mensagens não reconhecidas
 def unknown(update, context):
@@ -24,3 +38,7 @@ def unknown(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id, text=resposta,
     )
+
+
+
+
