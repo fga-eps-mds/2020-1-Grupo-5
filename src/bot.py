@@ -3,11 +3,15 @@ from telegram import Bot,Update
 from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Updater, ConversationHandler
 import handlers
 import signup
+import pathlib
+
+
 class Bot:
     def __init__(self):
 
         #Le o token no arquivo 'token.txt' e passa para a variavel
-        f = open("token.txt", "r")
+        current_path = pathlib.Path(__file__).parent.absolute()
+        f = open(str(current_path) + "/../config/token.txt", "r")
         TELEGRAM_TOKEN = f.read()
 
         #Estrutura responsavel por verificar todas novas mensagens
