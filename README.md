@@ -15,8 +15,47 @@ O repositório é mantido e gerenciado por alunos da Universidade de Brasília, 
 
 ## Utilização
 
-Para utilizar, basta procurar o contato [@DoctorS_bot](https://t.me/DoctorS_bot) no Telegram e clicar em começar.
+Para utilizar o DoctorS, basta procurar o contato [@DoctorS_bot](https://t.me/DoctorS_bot) no Telegram e clicar em começar.
 
+
+## Instalação
+Caso queira executar uma instância do nosso projeto:
+
+* Consiga um [Telegram TOKEN](https://telegram.me/BotFather)
+
+* Crie um arquivo com nome de "token.txt" na pasta config
+
+* Insira o TOKEN no arquivo
+
+* Instale a [API do Guardiões da Saúde](https://github.com/proepidesenvolvimento/guardioes-api) e execute-a
+
+* Instale todos as bibliotecas necessárias(preferencialmente num [Ambiente Virtual](https://virtualenv.pypa.io/en/latest/)):\
+```python3 -m pip install -r requirements.txt```
+
+* Quando a API do Guardiões estiver sendo executata, basta executar o DoctorS.py:\
+ ```python3 DoctorS.py```
+ 
+### Erros comuns
+* Erro na biblioteca python-telegram-bot:
+
+    ```ImportError: cannot import name 'Bot' from 'telegram'```
+
+    Basta executar manualmente:
+
+    ```python3 -m pip install python-telegram-bot```
+
+## Integrantes
+
+ O projeto é executado por 6 alunos da Universidade de Brasília, sobre supervisão da professora [Carla Rocha](https://github.com/RochaCarla).
+ 
+ 
+ * [João Alves](https://github.com/Joaoaalves)
+ * [Kevin Batista](https://github.com/k3vin-batista)
+ * [Marcos Adriano Nery](https://github.com/marcosadrianonery)
+ * [Lucas Rodrigues](https://github.com/lucas229)
+ * [Gabriel Batalha](https://github.com/Gabriel-Azevedo-Batalha)
+ * [João Pedro Moura](https://github.com/Joao-Pedro-Moura)
+ 
 ### Contato
 
 email : bot.doctors@gmail.com
