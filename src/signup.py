@@ -4,6 +4,7 @@ from telegram import ReplyKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler)
 import utils
+from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
 
 
 CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
@@ -277,17 +278,21 @@ def get_Gender(update, context):
 
     return CHOOSING
 
-
+def cal(update, context):
+    query = update.callback_query
+    result, key, step = DetailedTelegramCalendar().process(query.data)
+    if not result and key:
+        query.edit_message_text(f"Select {LSTEP[step]}",
+                              reply_markup=key)
+    elif result:
+        query.edit_message_text(f"You selected {result}")
 
 #Funcao que recebe o dia de nascimento
 def get_birthday(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite o dia de aniversario.(01 - 31)'
-    )
-
-    return TYPING_REPLY
+    calendar, step = DetailedTelegramCalendar().build()
+    update.message.reply_text(f"Select {LSTEP[step]}",
+                            reply_markup=calendar)
+    return CHOOSING
 
 
 #Funcao que recebe o mes de nascimento

@@ -1,6 +1,6 @@
 import json
 from telegram import Bot,Update
-from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Updater, ConversationHandler
+from telegram.ext import CommandHandler, Dispatcher, Filters, MessageHandler, Updater, ConversationHandler, CallbackQueryHandler
 import handlers
 import signup
 import pathlib
@@ -47,7 +47,8 @@ class Bot:
         #Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
         dispatcher.add_handler(MessageHandler(Filters.all , handlers.unknown)) 
 
-
+        #Callback query do calendário
+        dispatcher.add_handler(CallbackQueryHandler(signup.cal))
 
     def run(self):
         #Mantem o bot rodando localmente enquanto o programa estiver sendo executado
