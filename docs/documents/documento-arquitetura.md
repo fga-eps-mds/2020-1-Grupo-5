@@ -9,7 +9,7 @@
 |14/09|0.5|Adicionando subitens 2.1 e 2.2|João Alves|
 |16/09|0.6|Adicionando subitem 4.1 |João Pedro|
 |17/09|0.7|Revisão ortográfica|Lucas Rodrigues|
-
+|23/09|0.8|Corrigido subitens 2.1 e 2.2|João Alves|
 ## 1. Introdução
 
 ### 1.1 Finalidade 
@@ -22,26 +22,22 @@ Por meio desse documento pretende-se apresentar de forma estruturada a construç
 
 ## 2. Representação arquitetural
 
-### 2.1 Padrão arquitetural
+### 2.1 Diagrama de relações
 
-O projeto será desenvolvido utilizando o padrão MVC (Model-View-Controller) por meio da utilização da linguagem Python. Esse modelo foi escolhido por:
-
- * Facilitar o reaproveitamento de código
- * Melhorar a manutenibilidade
- * Facilitar a implementação de todas as APIs que utilizaremos
- * Melhorar a interação/integração da equipe
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/modeloMVC.png" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20de%20Relações.png" />
 </p>
 
----
 
-**Model** é a camada responsável pela lógica do software, gerenciamento e uso de dados de toda a aplicação. Nesse caso, a camada está bastante presente na [API do Guardiões da Saúde](https://github.com/proepidesenvolvimento/guardioes-api), pois a API é responsável pelo gerenciamento e uso do banco de dados. Geralmente essa camada também possui, se não todas, a maioria das regras de negócios da aplicação.
 
-**View** é qualquer saída e apresentação dos dados e/ou informações contidas na aplicação. No caso do **DoctorS Bot**, a interface do Telegram é basicamente toda a camada de View do software.
+### 2.1.1 Front-End
 
-**Controller** é a camada que media as duas outras camadas (View e Model) e é responsável pelo controle de entrada e saída de dados no sistema. No **DoctorS Bot** essa camada é praticamente representada pelo Python junto da [Python-Telegram-Bot](https://github.com/python-telegram-bot/python-telegram-bot) (biblioteca presente no Python), as quais fazem requisições tanto para a [API do Telegram](https://core.telegram.org/bots/api) quanto para a do Guardiões da Saúde sempre que necessário.
+O front-end é a parte responsável pela troca de mensagens, ou seja, o Telegram é basicamente todo o front-end do produto. Parte essa que fica responsável por transportar a mensagem do usuário para o bot do DoctorS e vice-versa.
+
+### 2.1.2 Back-End
+
+O back-end é reponsável por interpretar a mensagem do usuário, e responder da melhor forma, caso seja requisitado alguma função que envolva entrada de dados do usuário(Login, informe diário e etc), ele fará o registro, transportará os dados para a API do Guardiões e também para o banco de dados do próprio bot.
 
 ### 2.2 Tecnologias
 
@@ -49,14 +45,14 @@ O projeto será desenvolvido utilizando o padrão MVC (Model-View-Controller) po
   <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/python.png" />
 </p>
 
-O projeto em sua maior parte será feito na linguagem [Python](https://www.python.org), que será predominante na camada de Controller para a validação de entradas. Ela também fará toda a comunicação entre a API responsável pelo armazenamento de dados e a API responsável pela entrada de dados.
+O projeto em sua maior parte será feito na linguagem [Python](https://www.python.org). Este software ficará responsável por interpretar as mensagens recebidas, respondelas e quando necessário ela também fará toda a comunicação entre a API responsável pelo armazenamento de dados(Guardiões da Saúde) e a API responsável pela entrada de dados(Telegram Bot API).
 
 <br>
 <p align="center">
   <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/telegram.png" />
 </p>
 
-A entrada de dados ocorre somente por meio do Telegram, que fornece uma API que envia todas as mensagens (dados) recebidas para a nossa API do Python, onde ocorre a validação de dados, reconhecimento de comandos e mensagens recebidas.
+A entrada de dados ocorre somente por meio do Telegram, que fornece uma API que envia todas as mensagens (dados) recebidas para o codigo do DoctorS, onde ocorre a validação de dados, reconhecimento de comandos e mensagens recebidas.
 
 <br>
 <p align="center">
