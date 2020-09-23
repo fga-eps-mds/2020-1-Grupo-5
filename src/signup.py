@@ -4,10 +4,12 @@ from telegram import ReplyKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler)
 import utils
-from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
+from customCalendar import CustomCalendar
 
 
 CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
+
+LSTEP = {'y': 'ano', 'm': 'mês', 'd': 'dia'}
 
 reply_keyboard = [['Username', 'Email','Senha'],
                   [ 'Dia nascimento','Mes nascimento', 'Ano nascimento'],
@@ -278,22 +280,22 @@ def get_Gender(update, context):
 
     return CHOOSING
 
+#Função de callback do calendário
 def cal(update, context):
     query = update.callback_query
-    result, key, step = DetailedTelegramCalendar().process(query.data)
+    result, key, step = CustomCalendar(locale='br').process(query.data)
     if not result and key:
-        query.edit_message_text(f"Select {LSTEP[step]}",
+        query.edit_message_text(f"Selecione o {LSTEP[step]}",
                               reply_markup=key)
     elif result:
-        query.edit_message_text(f"You selected {result}")
+        query.edit_message_text(f"Você selecionou {result}")
 
 #Funcao que recebe o dia de nascimento
 def get_birthday(update, context):
-    calendar, step = DetailedTelegramCalendar().build()
-    update.message.reply_text(f"Select {LSTEP[step]}",
+    calendar, step = CustomCalendar().build()
+    update.message.reply_text(f"Selecione o {LSTEP[step]}",
                             reply_markup=calendar)
     return CHOOSING
-
 
 #Funcao que recebe o mes de nascimento
 def get_birthmonth(update, context):
