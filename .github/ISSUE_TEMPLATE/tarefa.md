@@ -1,9 +1,9 @@
 ---
 name: Template de tarefas
 about: Template para definir a tarefa para algum membro
-title: 'Título da tarefa'
+title: Título da tarefa
 labels: ''
-assignees: 'Membro definido para tarefa'
+assignees: ''
 
 ---
 
