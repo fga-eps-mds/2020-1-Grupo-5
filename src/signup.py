@@ -1,10 +1,9 @@
 import requests
-import json
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          ConversationHandler)
-import utils
-from customCalendar import CustomCalendar
+                          ConversationHandler, CallbackQueryHandler)
+import src.utils as utils
+from src.CustomCalendar import CustomCalendar
 from datetime import date
 
 
@@ -12,9 +11,9 @@ CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
 
 LSTEP = {'y': 'ano', 'm': 'mês', 'd': 'dia'}
 
-reply_keyboard = [['Username', 'Email','Senha'],
-                  [ 'Dia nascimento','Mes nascimento', 'Ano nascimento'],
-                  ['Raça', 'Trabalho', 'Genero sexual' ]]
+reply_keyboard = [['Username', 'Email'],
+                  [ 'Senha', 'Raça'],
+                  ['Trabalho', 'Genero sexual' ]]
 
 race_options = [['Branco', 'Negro', 'Pardo'],
                 ['Indigena', 'Amarelo', 'Outro']]
@@ -25,16 +24,16 @@ gender_options = [['Homem Cis', 'Mulher Cis'],
 
 yes_no = [['Sim', 'Não']]
 
-required_data = { "Username", "Email", "Senha", "Dia nascimento", "Mes nascimento", "Ano nascimento",
+required_data = { "Username", "Email", "Senha",
             "Raça", "Trabalho", "Genero sexual"}
 
-markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 
-race_markup = ReplyKeyboardMarkup(race_options, one_time_keyboard=True)
+race_markup = ReplyKeyboardMarkup(race_options, one_time_keyboard=True, resize_keyboard=True)
 
-gender_markup = ReplyKeyboardMarkup(gender_options, one_time_keyboard=True)
+gender_markup = ReplyKeyboardMarkup(gender_options, one_time_keyboard=True, resize_keyboard=True)
 
-yes_no_markup = ReplyKeyboardMarkup(yes_no, one_time_keyboard=True)
+yes_no_markup = ReplyKeyboardMarkup(yes_no, one_time_keyboard=True, resize_keyboard=True)
 
 
 #Inicia o cadastro
@@ -96,67 +95,19 @@ def received_information(update, context):
 #Termina cadastro e envia ao servidor da API do guardiões
 def done(update, context):
 
-    #Pega todas as infos adcionadas
-    user_data = context.user_data
-
-    #Transforma a resposta do trabalho em legivel ao
-    #banco de dados
-    if user_data.get('Trabalho') and 'sim' in user_data.get('Trabalho').lower():
-        user_data.update({'Trabalho' : 'true'})
-
-    else:
-        user_data.update({'Trabalho' : 'false'})
-
-
-    #Json enviado a API do guardiões com informações
-    #Retiradas da API do telegram
-    json_entry = {
-        "user" : {
-            "email": user_data.get('Email'),
-            "user_name": user_data.get('Username'),
-            "birthdate": f"{user_data.get('Ano nascimento')}-{user_data.get('Mes nascimento')}-{user_data.get('Dia nascimento')}",
-            "country": "Brazil",
-            "gender": user_data.get('Genero sexual'),
-            "race": user_data.get('Raça'),
-            "is_professional": user_data.get('Trabalho'),
-            "picture": "default",
-            "password": user_data.get('Senha'),
-            "is_god": "false"
-        }
-    }
+    #Estrutura necessária para não permitir a finalização incorreta de um cadastro
+    #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
+    if len(context.user_data) == 6:
+        get_birthday(update, context)   #Recebe o aniversário e envia a request a API
+                                        #Para registrar
 
     
-    #Limpa caso tenha a key 'choice' no dict user_data
-    if 'choice' in user_data:
-        del sorted_user_data['choice']
-
-    #Envia a mensagem de cadastro
-    update.message.reply_text("Nós cadastraremos com esses dados:"
-                        "{}".format(dict_to_str(user_data)))
-
-
-    #Faz a tentativa de cadastro utilizando o json e os headers inseridos
-    r = requests.post("http://127.0.0.1:3001/user/signup", json=json_entry, headers={'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'})
-    
-
-    #Loggin de sucesso ou falha no cadastro
-    if r.status_code == 200:
-        update.message.reply_text("Cadastro efetuado com sucesso!")
-        print("Successfull signup:")
-    
-    else:
-
-        print("Signup Failed!")
-
-        update.message.reply_text("Falha no cadastro!")
-
-    print(r.content)
-
-    user_data.clear()
-    
-
-    return ConversationHandler.END
-
+    #Caso não, ele manda uma mensagem de falha no cadastro
+    else:   
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Falha ao registrar, não adcionou todos dados necessários!"
+        )
 
 
 #Funcao que retorna uma string de um SET
@@ -204,15 +155,6 @@ def regular_choice(update, context):
 
     if "Senha" in text:
         get_Pass(update, context)
-
-    if "Mes nascimento" in text:
-        get_birthmonth(update, context)
-    
-    if "Dia nascimento" in text:
-        get_birthday(update, context)
-
-    if "Ano nascimento" in text:
-        get_birthyear(update, context)
 
     if "Raça" in text:
         get_Race(update, context)
@@ -282,42 +224,29 @@ def get_Gender(update, context):
     return CHOOSING
 
 #Função de callback do calendário
-def cal(update, context):
-    query = update.callback_query
-    result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(query.data)
+def birthDayCallBack(update, context):
+
+    result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(update.callback_query.data)
     if not result and key:
-        query.edit_message_text(f"Selecione o {LSTEP[step]}",
+        update.callback_query.edit_message_text(f"Selecione o {LSTEP[step]}",
                               reply_markup=key)
     elif result:
-        query.edit_message_text(f"Você selecionou {result}")
+        
+        context.user_data['Nascimento'] = result
+        update.callback_query.edit_message_text(f'Selecionado: {result}')
+        
+        requestSignup(update, context)
+
 
 #Funcao que recebe o dia de nascimento
 def get_birthday(update, context):
+    update.message.reply_text('Está quase tudo pronto, basta apenas selecionar seu aniversário!')
+
     calendar, step = CustomCalendar(locale='br', max_date=date.today()).build()
     update.message.reply_text(f"Selecione o {LSTEP[step]}",
                             reply_markup=calendar)
+                            
     return CHOOSING
-
-#Funcao que recebe o mes de nascimento
-def get_birthmonth(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite o mes em que nasceu.(01-12)'
-    )
-
-    return TYPING_REPLY
-
-
-#Funcao que recebe o ano de nascimento
-def get_birthyear(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite o ano em que nasceu'
-    )
-
-    return TYPING_REPLY
 
 
 
@@ -330,3 +259,69 @@ def get_professional(update, context):
     )
 
     return CHOOSING
+
+
+
+#Funcao que cadastra o usuario
+def requestSignup(update, context):
+    #Pega todas as infos adcionadas
+    user_data = context.user_data
+
+    #Transforma a resposta do trabalho legivel ao
+    #banco de dados
+    if user_data.get('Trabalho') and 'sim' in user_data.get('Trabalho').lower():
+        user_data.update({'Trabalho' : 'true'})
+
+    else:
+        user_data.update({'Trabalho' : 'false'})
+
+
+    #Json enviado a API do guardiões com informações
+    #Retiradas da API do telegram
+    json_entry = {
+        "user" : {
+            "email": user_data.get('Email'),
+            "user_name": user_data.get('Username'),
+            "birthdate": str(user_data.get('Nascimento')),
+            "country": "Brazil",
+            "gender": user_data.get('Genero sexual'),
+            "race": user_data.get('Raça'),
+            "is_professional": user_data.get('Trabalho'),
+            "picture": "default",
+            "password": user_data.get('Senha'),
+            "is_god": "false"
+        }
+    }
+
+    headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
+
+
+    #Faz a tentativa de cadastro utilizando o json e os headers inseridos
+    r = requests.post("http://127.0.0.1:3001/user/signup", json=json_entry, headers=headers)
+    
+
+    #Log de sucesso ou falha no cadastro
+    if r.status_code == 200: # Sucesso
+        print("Successfull signup:")
+        
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f"{user_data.get('Username')}, você foi cadastrado com sucesso!"
+        )
+
+
+    else: #Falha
+        
+        print("Signup Failed!")
+        
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f"{user_data.get('Username')}, seu cadastrado falhou!"
+        )
+
+
+    print(r.content)
+
+    user_data.clear()
+    
+    return ConversationHandler.END
