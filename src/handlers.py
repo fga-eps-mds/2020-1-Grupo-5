@@ -1,12 +1,15 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler)
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
 import src.utils as utils
+import src.signup as signup
 import time
 
 
 #Envia o menu para o usuario
 def start(update, context):
+    print(update.effective_chat.id)
+
     reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar']]
 
@@ -20,14 +23,24 @@ def start(update, context):
     )
 
 #Cadastra novo user
-def signup_handler(update, context):
-    signup(update,context)
-        
-#Login de usuario
-def login(update, context):
-    resposta = 'Ainda não foi implementada a função de login!\n\nEm breve implementaremos essa função!'
+def signup_handler():
+    return ConversationHandler(
+            entry_points=[MessageHandler(Filters.text("Registrar"), signup.start)],
+            states={
+                signup.CHOOSING: [MessageHandler(Filters.regex('^(Username|Email|Senha|Genero sexual|Raça|Trabalho)$'),
+                                        signup.regular_choice)
+                        ],
+                signup.TYPING_CHOICE: [
+                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
+                                signup.regular_choice)],
+                signup.TYPING_REPLY: [
+                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
+                                signup.received_information)],
+            },
+            fallbacks=[MessageHandler(Filters.regex('^Done$'), signup.done)],
+            allow_reentry=True
+            )
 
-    context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
 
 #Envia informaçoes sobre o bot
 def sobre(update, context):
@@ -42,6 +55,7 @@ def finalizar(update, context):
 
     context.bot.send_message(chat_id=update.effective_chat.id,
     text=resposta)
+
 
 #Mensagens não reconhecidas
 def unknown(update, context):

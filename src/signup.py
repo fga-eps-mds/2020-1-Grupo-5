@@ -1,5 +1,5 @@
 import requests
-from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler)
 import src.utils as utils
@@ -24,8 +24,7 @@ gender_options = [['Homem Cis', 'Mulher Cis'],
 
 yes_no = [['Sim', 'Não']]
 
-required_data = { "Username", "Email", "Senha",
-            "Raça", "Trabalho", "Genero sexual"}
+required_data = set()
 
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 
@@ -39,6 +38,8 @@ yes_no_markup = ReplyKeyboardMarkup(yes_no, one_time_keyboard=True, resize_keybo
 #Inicia o cadastro
 
 def start(update, context):
+    
+    context.user_data.clear()
 
     #Mensagem de inicio de cadastro
     update.message.reply_text(
@@ -51,18 +52,18 @@ def start(update, context):
 
 #Send current received information from user
 def received_information(update, context):
-
+    
     #Get data of user
     user_data = context.user_data
     text = update.message.text
 
     category = user_data['choice']
     user_data[category] = text
-    
-    del user_data['choice']
 
+    del user_data['choice']
+    
     #Valida os dados inseridos
-    validation = utils.validations(user_data, required_data)
+    validation = utils.validations(user_data)
        
     #Estrutura que mostra informações que ainda faltam ser inseridas
     if len(user_data) > 0:
@@ -78,16 +79,17 @@ def received_information(update, context):
     else:
         head = "Perfeito, ja temos esses dados:\n"
 
+    unreceived_info(context)
 
     #Envia o feedback ao user
     update.message.reply_text(head +
                             "{} Você pode me dizer os outros dados ou alterar os"
-                            " já inseridos.\n\n".format(dict_to_str(user_data)), reply_markup=markup)
+                            " já inseridos.\n\n".format(utils.dict_to_str(user_data)), reply_markup=markup)
 
     #Se as informações  estiverem completas, essa estrutura não é enviada
     if len(required_data) > 0:
         update.message.reply_text("Ainda falta(m):\n"
-                                  "{}".format(set_to_str(required_data)))
+                                  "{}".format(utils.set_to_str(required_data)))
 
     return CHOOSING
 
@@ -95,9 +97,15 @@ def received_information(update, context):
 #Termina cadastro e envia ao servidor da API do guardiões
 def done(update, context):
 
+
     #Estrutura necessária para não permitir a finalização incorreta de um cadastro
     #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
     if len(context.user_data) == 6:
+        
+        #Reinicia o teclado removendo a opção de Done
+        reply_keyboard.remove(['Done'])
+        markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+
         get_birthday(update, context)   #Recebe o aniversário e envia a request a API
                                         #Para registrar
 
@@ -110,33 +118,17 @@ def done(update, context):
         )
 
 
-#Funcao que retorna uma string de um SET
-def set_to_str(data):
-
-    remain_data = list()
-    
-    for value in data:
-        remain_data.append('{}.'.format(value))
-
-    return "\n".join(remain_data).join(['\n', '\n'])    
-
-
-#Passa dict para string
-def dict_to_str(user_data):
-    
-    facts = list()
-
-    for key, value in user_data.items():
-        facts.append('{} - {}'.format(key, value))
-
-    return "\n".join(facts).join(['\n', '\n'])
-
+def unreceived_info(context):
+    all_items = ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual")
+    for item in all_items:
+        if not item in context.user_data:
+            required_data.add(item)
 
 
 #Opçoes de entrada de informação do menu de cadastro
 def regular_choice(update, context):
 
-    if len(required_data) == 1:
+    if len(required_data) == 1 and not ['Done'] in reply_keyboard:
         reply_keyboard.append(['Done'])
         markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
     
@@ -145,7 +137,6 @@ def regular_choice(update, context):
 
     text = update.message.text
     user_data['choice'] = text
-
 
     if  "Username" in text:
         get_User(update,context)
@@ -236,8 +227,8 @@ def birthDayCallBack(update, context):
         update.callback_query.edit_message_text(f'Selecionado: {result}')
         
         requestSignup(update, context)
-
-
+        
+    
 #Funcao que recebe o dia de nascimento
 def get_birthday(update, context):
     update.message.reply_text('Está quase tudo pronto, basta apenas selecionar seu aniversário!')
@@ -247,8 +238,6 @@ def get_birthday(update, context):
                             reply_markup=calendar)
                             
     return CHOOSING
-
-
 
 #Funcao que recebe se o usario trabalha ou não
 def get_professional(update, context):
@@ -274,7 +263,6 @@ def requestSignup(update, context):
 
     else:
         user_data.update({'Trabalho' : 'false'})
-
 
     #Json enviado a API do guardiões com informações
     #Retiradas da API do telegram
