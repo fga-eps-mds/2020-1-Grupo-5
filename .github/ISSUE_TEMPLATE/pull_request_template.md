@@ -1,8 +1,10 @@
 ---
-name: Template de Pull Request
-title: Título do pull Request
-labels: ''
+name: PULL REQUEST
+about: VAlidando o que foi feito!
+title: "[PULL REQUEST]"
+labels: PULL RESQUEST
 assignees: ''
+
 ---
 
 ### Descrição - _<O que este Pull Request faz?>_
