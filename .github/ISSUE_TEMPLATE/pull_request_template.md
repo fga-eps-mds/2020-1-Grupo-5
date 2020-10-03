@@ -1,6 +1,6 @@
 ---
 name: PULL REQUEST
-about: VAlidando o que foi feito!
+about: Validando o que foi feito!
 title: "[PULL REQUEST]"
 labels: PULL RESQUEST
 assignees: ''
