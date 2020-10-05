@@ -1,6 +1,13 @@
 import json, requests
 from validate_email import validate_email
 
+
+def is_logged(user_data):
+    if user_data.get('AUTH_TOKEN'):
+        return True
+
+    return False
+
 #Funcao que retorna uma string de um SET
 def set_to_str(data):
 
@@ -60,7 +67,21 @@ def validaTrabalho(trabalho):
 
     return False
 
-def validations(user_data):
+
+def validations_login(user_data):
+    if "Email" in user_data:
+        if not validaEmail(user_data['Email']):
+            user_data.pop("Email")
+            return False
+
+    if "Senha" in user_data:
+        if not validaSenha(user_data['Senha']):
+            user_data.pop("Senha")
+            return False
+    
+    return True
+
+def validations_signup(user_data):
     
     if "Username" in user_data:
         if not validaNome(user_data['Username']):

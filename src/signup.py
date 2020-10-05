@@ -3,6 +3,7 @@ from telegram import ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler)
 import src.utils as utils
+import src.login as login
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 
@@ -38,16 +39,20 @@ yes_no_markup = ReplyKeyboardMarkup(yes_no, one_time_keyboard=True, resize_keybo
 #Inicia o cadastro
 
 def start(update, context):
+
+    if utils.is_logged(context.user_data):
+        handlers.unknown(context, update)
+        return ConversationHandler.END
     
-    context.user_data.clear()
+    else:
+        #Mensagem de inicio de cadastro
+        update.message.reply_text(
+            "Olá, é um prazer te conhecer! Eu sou o DoctorS Bot e estou aqui para facilitar sua vida em tempos de pandemia. "
+            "\n\nPara utilizar nosso sistema, preciso que adcione todas essas informações listadas abaixo!\n\n"
+            "Basta selecionar a opção que deseja adcionar e digitar!",
+            reply_markup=markup)
 
-    #Mensagem de inicio de cadastro
-    update.message.reply_text(
-        "Olá, é um prazer te conhecer! Eu sou o DoctorS Bot e estou aqui para facilitar sua vida em tempos de pandemia. "
-        "\n\nPara utilizar nosso sistema, preciso que adcione todas essas informações!",
-        reply_markup=markup)
-
-    return CHOOSING
+        return CHOOSING
 
 
 #Send current received information from user
@@ -63,7 +68,7 @@ def received_information(update, context):
     del user_data['choice']
     
     #Valida os dados inseridos
-    validation = utils.validations(user_data)
+    validation = utils.validations_signup(user_data)
        
     #Estrutura que mostra informações que ainda faltam ser inseridas
     if len(user_data) > 0:
@@ -80,11 +85,25 @@ def received_information(update, context):
         head = "Perfeito, ja temos esses dados:\n"
 
     unreceived_info(context)
+    
+
+
+    if len(required_data) > 0:
+        footer = "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
+
+        if ['Done'] in reply_keyboard:
+            undone_keyboard()
+
+    else:
+
+        footer = "\n\nAgora que adcionou todos os dados, pode editar os inseridos ou clicar em Done para enviar o formulário!\n"
+        form_filled()
+
 
     #Envia o feedback ao user
     update.message.reply_text(head +
-                            "{} Você pode me dizer os outros dados ou alterar os"
-                            " já inseridos.\n\n".format(utils.dict_to_str(user_data)), reply_markup=markup)
+                            "{}".format(utils.dict_to_str(user_data))
+                            + footer, reply_markup=markup)
 
     #Se as informações  estiverem completas, essa estrutura não é enviada
     if len(required_data) > 0:
@@ -93,6 +112,21 @@ def received_information(update, context):
 
     return CHOOSING
 
+
+#Caso a pessoa tenha adcionado todas as informações e 
+#Depois adcionou uma inválida novamente, ele retira o
+#Botão de done
+def undone_keyboard():
+    reply_keyboard.remove(['Done'])
+    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+
+
+#Função que adciona done ao terminar de adcionar todas informações
+def form_filled():
+    if not ['Done'] in reply_keyboard:
+        reply_keyboard.append(['Done'])
+        markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+    
 
 #Termina cadastro e envia ao servidor da API do guardiões
 def done(update, context):
@@ -128,11 +162,6 @@ def unreceived_info(context):
 #Opçoes de entrada de informação do menu de cadastro
 def regular_choice(update, context):
 
-    if len(required_data) == 1 and not ['Done'] in reply_keyboard:
-        reply_keyboard.append(['Done'])
-        markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-    
-    
     user_data = context.user_data
 
     text = update.message.text
@@ -231,7 +260,7 @@ def birthDayCallBack(update, context):
     
 #Funcao que recebe o dia de nascimento
 def get_birthday(update, context):
-    update.message.reply_text('Está quase tudo pronto, basta apenas selecionar seu aniversário!')
+    update.message.reply_text('Está quase tudo pronto, basta apenas selecionar sua data de nascimento!')
 
     calendar, step = CustomCalendar(locale='br', max_date=date.today()).build()
     update.message.reply_text(f"Selecione o {LSTEP[step]}",
@@ -297,6 +326,7 @@ def requestSignup(update, context):
             text=f"{user_data.get('Username')}, você foi cadastrado com sucesso!"
         )
 
+        login.request_login(update, context)        
 
     else: #Falha
         
@@ -308,8 +338,6 @@ def requestSignup(update, context):
         )
 
 
-    print(r.content)
-
-    user_data.clear()
+    print(r.content)    
     
     return ConversationHandler.END

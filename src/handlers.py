@@ -9,9 +9,13 @@ import time
 
 #Envia o menu para o usuario
 def start(update, context):
-    print(update.effective_chat.id)
 
-    reply_keyboard = [['Login','Registrar'],
+    if utils.is_logged(context.user_data):
+        reply_keyboard = [['Minhas informações','Sobre'],
+                          ['Sobre','Logout']]
+    
+    else:
+        reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -19,9 +23,40 @@ def start(update, context):
     resposta = ("Bem vindo ao DoctorS Bot, selecione a opção desejada.\n\n"
                 "Caso deseje voltar ao menu, digite /menu ou /start.\n")
 
-    update.message.reply_text(
-        resposta, reply_markup=markup
+    context.bot.send_message(
+        chat_id=update.effective_chat.id, text=resposta, reply_markup=markup
     )
+
+def menu(update, context):
+    if utils.is_logged(context.user_data):
+        reply_keyboard = [['Minhas informações','Sobre'],
+                          ['Sobre','Logout']]
+    
+    else:
+        reply_keyboard = [['Login','Registrar'],
+                      ['Sobre','Finalizar']]
+
+    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+    resposta = "Selecione a opção desejada!"
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=resposta,
+        reply_markup=markup
+    )
+
+
+
+def get_user_info(update, context):
+    if utils.is_logged(context.user_data):
+        user_data = context.user_data
+        resposta = "Nome: "+user_data['Username']+ "\nEmail: " +  user_data['Email']
+        
+        context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
+
+    else:
+        unknown(update, context)
+
 
 #Cadastra novo user
 def signup_handler():
@@ -41,7 +76,6 @@ def signup_handler():
             fallbacks=[MessageHandler(Filters.regex('^Done$'), signup.done)],
             allow_reentry=True
             )
-
 
 #Login de usuario
 def login_handler():
@@ -80,11 +114,9 @@ def finalizar(update, context):
 
 #Mensagens não reconhecidas
 def unknown(update, context):
-    resposta = "Não entendi. Tem certeza de que digitou corretamente?"
+    resposta = "Não entendi. Tem certeza de que digitou corretamente?\n\nRetornando ao menu."
     context.bot.send_message(
         chat_id=update.effective_chat.id, text=resposta,
     )
 
-
-
-
+    menu(update, context)
