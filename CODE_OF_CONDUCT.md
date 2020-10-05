@@ -12,6 +12,7 @@ Exemplos de comportamentos que contribuem para criar um ambiente positivo inclue
 * Aceitar críticas construtivas.
 * Concentrar no que é melhor para a comunidade.
 * Mostrar empatia para com outros membros da comunidade.
+
 Exemplos de comportamentos inaceitáveis dos contribuidores incluem:
 
 * O uso de linguagem ou imagens sexualizadas e avanços ou assédios sexuais indesejáveis.
