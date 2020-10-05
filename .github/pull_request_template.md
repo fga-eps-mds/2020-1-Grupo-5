@@ -1,12 +1,3 @@
----
-name: PULL REQUEST
-about: Validando o que foi feito!
-title: "[PULL REQUEST]"
-labels: PULL RESQUEST
-assignees: ''
-
----
-
 ### Descrição - _<O que este Pull Request faz?>_
 Pequena descrição sobre o PR, exemplificando quais arquivos foram criados, alterados e o porque de cada criação/alteração.
 
