@@ -9,14 +9,14 @@ As issues podem ser criadas para relatar problemas e sugerir melhorias.
 - Certifique-se que uma issue tratando do problema já não existe
 - A issue deve ser clara tanto no título quanto na descrição
 - Utilize as labels apropriadas para auxiliar na classificação da issue
-- Para reportar bugs utilize o [template](.github/ISSUE_TEMPLATE/bug_report.md) disponibilizado no repositório
+- Para **reportar bugs** utilize o [template](.github/ISSUE_TEMPLATE/bug_report.md) disponibilizado no repositório
 - Aguarde uma resposta dos mantenedores do repositório
 
 ## Pull request
 - O título e o comentário devem ser claros
 - As funcionalidades implementadas devem ter sido testadas e serem funcionais
 - O pull request deve possuir um link para a issue relacionada
-- Utilize o [template](.github/ISSUE_TEMPLATE/pull_request_template.md) de pull request para issues
+- Utilize o [template](.github/pull_request_template.md) de pull request para issues
 
 ## Branches
 - A branch para adição de funcionalidade normalmente deve ser criada a partir da develop
