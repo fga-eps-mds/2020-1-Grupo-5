@@ -76,6 +76,23 @@ def signup_handler():
             fallbacks=[MessageHandler(Filters.regex('^Done$'), signup.done)],
             allow_reentry=True
             )
+            
+def logout(update, context):
+    
+    if utils.is_logged(context.user_data):
+        resposta = f"Já vai?\n\nAté a próxima {context.user_data['Username']}!\n\nPara ver o menu digite /menu ou /start!"
+        
+        #Limpa a sessão do usuário
+        context.user_data.clear()
+
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=resposta
+        )
+
+    else:
+        #Caso não esteja logado, não entra na função de logout
+        unknown(update, context)
 
 #Login de usuario
 def login_handler():

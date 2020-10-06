@@ -8,12 +8,12 @@ class Bot:
     def __init__(self):
 
         try:
-            #Le o token no arquivo 'token.txt' e passa para a variavel
+            # Le o token no arquivo 'token.txt' e passa para a variavel
             current_path = pathlib.Path(__file__).parent.absolute()
             f = open(str(current_path) + "/../config/token.txt", "r")
             TELEGRAM_TOKEN = f.read()
 
-            #Estrutura responsavel por verificar todas novas mensagens
+            # Estrutura responsavel por verificar todas novas mensagens
             self.updater = Updater(token=TELEGRAM_TOKEN, use_context=True)
 
             # Estrutura responsavel por interpretar mensagens recebidas e respondelas
@@ -25,7 +25,9 @@ class Bot:
             dispatcher.add_handler(CommandHandler("menu", handlers.start)) # Menu inicial
 
             dispatcher.add_handler(MessageHandler(Filters.text("Sobre"), handlers.sobre)) # Sobre o bot
-            dispatcher.add_handler(MessageHandler(Filters.text("Finalizar"), handlers.finalizar )) #Finalizar conversa
+            dispatcher.add_handler(MessageHandler(Filters.text("Finalizar"), handlers.finalizar )) # Finalizar conversa
+
+            # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
             
             # Estrutura para registros
@@ -33,11 +35,14 @@ class Bot:
             
             # Estrutura para login
             dispatcher.add_handler(handlers.login_handler())
+            
+            # Função de logout
+            dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))
 
-            #Callback query do calendário
+            # Callback query do calendário
             dispatcher.add_handler(CallbackQueryHandler(signup.birthDayCallBack))
 
-            #Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
+            # Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
             dispatcher.add_handler(MessageHandler(Filters.all , handlers.unknown)) 
 
         except Exception as e:

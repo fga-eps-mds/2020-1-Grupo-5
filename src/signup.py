@@ -2,8 +2,7 @@ import requests
 from telegram import ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler)
-import src.utils as utils
-import src.login as login
+from src import login, utils
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 

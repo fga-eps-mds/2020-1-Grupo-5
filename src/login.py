@@ -144,13 +144,15 @@ def get_Email(update, context):
 #Termina o login e envia ao servidor da API do guardiões
 def done(update, context):
 
-    #Estrutura necessária para não permitir a finalização incorreta de um login
-    #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
-    if len(context.user_data) == 2:
+    # Estrutura necessária para não permitir a finalização incorreta de um login
+    # Caso o usario tenha adcionado todas as infos, ele aceita a entrada
+
+    if len(context.user_data) == 2: # Login + Email enviados
         reply_keyboard.remove(['Done'])
         markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
              
         request_login(update, context)
+
 
     else:   
         context.bot.send_message(
@@ -177,6 +179,7 @@ def request_login(update, context):
     #Faz a tentativa de cadastro utilizando o json e os headers inseridos
     r = requests.post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
     
+
     #Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
 
@@ -189,7 +192,7 @@ def request_login(update, context):
 
         context.user_data['user_id'] = user['id']
 
-        del context.user_data['Senha']
+        del context.user_data['Senha'] # Remove a senha do usuário do cache para garantir segurança
 
         context.bot.send_message(
             chat_id=update.effective_chat.id,
