@@ -3,6 +3,7 @@ Data|Versão|Descrição|Autor
 -|-|-|-
 18/09|0.1.0|Abertura do documento| Kevin Luis |
 24/09|0.1.1|Adicionando sprint 4| Kevin Luis|
+06/10|0.1.2|Adicionando sprint 5 e 6| Kevin Luis|
 
 
 # Release 1
@@ -52,4 +53,20 @@ Data|Versão|Descrição|Autor
 - [Roadmap](https://github.com/fga-eps-mds/2020-1-Grupo-5/issues/35)
 - [Estudo sobre banco de dados MySQL](https://github.com/fga-eps-mds/2020-1-Grupo-5/issues/36)
 - [Complementar documento de arquitetura](https://github.com/fga-eps-mds/2020-1-Grupo-5/issues/38)
+
+## Sprint 5
+- Nenhuma issue
+
+## Sprint 6
+- [US01 - Eu, como usuário, desejo me cadastrar](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/40)
+- [US02 - Eu, como usuário, desejo fazer login](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/41)
+- [Estudo de uso da AWS](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/42)
+- [Canvas](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/43)
+- [Revisão de documentos](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/44)
+- [Apresentação r1](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/45)
+- [Descrição do repositório](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/46)
+- [Contributing ](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/47)
+- [Template de pull request](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/48)
+- [US03 - Eu, como usuário, desejo fazer logout](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/53)
+
 
