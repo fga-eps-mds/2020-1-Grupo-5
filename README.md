@@ -1,9 +1,13 @@
 # DoctorS Bot
 
-
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/fga-eps-mds/2020-1-DoctorS-Bot.svg)](http://isitmaintained.com/project/fga-eps-mds/2020-1-DoctorS-Bot "Percentage of issues still open")
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+## Links R1
+
+- Apresentação: https://youtu.be/RGD5kv_4Os0
+- Slides utilizados: https://docs.google.com/presentation/d/1Db5Fj-vUUeLpbQa2ymwLiOIqcltN1ZVqh7aEw6ncQ44/edit#slide=id.g1f87997393_0_782
 
 ## Apresentação
 
