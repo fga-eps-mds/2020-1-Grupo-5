@@ -1,0 +1,49 @@
+# Backlog do Produto
+
+|Data|Versão|Descrição|Autor|
+|:--:|:--:|:--:|:---:|
+|14/09|0.0.1|Adicionando tópico 2|Kevin Luis|
+|14/09|0.0.2|Adicionando tópico 1|Marcos Adriano|
+|14/09|0.0.3|Adicionando tópico 3|Lucas Rodrigues|
+|15/09|0.0.4|Atualizando tópico 1|Marcos Adriano|
+|18/09|0.0.5|Revisão do documento|Lucas Rodrigues|
+
+## 1. Épicos
+
+|Épicos|Descrição|
+|:-----------------------------------------------------------------:|:-------------------------------------------:|
+|EP1| Apresentação do produto|
+|EP2| Instalação do bot|
+|EP3| Comunicação|
+|EP4| Relatórios|
+|EP5| Alterar funcionalidades|
+|EP6| Cadastro|
+
+## 2. Features
+
+|Épicos|Features|Descrição|
+|:--:|-----|:--:|
+|EP6|F1|Cadastro do usuário|
+|EP3|F2|Informe do estado físico diário|
+|EP4|F3|Envio de relatórios|
+|EP1, EP2|F4|Comunicação com o usuário|
+|EP5|F5|Gerenciamento do Bot|
+
+## 3. Histórias do usuário
+
+|Feature|ID|Descrição|
+|:--:|-----|:--:|
+|F1|US01|Eu, como usuário, desejo me cadastrar|
+|F1|US02|Eu, como usuário, desejo fazer login|
+|F1|US03|Eu, como usuário, desejo fazer logout|
+|F2|US04|Eu, como usuário, desejo reportar meu estado de saúde|
+|F2|US05|Eu, como usuário, desejo visualizar meu histórico de saúde|
+|F4|US06|Eu, como usuário, desejo receber dicas para cuidar da saúde|
+|F4|US07|Eu, como usuário, desejo saber as funcionalidades do ChatBot|
+|F4|US08|Eu, como usuário, desejo ser informado de comandos não reconhecidos|
+|F3|US09|Eu, como usuário, desejo visualizar os relatórios de saúde produzidos pela plataforma|
+|F1|US10|Eu, como usuário, desejo editar meus dados pessoais|
+|F4|US11|Eu, como usuário, desejo ver tutoriais de utilização do ChatBot|
+|F4|US12|Eu, como usuário, desejo receber notícias relacionadas à saúde|
+|F5|DS01|Eu, como desenvolvedor, desejo estudar a estrutura da API do Python Telegram Bot|
+|F5|DS02|Eu, como desenvolvedor, desejo estudar a estrutura da API do Guardiões da Saúde|

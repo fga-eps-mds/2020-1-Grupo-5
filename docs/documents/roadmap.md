@@ -5,7 +5,6 @@ Data|Versão|Descrição|Autor
 24/09|0.1.1|Adicionando sprint 4| Kevin Luis|
 06/10|0.1.2|Adicionando sprint 5 e 6| Kevin Luis|
 
-
 # Release 1
 
 ## Sprint 0 
@@ -68,5 +67,3 @@ Data|Versão|Descrição|Autor
 - [Contributing ](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/47)
 - [Template de pull request](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/48)
 - [US03 - Eu, como usuário, desejo fazer logout](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/53)
-
-
