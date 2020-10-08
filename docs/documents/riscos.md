@@ -45,4 +45,3 @@ R08|Os membros garantiram que estão respeitando o isolamento social|
 R09|Devido ser um fator externo, os membros não tem controle sobre o funcionamento da internet|
 R10|Foi feito um cronograma com todos os horarios da equipe|
 R11|Devido ser um fator externo, os membros não tem controle sobre as decisões da unb|
-

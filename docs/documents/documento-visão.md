@@ -179,4 +179,3 @@ Falta de conhecimento e de experiência em relação à API de ChatBot do <i>Tel
 ### 6.5 Restrições de Confiabilidade
 
 Cada uma das funcionalidades implementadas deve passar por testes que garantam o funcionamento correto e a estabilidade da mesma.
-
