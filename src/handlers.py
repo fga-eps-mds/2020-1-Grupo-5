@@ -99,7 +99,7 @@ def login_handler():
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Login"), login.start)],
             states={
-                login.CHOOSING: [MessageHandler(Filters.regex('^(Email|Senha)$'),
+                login.CHOOSING: [MessageHandler(Filters.regex('^(Email|Email✅|Senha|Senha✅)$'),
                                         login.regular_choice)
                         ],
                 login.TYPING_CHOICE: [

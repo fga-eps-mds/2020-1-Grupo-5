@@ -170,6 +170,7 @@ def unreceived_info(context):
 #Opçoes de entrada de informação do menu de cadastro
 def regular_choice(update, context):
 
+    #Remove a check mark da entrada do usuário caso esteja presente
     if '✅' in update.message.text:
         update.message.text = update.message.text[:-1]
 
