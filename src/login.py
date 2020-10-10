@@ -8,7 +8,8 @@ from src import utils, handlers
 CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
 
 #Teclado de entradas do Login
-reply_keyboard = [['Email', 'Senha']]
+reply_keyboard = [['Email', 'Senha'],
+                    ['Cancelar']]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 required_data = set()
 
@@ -209,3 +210,9 @@ def request_login(update, context):
     handlers.menu(update, context)
 
     return ConversationHandler.END
+
+def clearInfo(context):
+    required_data.clear()
+    context.user_data.clear()
+    if ['Done'] in reply_keyboard:
+        reply_keyboard.remove(['Done'])

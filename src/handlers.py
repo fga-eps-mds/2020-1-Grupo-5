@@ -114,10 +114,14 @@ def login_handler():
                     MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                                 login.received_information)],
             },
-            fallbacks=[MessageHandler(Filters.regex('^Done$'), login.done)],
+            fallbacks=[MessageHandler(Filters.regex('^Done$'), login.done),
+            MessageHandler(Filters.regex('^Cancelar$'), cancelLogin)],
             allow_reentry=True
             )
 
+def cancelLogin(update, context):
+    login.clearInfo(context)
+    menu(update, context)
 
 #Envia informaçoes sobre o bot
 def sobre(update, context):
