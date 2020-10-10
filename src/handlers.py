@@ -73,9 +73,14 @@ def signup_handler():
                     MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                                 signup.received_information)],
             },
-            fallbacks=[MessageHandler(Filters.regex('^Done$'), signup.done)],
+            fallbacks=[MessageHandler(Filters.regex('^Done$'), signup.done),
+            MessageHandler(Filters.regex('^Cancelar$'), cancelSignup)],
             allow_reentry=True
             )
+            
+def cancelSignup(update, context):
+    signup.clearInfo(context)
+    menu(update, context)
             
 def logout(update, context):
     

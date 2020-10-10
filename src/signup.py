@@ -13,7 +13,8 @@ LSTEP = {'y': 'ano', 'm': 'mês', 'd': 'dia'}
 
 reply_keyboard = [['Username', 'Email'],
                   [ 'Senha', 'Raça'],
-                  ['Trabalho', 'Genero sexual' ]]
+                  ['Trabalho', 'Genero sexual' ],
+                  ['Cancelar']]
 
 race_options = [['Branco', 'Negro', 'Pardo'],
                 ['Indigena', 'Amarelo', 'Outro']]
@@ -340,3 +341,9 @@ def requestSignup(update, context):
     print(r.content)    
     
     return ConversationHandler.END
+
+def clearInfo(context):
+    required_data.clear()
+    context.user_data.clear()
+    if ['Done'] in reply_keyboard:
+        reply_keyboard.remove(['Done'])
