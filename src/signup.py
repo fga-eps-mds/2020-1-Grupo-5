@@ -69,7 +69,16 @@ def received_information(update, context):
     
     #Valida os dados inseridos
     validation = utils.validations_signup(user_data)
-       
+
+    #Adiciona ou retira a check mark do botão da categoria conforme validação da entrada
+    for i, items in enumerate(reply_keyboard):
+        for j, item in enumerate(items):
+            if category in item:
+                if validation and '✅' not in item:
+                    reply_keyboard[i][j] = item + '✅'
+                elif not validation and '✅' in item:
+                    reply_keyboard[i][j] = item[:-1]
+
     #Estrutura que mostra informações que ainda faltam ser inseridas
     if len(user_data) > 0:
         for key in user_data:
@@ -161,6 +170,10 @@ def unreceived_info(context):
 
 #Opçoes de entrada de informação do menu de cadastro
 def regular_choice(update, context):
+
+    #Remove a check mark da entrada do usuário caso esteja presente
+    if '✅' in update.message.text:
+        update.message.text = update.message.text[:-1]
 
     user_data = context.user_data
 

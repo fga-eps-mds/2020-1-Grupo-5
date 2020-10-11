@@ -31,6 +31,10 @@ def start(update, context):
 #Opçoes de entrada de informação do menu de login
 def regular_choice(update, context):
  
+    #Remove a check mark da entrada do usuário caso esteja presente
+    if '✅' in update.message.text:
+        update.message.text = update.message.text[:-1]
+
     #Pega as informações adcionadas 
     user_data = context.user_data
 
@@ -77,6 +81,14 @@ def received_information(update, context):
        
     #Validação de dados
     validation = utils.validations_login(user_data)
+
+    for i, items in enumerate(reply_keyboard):
+        for j, item in enumerate(items):
+            if category in item:
+                if validation and '✅' not in item:
+                    reply_keyboard[i][j] = item + '✅'
+                elif not validation and '✅' in item:
+                    reply_keyboard[i][j] = item[:-1]
 
     if not validation:
         head = "Entrada inválida, tem certeza que digitou corretamente?\n"

@@ -63,7 +63,7 @@ def signup_handler():
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Registrar"), signup.start)],
             states={
-                signup.CHOOSING: [MessageHandler(Filters.regex('^(Username|Email|Senha|Genero sexual|Raça|Trabalho)$'),
+                signup.CHOOSING: [MessageHandler(Filters.regex('^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅)$'),
                                         signup.regular_choice)
                         ],
                 signup.TYPING_CHOICE: [
@@ -104,7 +104,7 @@ def login_handler():
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Login"), login.start)],
             states={
-                login.CHOOSING: [MessageHandler(Filters.regex('^(Email|Senha)$'),
+                login.CHOOSING: [MessageHandler(Filters.regex('^(Email|Email✅|Senha|Senha✅)$'),
                                         login.regular_choice)
                         ],
                 login.TYPING_CHOICE: [
