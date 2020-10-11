@@ -226,5 +226,7 @@ def request_login(update, context):
 def clearInfo(context):
     required_data.clear()
     context.user_data.clear()
-    if ['Done'] in reply_keyboard:
-        reply_keyboard.remove(['Done'])
+    global reply_keyboard, markup
+    reply_keyboard = [['Email', 'Senha'],
+                    ['Cancelar']]
+    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
