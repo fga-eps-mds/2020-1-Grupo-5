@@ -81,6 +81,7 @@ def signup_handler():
 def cancelSignup(update, context):
     signup.clearInfo(context)
     menu(update, context)
+    return ConversationHandler.END
             
 def logout(update, context):
     
@@ -122,6 +123,7 @@ def login_handler():
 def cancelLogin(update, context):
     login.clearInfo(context)
     menu(update, context)
+    return ConversationHandler.END
 
 #Envia informaçoes sobre o bot
 def sobre(update, context):
