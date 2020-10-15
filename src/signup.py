@@ -2,44 +2,23 @@ import requests
 from telegram import ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler)
-from src import login, utils
-from src.CustomCalendar import CustomCalendar
-from datetime import date
+from src import login, utils, handlers, getters
 
 
-CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
-
-LSTEP = {'y': 'ano', 'm': 'mês', 'd': 'dia'}
+CHOOSING, TYPING_REPLY = range(2)
 
 reply_keyboard = [['Username', 'Email'],
                   [ 'Senha', 'Raça'],
                   ['Trabalho', 'Genero sexual' ],
                   ['Cancelar']]
 
-race_options = [['Branco', 'Negro', 'Pardo'],
-                ['Indigena', 'Amarelo', 'Outro']]
-
-gender_options = [['Homem Cis', 'Mulher Cis'],
-                  ['Homem Homossexual', 'Mulher Homossexual'],
-                  ['Outro']]
-
-yes_no = [['Sim', 'Não']]
-
 required_data = set()
 
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 
-race_markup = ReplyKeyboardMarkup(race_options, one_time_keyboard=True, resize_keyboard=True)
-
-gender_markup = ReplyKeyboardMarkup(gender_options, one_time_keyboard=True, resize_keyboard=True)
-
-yes_no_markup = ReplyKeyboardMarkup(yes_no, one_time_keyboard=True, resize_keyboard=True)
-
-
 #Inicia o cadastro
-
 def start(update, context):
-
+    
     if utils.is_logged(context.user_data):
         handlers.unknown(context, update)
         return ConversationHandler.END
@@ -47,8 +26,8 @@ def start(update, context):
     else:
         #Mensagem de inicio de cadastro
         update.message.reply_text(
-            "Olá, é um prazer te conhecer! Eu sou o DoctorS Bot e estou aqui para facilitar sua vida em tempos de pandemia. "
-            "\n\nPara utilizar nosso sistema, preciso que adcione todas essas informações listadas abaixo!\n\n"
+            "Olá, é um prazer te conhecer! Eu sou o DoctorS Bot e estou aqui para facilitar sua vida em tempos de pandemia.\n\n"
+            "Para utilizar nosso sistema, preciso que adcione todas essas informações listadas abaixo!\n\n"
             "Basta selecionar a opção que deseja adcionar e digitar!",
             reply_markup=markup)
 
@@ -149,7 +128,7 @@ def done(update, context):
         reply_keyboard.remove(['Done'])
         markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 
-        get_birthday(update, context)   #Recebe o aniversário e envia a request a API
+        getters.get_birthday(update, context)   #Recebe o aniversário e envia a request a API
                                         #Para registrar
 
     
@@ -160,6 +139,8 @@ def done(update, context):
             text="Falha ao registrar, não adcionou todos dados necessários!"
         )
 
+    
+    return ConversationHandler.END
 
 def unreceived_info(context):
     all_items = ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual")
@@ -181,117 +162,24 @@ def regular_choice(update, context):
     user_data['choice'] = text
 
     if  "Username" in text:
-        get_User(update,context)
+        getters.get_User(update,context)
         
     if "Email" in text:
-        get_Email(update, context)
+        getters.get_Email(update, context)
 
     if "Senha" in text:
-        get_Pass(update, context)
+        getters.get_Pass(update, context)
 
     if "Raça" in text:
-        get_Race(update, context)
+        getters.get_Race(update, context)
 
     if "Genero sexual" in text:
-        get_Gender(update, context)
+        getters.get_Gender(update, context)
 
     if "Trabalho" in text:
-        get_professional(update, context)
-
-    return TYPING_REPLY
-
-
-#Funcao que recebe o usuario
-def get_User(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite um nome válido, com mais de 8 caracteres!'
-    )
-
-    return TYPING_REPLY
-
-
-#Funcao que recebe a senha do user
-def get_Pass(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite uma senha valida, com pelo menos 8 caracteres!'
-    )
-
-    return TYPING_REPLY
-
-
-#Funcao que recebe a senha do user
-def get_Email(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite um email valido!'
-    )
-
-    return TYPING_REPLY
-
-
-#Funcao que recebe a Raça do usuario
-def get_Race(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Selecione sua raça.', reply_markup=race_markup
-    )
-
-    return CHOOSING
-    
-
-
-#Funcao que recebe o genero do usuario
-def get_Gender(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Selecione seu genero.', reply_markup=gender_markup
-    )
-
-    return CHOOSING
-
-#Função de callback do calendário
-def birthDayCallBack(update, context):
-
-    result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(update.callback_query.data)
-    if not result and key:
-        update.callback_query.edit_message_text(f"Selecione o {LSTEP[step]}",
-                              reply_markup=key)
-    elif result:
+        getters.get_professional(update, context)
         
-        context.user_data['Nascimento'] = result
-        update.callback_query.edit_message_text(f'Selecionado: {result}')
-        
-        requestSignup(update, context)
-        
-    
-#Funcao que recebe o dia de nascimento
-def get_birthday(update, context):
-    update.message.reply_text('Está quase tudo pronto, basta apenas selecionar sua data de nascimento!')
-
-    calendar, step = CustomCalendar(locale='br', max_date=date.today()).build()
-    update.message.reply_text(f"Selecione o {LSTEP[step]}",
-                            reply_markup=calendar)
-                            
-    return CHOOSING
-
-#Funcao que recebe se o usario trabalha ou não
-def get_professional(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Você trabalha?', reply_markup=yes_no_markup
-    )
-
-    return CHOOSING
-
-
+    return TYPING_REPLY
 
 #Funcao que cadastra o usuario
 def requestSignup(update, context):
@@ -350,17 +238,4 @@ def requestSignup(update, context):
             text=f"{user_data.get('Username')}, seu cadastrado falhou!"
         )
 
-
     print(r.content)    
-    
-    return ConversationHandler.END
-
-def clearInfo(context):
-    required_data.clear()
-    context.user_data.clear()
-    global reply_keyboard, markup
-    reply_keyboard = [['Username', 'Email'],
-                  [ 'Senha', 'Raça'],
-                  ['Trabalho', 'Genero sexual' ],
-                  ['Cancelar']]
-    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)

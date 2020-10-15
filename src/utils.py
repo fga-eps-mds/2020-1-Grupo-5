@@ -1,6 +1,7 @@
 import json, requests
 from validate_email import validate_email
-
+from src import handlers
+from telegram.ext import ConversationHandler
 
 def is_logged(user_data):
     if user_data.get('AUTH_TOKEN'):
@@ -22,13 +23,33 @@ def set_to_str(data):
 #Passa dict para string
 def dict_to_str(user_data):
     
-    facts = list()
+    lst = list()
 
     for key, value in user_data.items():
-        facts.append('{} - {}'.format(key, value))
+        lst.append('{} - {}'.format(key, value))
 
-    return "\n".join(facts).join(['\n', '\n'])
+    return "\n".join(lst).join(['\n', '\n'])
     
+
+def cancel(update, context):
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Cancelando!\nRetornando automaticamente ao menu!"
+    )
+    context.user_data.clear()
+    handlers.menu(update, context)
+    return ConversationHandler.END
+
+def bad_entry(update, context):
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Opção inválida, tente utilizar os botões!\nRetornando ao menu."
+    )
+    context.user_data.clear()
+
+    handlers.menu(update, context)
+
+    return ConversationHandler.END
 
 def validaNome(nome):
     if len(nome) >= 8:
@@ -69,13 +90,11 @@ def validaTrabalho(trabalho):
 
 
 def validations_login(user_data):
-    if "Email" in user_data:
-        if not validaEmail(user_data['Email']):
+    if "Email" in user_data and not validaEmail(user_data['Email']):
             user_data.pop("Email")
             return False
 
-    if "Senha" in user_data:
-        if not validaSenha(user_data['Senha']):
+    if "Senha" in user_data and not validaSenha(user_data['Senha']):
             user_data.pop("Senha")
             return False
     
@@ -83,33 +102,27 @@ def validations_login(user_data):
 
 def validations_signup(user_data):
     
-    if "Username" in user_data:
-        if not validaNome(user_data['Username']):
+    if "Username" in user_data and not validaNome(user_data['Username']):
             user_data.pop("Username")
             return False
 
-    if "Email" in user_data:
-        if not validaEmail(user_data['Email']):
+    if "Email" in user_data and not validaEmail and not validaEmail(user_data['Email']):
             user_data.pop("Email")
             return False
     
-    if "Senha" in user_data:
-        if not validaSenha(user_data['Senha']):
+    if "Senha" in user_data and not validaSenha(user_data['Senha']):
             user_data.pop("Senha")
             return False
 
-    if "Genero sexual" in user_data:
-        if not validaGenero(user_data['Genero sexual']):
+    if "Genero sexual" in user_data and not validaGenero(user_data['Genero sexual']):
             user_data.pop('Genero sexual')
             return False
 
-    if "Raça" in user_data:
-        if not validaRaca(user_data['Raça']):
+    if "Raça" in user_data and not validaRaca(user_data['Raça']):
             user_data.pop('Raça')
             return False
     
-    if "Trabalho" in user_data:
-        if not validaTrabalho(user_data['Trabalho']):
+    if "Trabalho" in user_data and not validaTrabalho(user_data['Trabalho']):
             user_data.pop("Trabalho")
             return False
 

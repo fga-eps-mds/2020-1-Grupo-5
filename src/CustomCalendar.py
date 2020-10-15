@@ -1,6 +1,9 @@
 from telegram_bot_calendar import DetailedTelegramCalendar
 
+
+
 class CustomCalendar(DetailedTelegramCalendar):
+    LSTEP = {'y': 'ano', 'm': 'mês', 'd': 'dia'}
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.months['br'] = list(['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'])

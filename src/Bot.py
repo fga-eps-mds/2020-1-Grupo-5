@@ -4,7 +4,12 @@ from src import handlers, signup
 import pathlib
 
 
+SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅)$'
+LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
+
 class Bot:
+
+
     def __init__(self):
 
         try:
@@ -38,9 +43,9 @@ class Bot:
             
             # Função de logout
             dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))
-
+            
             # Callback query do calendário
-            dispatcher.add_handler(CallbackQueryHandler(signup.birthDayCallBack))
+            dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack))
 
             # Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
             dispatcher.add_handler(MessageHandler(Filters.all , handlers.unknown)) 

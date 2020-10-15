@@ -2,15 +2,17 @@ import requests, json
 from telegram import ReplyKeyboardMarkup, KeyboardButton, Update, Bot
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler, Dispatcher)
-from src import utils, handlers
+from src import utils, handlers, getters
 
 #States
-CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
+CHOOSING, TYPING_REPLY = range(2)
 
 #Teclado de entradas do Login
 reply_keyboard = [['Email', 'Senha'],
                     ['Cancelar']]
+                    
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+
 required_data = set()
 
 #Inicia o login
@@ -23,7 +25,8 @@ def start(update, context):
     else:
         #Mensagem de inicio do login
         update.message.reply_text(
-            "Faça login enviando suas informações:",
+            "Faça login enviando suas informações!\n\n"
+            "Selecione o botão que desejar e informe o dado selecionado.",
             reply_markup=markup)
 
         return CHOOSING
@@ -44,10 +47,10 @@ def regular_choice(update, context):
 
     #De acordo com a escolha, chama uma função
     if "Email" in text:
-        get_Email(update, context)
+        getters.get_Email(update, context)
 
     if "Senha" in text:
-        get_Pass(update, context)
+        getters.get_Pass(update, context)        
 
     return TYPING_REPLY
 
@@ -131,29 +134,6 @@ def unreceived_info(context):
         if not item in context.user_data:
             required_data.add(item)
 
-
-#Funcao que recebe a senha do user
-def get_Pass(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite uma senha valida, com pelo menos 8 caracteres!'
-    )
-
-    return TYPING_REPLY
-
-
-#Funcao que recebe a senha do user
-def get_Email(update, context):
-    text = update.message.text
-    context.user_data['choice'] = text
-    update.message.reply_text(
-        'Digite um email valido!'
-    )
-
-    return TYPING_REPLY
-
-
 #Termina o login e envia ao servidor da API do guardiões
 def done(update, context):
 
@@ -173,7 +153,8 @@ def done(update, context):
             text="Falha ao fazer login, não adcionou todos dados necessários!"
         )
 
-        return ConversationHandler.END
+    
+    return ConversationHandler.END
 
     
 #Função que executa a request de login
@@ -220,13 +201,3 @@ def request_login(update, context):
 
     #Chama o menu novamente
     handlers.menu(update, context)
-
-    return ConversationHandler.END
-
-def clearInfo(context):
-    required_data.clear()
-    context.user_data.clear()
-    global reply_keyboard, markup
-    reply_keyboard = [['Email', 'Senha'],
-                    ['Cancelar']]
-    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
