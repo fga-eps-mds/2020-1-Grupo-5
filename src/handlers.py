@@ -13,11 +13,13 @@ def start(update, context):
 
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Sobre'],
-                          ['Sobre','Logout']]
+                          ['Sobre','Logout'],
+                          ['Ajuda']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
-                      ['Sobre','Finalizar']]
+                      ['Sobre','Finalizar'],
+                      ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -31,11 +33,13 @@ def start(update, context):
 def menu(update, context):
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Sobre'],
-                          ['Sobre','Logout']]
+                          ['Sobre','Logout'],
+						  ['Ajuda']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
-                      ['Sobre','Finalizar']]
+                      ['Sobre','Finalizar'],
+						 ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
@@ -134,7 +138,14 @@ def sobre(update, context):
         text=resposta
     )
     
-
+#Informações sobre as funcionalidades
+def ajuda(update, context):
+    resposta = 'Funcionalidades:\n -Cadastro\n -Login\n -Logout\n -Reportar estado físico\n -Alterar informações pessoais'
+    context.bot.send_message(
+        chat_id=update.effective_chat.id, 
+        text=resposta
+    )
+    
 def finalizar(update, context):
     resposta = "Já vai? Tudo bem, sempre que quiser voltar, digite /menu ou /start e receberá o menu inicial.\n\nObrigado por usar o DoctorS!"
     context.bot.send_message(
