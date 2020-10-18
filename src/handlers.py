@@ -141,7 +141,7 @@ def sobre(update, context):
 #Informações sobre as funcionalidades
 def ajuda(update, context):
 	#Lista de funcionalidades
-    resposta = 'O DoctorS possui as seguintes funcionalidades:\n\n - Cadastro: Crie uma nova conta de usuário\n\n - Login: Entre em sua conta, se você ainda não possua uma use a função de cadastro\n\n - Logout: Saia de sua conta\n\n - Reportar estado físico: Informe seu estado de saúde, recomendado uso diário\n\n - Alterar informações pessoais: Altere as informações da sua conta'
+    resposta = 'O DoctorS possui as seguintes funcionalidades:\n\n - Cadastro: Crie uma nova conta de usuário\n\n - Login: Entre em sua conta, caso você ainda não possua uma, use a função de cadastro\n\n - Logout: Saia de sua conta\n\n - Reportar estado físico: Informe seu estado de saúde, recomendado uso diário\n\n - Alterar informações pessoais: Altere as informações da sua conta'
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
         text=resposta
