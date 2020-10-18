@@ -146,6 +146,16 @@ def ajuda(update, context):
         chat_id=update.effective_chat.id, 
         text=resposta
     )
+    resposta = ('Informações gerais:\n\n'
+                '-Para navegar nos menus clique em algum dos botões de navegação. Se o teclado de sugestões desaparecer basta clicar no ícone de teclado ao lado do campo de digitação.\n\n'
+                '- Nos menus de cadastro e login, quando uma informação válida for inserida, aparecerá no botão correspondente uma marca indicando que ela foi validada.\n\n'
+                '- Quando todas as informações forem inseridas aparecerá um botão "Done". Clique nele para prosseguir com o cadastro ou login.\n\n'
+                '- Para apagar os dados inseridos e retornar ao menu anterior utilize o botão cancelar caso esteja disponível.\n\n'
+    )
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=resposta
+    )
 	#Mais informações
     resposta = 'Para informações mais detalhadas acesse: {inserir link aqui}'
     context.bot.send_message(
