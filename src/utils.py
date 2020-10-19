@@ -26,7 +26,8 @@ def dict_to_str(user_data):
     lst = list()
 
     for key, value in user_data.items():
-        lst.append('{} - {}'.format(key, value))
+        if key != 'Keyboard':
+            lst.append('{} - {}'.format(key, value))
 
     return "\n".join(lst).join(['\n', '\n'])
     
