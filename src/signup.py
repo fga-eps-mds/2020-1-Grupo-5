@@ -4,21 +4,19 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler)
 from src import login, utils, handlers, getters
 
-
 CHOOSING, TYPING_REPLY = range(2)
-
-reply_keyboard = [['Username', 'Email'],
-                  [ 'Senha', 'Raça'],
-                  ['Trabalho', 'Genero sexual' ],
-                  ['Cancelar']]
 
 required_data = set()
 
-markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
-
 #Inicia o cadastro
 def start(update, context):
-    
+    user_data = context.user_data
+    user_data['Keyboard'] = [['Username', 'Email'],
+                            ['Senha', 'Raça'],
+                            ['Trabalho', 'Genero sexual'],
+                            ['Cancelar']]
+    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
+
     if utils.is_logged(context.user_data):
         handlers.unknown(context, update)
         return ConversationHandler.END
@@ -50,13 +48,13 @@ def received_information(update, context):
     validation = utils.validations_signup(user_data)
 
     #Adiciona ou retira a check mark do botão da categoria conforme validação da entrada
-    for i, items in enumerate(reply_keyboard):
+    for i, items in enumerate(user_data['Keyboard']):
         for j, item in enumerate(items):
             if category in item:
                 if validation and '✅' not in item:
-                    reply_keyboard[i][j] = item + '✅'
+                    user_data['Keyboard'][i][j] = item + '✅'
                 elif not validation and '✅' in item:
-                    reply_keyboard[i][j] = item[:-1]
+                    user_data['Keyboard'][i][j] = item[:-1]
 
     #Estrutura que mostra informações que ainda faltam ser inseridas
     if len(user_data) > 0:
@@ -79,15 +77,15 @@ def received_information(update, context):
     if len(required_data) > 0:
         footer = "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
 
-        if ['Done'] in reply_keyboard:
-            undone_keyboard()
+        if ['Done'] in user_data['Keyboard']:
+            undone_keyboard(context)
 
     else:
 
         footer = "\n\nAgora que adcionou todos os dados, pode editar os inseridos ou clicar em Done para enviar o formulário!\n"
-        form_filled()
+        form_filled(context)
 
-
+    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
     #Envia o feedback ao user
     update.message.reply_text(head +
                             "{}".format(utils.dict_to_str(user_data))
@@ -104,16 +102,15 @@ def received_information(update, context):
 #Caso a pessoa tenha adcionado todas as informações e 
 #Depois adcionou uma inválida novamente, ele retira o
 #Botão de done
-def undone_keyboard():
-    reply_keyboard.remove(['Done'])
-    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+def undone_keyboard(context):
+    context.user_data['Keyboard'].remove(['Done'])
 
 
 #Função que adciona done ao terminar de adcionar todas informações
-def form_filled():
-    if not ['Done'] in reply_keyboard:
-        reply_keyboard.append(['Done'])
-        markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+def form_filled(context):
+    user_data = context.user_data
+    if not ['Done'] in user_data['Keyboard']:
+        user_data['Keyboard'].append(['Done'])
     
 
 #Termina cadastro e envia ao servidor da API do guardiões
@@ -125,8 +122,7 @@ def done(update, context):
     if len(context.user_data) == 6:
         
         #Reinicia o teclado removendo a opção de Done
-        reply_keyboard.remove(['Done'])
-        markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+        context.user_data['Keyboard'].remove(['Done'])
 
         getters.get_birthday(update, context)   #Recebe o aniversário e envia a request a API
                                         #Para registrar
