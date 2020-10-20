@@ -137,8 +137,8 @@ def done(update, context):
 
     # Estrutura necessária para não permitir a finalização incorreta de um login
     # Caso o usario tenha adcionado todas as infos, ele aceita a entrada
-
-    if len(context.user_data) == 2: # Login + Email enviados
+    # 3, pois devem existir 2 informações do usuário + teclado
+    if len(context.user_data) == 3: # Login + Email enviados
         context.user_data['Keyboard'].remove(['Done'])
              
         request_login(update, context)
