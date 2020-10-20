@@ -183,6 +183,8 @@ def request_login(update, context):
 
         context.user_data['user_id'] = user['id']
 
+        print(user)
+
         del context.user_data['Senha'] # Remove a senha do usuário do cache para garantir segurança
 
         context.bot.send_message(

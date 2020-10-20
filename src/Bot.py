@@ -4,7 +4,7 @@ from src import handlers, signup
 import pathlib
 
 
-SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅)$'
+SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
 
 class Bot:

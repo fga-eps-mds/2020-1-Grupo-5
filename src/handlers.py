@@ -68,7 +68,7 @@ def signup_handler():
                                         signup.regular_choice)
                         ],
                 signup.TYPING_REPLY: [
-                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
+                    MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
                                 signup.received_information)],
             },
             fallbacks=[MessageHandler(Filters.regex('^Done$'), signup.done),
