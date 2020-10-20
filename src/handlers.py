@@ -141,10 +141,17 @@ def sobre(update, context):
 #Informações sobre as funcionalidades
 def ajuda(update, context):
 	#Lista de funcionalidades
-    resposta = 'O DoctorS possui as seguintes funcionalidades:\n\n - Cadastro: Crie uma nova conta de usuário\n\n - Login: Entre em sua conta, caso você ainda não possua uma, use a função de cadastro\n\n - Logout: Saia de sua conta\n\n - Reportar estado físico: Informe seu estado de saúde, recomendado uso diário\n\n - Alterar informações pessoais: Altere as informações da sua conta'
+    resposta = ('O <b>DoctorS</b> possui as seguintes funcionalidades:\n\n' 
+		 		'- <b>Cadastro</b>: Crie uma nova conta de usuário.\n\n'
+				'- <b><i>Login</i></b>: Entre em sua conta, caso você ainda não possua uma, use a função de cadastro.\n\n'
+				'- <b><i>Logout</i></b>: Saia de sua conta.\n\n'
+				'- <b>Reportar estado físico</b>: Informe seu estado de saúde, recomendado uso diário.\n\n'
+ 				'- <b>Alterar informações pessoais</b>: Altere as informações da sua conta.'
+				)
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
-        text=resposta
+        text=resposta,
+		parse_mode=ParseMode.HTML
     )
     resposta = ('<b>Informações gerais:</b>\n\n'
                 '- Para navegar nos menus clique em algum dos botões de navegação. Se o teclado de sugestões desaparecer basta clicar no ícone de teclado ao lado do campo de digitação.\n\n'
@@ -158,10 +165,12 @@ def ajuda(update, context):
         parse_mode=ParseMode.HTML
     )
 	#Mais informações
-    resposta = 'Para informações mais detalhadas acesse: {inserir link aqui}'
+    resposta = 'Para informações mais detalhadas <a href="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/commits/feature/tutorial_1.0.0"> clique aqui</a> (<i>To do</i>)'
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
-        text=resposta
+        text=resposta,
+		parse_mode=ParseMode.HTML,
+		disable_web_page_preview = True
     )
     
 def finalizar(update, context):
