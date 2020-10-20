@@ -176,20 +176,17 @@ def request_login(update, context):
 
         user = json.loads(r.content)['user'] # Pega os dados do usuario logado
 
+        context.user_data.clear()
+
+        context.user_data.update(user)
+        
+        del context.user_data['app']
         #Token de autorização de sessão
         context.user_data['AUTH_TOKEN'] = r.headers['Authorization']
 
-        context.user_data['Username'] = user['user_name']
-
-        context.user_data['user_id'] = user['id']
-
-        print(user)
-
-        del context.user_data['Senha'] # Remove a senha do usuário do cache para garantir segurança
-
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"{context.user_data['Username']} seja bem vindo(a) ao DoctorS Bot, o chat bot integrado ao Guardiões da Saúde."
+            text=f"{context.user_data['user_name']} seja bem vindo(a) ao DoctorS Bot, o chat bot integrado ao Guardiões da Saúde."
         )
     
     else: #Falha

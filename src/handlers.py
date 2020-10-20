@@ -51,7 +51,14 @@ def menu(update, context):
 def get_user_info(update, context):
     if utils.is_logged(context.user_data):
         user_data = context.user_data
-        resposta = "Nome: "+user_data['Username']+ "\nEmail: " +  user_data['Email']
+        resposta = (f"Username - {user_data['user_name']}\n"
+        f"Email - {user_data['email']}\n"  
+        f"País - {user_data['country']}\n"  
+        f"Estado - {user_data['state']}\n"
+        f"Cidade - {user_data['city']}\n"
+        f"Gênero sexual - {user_data['gender']}\n"
+        f"Raça - {user_data['race']}\n"
+        f"Aniversário - {user_data['birthdate']}\n") 
         
         context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
 
@@ -94,7 +101,7 @@ def birthDayCallBack(update, context):
 def logout(update, context):
     
     if utils.is_logged(context.user_data):
-        resposta = f"Já vai?\n\nAté a próxima {context.user_data['Username']}!"
+        resposta = f"Já vai?\n\nAté a próxima {context.user_data['user_name']}!"
         
         #Limpa a sessão do usuário
         context.user_data.clear()
