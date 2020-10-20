@@ -107,7 +107,7 @@ def validations_signup(user_data):
             user_data.pop("Username")
             return False
 
-    if "Email" in user_data and not validaEmail and not validaEmail(user_data['Email']):
+    if "Email" in user_data and not validaEmail(user_data['Email']):
             user_data.pop("Email")
             return False
     
