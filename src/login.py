@@ -7,17 +7,14 @@ from src import utils, handlers, getters
 #States
 CHOOSING, TYPING_REPLY = range(2)
 
-#Teclado de entradas do Login
-reply_keyboard = [['Email', 'Senha'],
-                    ['Cancelar']]
-                    
-markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
-
 required_data = set()
 
 #Inicia o login
 def start(update, context):
-    
+    user_data = context.user_data
+    user_data['Keyboard'] = [['Email', 'Senha'],
+                    ['Cancelar']]
+    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
     if utils.is_logged(context.user_data):
         handlers.unknown(update, context)
         return ConversationHandler.END
@@ -55,18 +52,17 @@ def regular_choice(update, context):
     return TYPING_REPLY
 
 #Função que adciona done ao terminar de adcionar todas informações
-def form_filled():
-    if not ['Done'] in reply_keyboard:
-        reply_keyboard.append(['Done'])
-        markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+def form_filled(context):
+    user_data = context.user_data
+    if not ['Done'] in user_data['Keyboard']:
+        user_data['Keyboard'].append(['Done'])
 
 
 #Caso a pessoa tenha adcionado todas as informações e 
 #Depois adcionou uma inválida novamente, ele retira o
 #Botão de done
-def undone_keyboard():
-    reply_keyboard.remove(['Done'])
-    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+def undone_keyboard(context):
+    context.user_data['Keyboard'].remove(['Done'])
 
 
 #Send current received information from user
@@ -85,13 +81,13 @@ def received_information(update, context):
     #Validação de dados
     validation = utils.validations_login(user_data)
 
-    for i, items in enumerate(reply_keyboard):
+    for i, items in enumerate(user_data['Keyboard']):
         for j, item in enumerate(items):
             if category in item:
                 if validation and '✅' not in item:
-                    reply_keyboard[i][j] = item + '✅'
+                    user_data['Keyboard'][i][j] = item + '✅'
                 elif not validation and '✅' in item:
-                    reply_keyboard[i][j] = item[:-1]
+                    user_data['Keyboard'][i][j] = item[:-1]
 
     if not validation:
         head = "Entrada inválida, tem certeza que digitou corretamente?\n"
@@ -109,12 +105,14 @@ def received_information(update, context):
 
     #Caso todas informações tenham sido adcionadas, 
     if len(required_data) == 0:
-        form_filled()
+        form_filled(context)
 
     else:
-        if ['Done'] in reply_keyboard:
-            undone_keyboard()
-    
+        if ['Done'] in user_data['Keyboard']:
+            undone_keyboard(context)
+
+    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
+
     #Envia o feedback ao user
     update.message.reply_text(  head + 
                                 "{} Você pode me dizer os outros dados ou alterar os"
@@ -139,10 +137,9 @@ def done(update, context):
 
     # Estrutura necessária para não permitir a finalização incorreta de um login
     # Caso o usario tenha adcionado todas as infos, ele aceita a entrada
-
-    if len(context.user_data) == 2: # Login + Email enviados
-        reply_keyboard.remove(['Done'])
-        markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+    # 3, pois devem existir 2 informações do usuário + teclado
+    if len(context.user_data) == 3: # Login + Email enviados
+        context.user_data['Keyboard'].remove(['Done'])
              
         request_login(update, context)
 

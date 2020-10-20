@@ -26,7 +26,8 @@ def dict_to_str(user_data):
     lst = list()
 
     for key, value in user_data.items():
-        lst.append('{} - {}'.format(key, value))
+        if key != 'Keyboard':
+            lst.append('{} - {}'.format(key, value))
 
     return "\n".join(lst).join(['\n', '\n'])
     
@@ -106,7 +107,7 @@ def validations_signup(user_data):
             user_data.pop("Username")
             return False
 
-    if "Email" in user_data and not validaEmail and not validaEmail(user_data['Email']):
+    if "Email" in user_data and not validaEmail(user_data['Email']):
             user_data.pop("Email")
             return False
     
