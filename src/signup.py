@@ -2,7 +2,7 @@ import requests
 from telegram import ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler)
-from src import login, utils, handlers, getters
+from src import login, utils, handlers, getters, location
 
 CHOOSING, TYPING_REPLY = range(2)
 
@@ -14,7 +14,7 @@ def start(update, context):
     user_data['Keyboard'] = [['Username', 'Email'],
                             ['Senha', 'Raça'],
                             ['Trabalho', 'Genero sexual'],
-                            ['Cancelar']]
+                            ['Localização', 'Cancelar']]
     markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
     if utils.is_logged(context.user_data):
@@ -40,10 +40,15 @@ def received_information(update, context):
     text = update.message.text
 
     category = user_data['choice']
-    user_data[category] = text
-
-    del user_data['choice']
     
+    if not "Localização" in category:
+        user_data[category] = text
+    
+    else:
+        location.reverseGeo(update.message.location, context)
+    
+    del user_data['choice']
+
     #Valida os dados inseridos
     validation = utils.validations_signup(user_data)
 
@@ -120,7 +125,7 @@ def done(update, context):
     #Estrutura necessária para não permitir a finalização incorreta de um cadastro
     #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
     #7, pois devem existir 6 informações do usuário + teclado
-    if len(context.user_data) == 7:
+    if len(context.user_data) == 10:
         
         #Reinicia o teclado removendo a opção de Done
         context.user_data['Keyboard'].remove(['Done'])
@@ -175,6 +180,9 @@ def regular_choice(update, context):
 
     if "Trabalho" in text:
         getters.get_professional(update, context)
+
+    if "Localização" in text:
+        getters.get_location(update, context)
         
     return TYPING_REPLY
 
@@ -198,7 +206,9 @@ def requestSignup(update, context):
             "email": user_data.get('Email'),
             "user_name": user_data.get('Username'),
             "birthdate": str(user_data.get('Nascimento')),
-            "country": "Brazil",
+            "country": user_data.get('País'),
+            "state": user_data.get('Estado'),
+            "city": user_data.get('Cidade'),
             "gender": user_data.get('Genero sexual'),
             "race": user_data.get('Raça'),
             "is_professional": user_data.get('Trabalho'),

@@ -16,6 +16,11 @@ gender_options = [['Homem Cis', 'Mulher Cis'],
 
 yes_no = [['Sim', 'Não']]
 
+location_markup = ReplyKeyboardMarkup([[KeyboardButton(
+'Enviar localização', request_location=True)]], 
+resize_keyboard=True, 
+one_time_keyboard=True)
+
 race_markup = ReplyKeyboardMarkup(race_options, one_time_keyboard=True, resize_keyboard=True)
 
 gender_markup = ReplyKeyboardMarkup(gender_options, one_time_keyboard=True, resize_keyboard=True)
@@ -95,6 +100,18 @@ def get_professional(update, context):
     context.user_data['choice'] = text
     update.message.reply_text(
         'Você trabalha?', reply_markup=yes_no_markup
+    )
+
+    return CHOOSING
+
+def get_location(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text='Clique no botão para enviar sua localização', 
+        reply_markup=location_markup
     )
 
     return CHOOSING
