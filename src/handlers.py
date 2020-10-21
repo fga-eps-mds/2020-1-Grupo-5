@@ -1,4 +1,4 @@
-from telegram import ReplyKeyboardMarkup, InlineKeyboardButton
+from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
 from src import signup, login, Bot, utils
@@ -13,11 +13,13 @@ def start(update, context):
 
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Sobre'],
-                          ['Sobre','Logout']]
+                          ['Sobre','Logout'],
+                          ['Ajuda']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
-                      ['Sobre','Finalizar']]
+                      ['Sobre','Finalizar'],
+                      ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -31,11 +33,13 @@ def start(update, context):
 def menu(update, context):
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Sobre'],
-                          ['Sobre','Logout']]
+                          ['Sobre','Logout'],
+						  ['Ajuda']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
-                      ['Sobre','Finalizar']]
+                      ['Sobre','Finalizar'],
+						 ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
@@ -141,7 +145,41 @@ def sobre(update, context):
         text=resposta
     )
     
-
+#Informações sobre as funcionalidades
+def ajuda(update, context):
+	#Lista de funcionalidades
+    resposta = ('O <b><i>DoctorS</i></b> possui as seguintes funcionalidades:\n\n' 
+		 		'- <b>Cadastro</b>: Crie uma nova conta de usuário e comece a reportar seu estado de saúde.\n\n'
+				'- <b><i>Login</i></b>: Entre em sua conta. Caso você ainda não possua uma, use a função de cadastro.\n\n'
+				'- <b><i>Logout</i></b>: Saia de sua conta. Você poderá entrar novamente quando quiser.\n\n'
+				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
+ 				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
+	)
+    context.bot.send_message(
+        chat_id=update.effective_chat.id, 
+        text=resposta,
+		parse_mode=ParseMode.HTML
+    )
+    resposta = ('<b>Informações gerais:</b>\n\n'
+                '- Para navegar nos menus clique em algum dos botões de navegação. Se o teclado de sugestões desaparecer clique no ícone de teclado ao lado do campo de digitação.\n\n'
+                '- Nos menus de cadastro e <i>login</i>, quando uma informação válida for inserida, aparecerá no botão correspondente uma marca indicando que ela foi validada.\n\n'
+                '- Quando todas as informações forem inseridas aparecerá um botão <i>"Done"</i>. Clique nele para prosseguir com o cadastro ou <i>login</i>.\n\n'
+                '- Para apagar os dados inseridos e retornar ao menu anterior utilize o botão cancelar caso esteja disponível.\n\n'
+    )
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=resposta,
+        parse_mode=ParseMode.HTML
+    )
+	#Mais informações
+    resposta = 'Para informações mais detalhadas <a href="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/commits/feature/tutorial_1.0.0"> clique aqui</a> (<i>To do</i>)'
+    context.bot.send_message(
+        chat_id=update.effective_chat.id, 
+        text=resposta,
+		parse_mode=ParseMode.HTML,
+		disable_web_page_preview = True
+    )
+    
 def finalizar(update, context):
     resposta = "Já vai? Tudo bem, sempre que quiser voltar, digite /menu ou /start e receberá o menu inicial.\n\nObrigado por usar o DoctorS!"
     context.bot.send_message(

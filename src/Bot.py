@@ -43,7 +43,10 @@ class Bot:
             
             # Função de logout
             dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))
-            
+
+            # Função tutorial
+            dispatcher.add_handler(MessageHandler(Filters.text("Ajuda"), handlers.ajuda))
+
             # Callback query do calendário
             dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack))
 
