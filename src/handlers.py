@@ -141,20 +141,20 @@ def sobre(update, context):
 #Informações sobre as funcionalidades
 def ajuda(update, context):
 	#Lista de funcionalidades
-    resposta = ('O <b>DoctorS</b> possui as seguintes funcionalidades:\n\n' 
-		 		'- <b>Cadastro</b>: Crie uma nova conta de usuário.\n\n'
-				'- <b><i>Login</i></b>: Entre em sua conta, caso você ainda não possua uma, use a função de cadastro.\n\n'
-				'- <b><i>Logout</i></b>: Saia de sua conta.\n\n'
-				'- <b>Reportar estado físico</b>: Informe seu estado de saúde, recomendado uso diário.\n\n'
- 				'- <b>Alterar informações pessoais</b>: Altere as informações da sua conta.'
-				)
+    resposta = ('O <b><i>DoctorS</i></b> possui as seguintes funcionalidades:\n\n' 
+		 		'- <b>Cadastro</b>: Crie uma nova conta de usuário e comece a reportar seu estado de saúde.\n\n'
+				'- <b><i>Login</i></b>: Entre em sua conta. Caso você ainda não possua uma, use a função de cadastro.\n\n'
+				'- <b><i>Logout</i></b>: Saia de sua conta. Você poderá entrar novamente quando quiser.\n\n'
+				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
+ 				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
+	)
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
         text=resposta,
 		parse_mode=ParseMode.HTML
     )
     resposta = ('<b>Informações gerais:</b>\n\n'
-                '- Para navegar nos menus clique em algum dos botões de navegação. Se o teclado de sugestões desaparecer basta clicar no ícone de teclado ao lado do campo de digitação.\n\n'
+                '- Para navegar nos menus clique em algum dos botões de navegação. Se o teclado de sugestões desaparecer clique no ícone de teclado ao lado do campo de digitação.\n\n'
                 '- Nos menus de cadastro e <i>login</i>, quando uma informação válida for inserida, aparecerá no botão correspondente uma marca indicando que ela foi validada.\n\n'
                 '- Quando todas as informações forem inseridas aparecerá um botão <i>"Done"</i>. Clique nele para prosseguir com o cadastro ou <i>login</i>.\n\n'
                 '- Para apagar os dados inseridos e retornar ao menu anterior utilize o botão cancelar caso esteja disponível.\n\n'
