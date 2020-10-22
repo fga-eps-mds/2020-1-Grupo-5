@@ -128,3 +128,60 @@ def validations_signup(user_data):
             return False
 
     return True
+
+def request_informations(context):
+    
+    print("Entrou!")
+
+    print(context)
+
+    json_entry = {
+        "user" : {
+            "email" : context['Email'],
+            "password" : context['Senha']
+        }
+    }
+
+    headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
+
+    #Faz a tentativa de cadastro utilizando o json e os headers inseridos
+    r = requests.post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
+    
+       #Log de sucesso ou falha no cadastro
+    if r.status_code == 200: # Sucesso
+
+        # print("user Antes:", user)
+
+        user = json.loads(r.content)['user'] # Pega os dados do usuario logado
+
+        user['AUTH_TOKEN'] = r.headers['Authorization']
+        user['Senha'] = context['Senha']
+
+        # print("User:", user)
+
+        return user
+
+
+
+    #     #Token de autorização de sessão
+    #     context.user_data['AUTH_TOKEN'] = r.headers['Authorization']
+
+    #     context.user_data['Username'] = user['user_name']
+
+    #     context.user_data['user_id'] = user['id']
+
+    #     del context.user_data['Senha'] # Remove a senha do usuário do cache para garantir segurança
+
+    #     context.bot.send_message(
+    #         chat_id=update.effective_chat.id,
+    #         text=f"{context.user_data['Username']} seja bem vindo(a) ao DoctorS Bot, o chat bot integrado ao Guardiões da Saúde."
+    #     )
+    
+    # else: #Falha
+    #     context.bot.send_message(
+    #         chat_id=update.effective_chat.id,
+    #         text="Seu login falhou!\n\nTem certeza que digitou os dados corretamente?"
+    #     )
+
+    # #Chama o menu novamente
+    # handlers.menu(update, context)

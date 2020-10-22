@@ -11,6 +11,7 @@ required_data = set()
 
 #Inicia o login
 def start(update, context):
+    print("Login start")
     user_data = context.user_data
     user_data['Keyboard'] = [['Email', 'Senha'],
                     ['Cancelar']]
@@ -30,7 +31,8 @@ def start(update, context):
 
 #Opçoes de entrada de informação do menu de login
 def regular_choice(update, context):
- 
+    print("Login regular choice")
+
     #Remove a check mark da entrada do usuário caso esteja presente
     if '✅' in update.message.text:
         update.message.text = update.message.text[:-1]
@@ -175,6 +177,7 @@ def request_login(update, context):
     if r.status_code == 200: # Sucesso
 
         user = json.loads(r.content)['user'] # Pega os dados do usuario logado
+        # print("User:", user)
 
         #Token de autorização de sessão
         context.user_data['AUTH_TOKEN'] = r.headers['Authorization']
@@ -183,7 +186,8 @@ def request_login(update, context):
 
         context.user_data['user_id'] = user['id']
 
-        del context.user_data['Senha'] # Remove a senha do usuário do cache para garantir segurança
+        # del 
+        context.user_data['Senha'] # Remove a senha do usuário do cache para garantir segurança
 
         context.bot.send_message(
             chat_id=update.effective_chat.id,

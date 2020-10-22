@@ -98,3 +98,93 @@ def get_professional(update, context):
     )
 
     return CHOOSING
+
+# -----------------------------------------------
+def get_Estado(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Digite um Estado valido!'
+    )
+
+    return CHOOSING
+# -----------------------------------------------
+def get_Pais(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Digite um País valido!'
+    )
+
+    return CHOOSING
+
+# -----------------------------------------------
+def get_Cidade(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Digite uma Cidade valida!'
+    )
+
+    return CHOOSING
+
+# -----------------------------------------------
+def get_Risco(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Você é do Grupo de Risco?', reply_markup=yes_no_markup
+    )
+
+    return CHOOSING
+# -----------------------------------------------
+def get_Instituicao(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Você é de alguma instituição?', reply_markup=yes_no_markup
+    )
+
+    return CHOOSING
+
+
+
+# -----------------------------------------------
+def get_Universidade(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Digite sua Universidade!'
+    )
+
+    return CHOOSING
+
+# -----------------------------------------------
+def get_Matricula(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Digite sua Matricula!'
+    )
+
+    return CHOOSING
+
+# -----------------------------------------------
+def get_Faculdade(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Digite sua Faculdade!'
+    )
+
+    return CHOOSING
+
+
+
+
+
+
+
+# PERFIL_ENTRY_REGER = '^(|||||||||Cancelar)$'
+
+

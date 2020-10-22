@@ -6,6 +6,7 @@ import pathlib
 
 SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
+PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|País|Estado|Cidade|Grupo de Risco|Instituição de Ensino|Universidade|Matricula|Faculdade|Trabalha|Mostrar informações|Cancelar)$'
 
 class Bot:
 
@@ -17,7 +18,7 @@ class Bot:
             current_path = pathlib.Path(__file__).parent.absolute()
             f = open(str(current_path) + "/../config/token.txt", "r")
             TELEGRAM_TOKEN = f.read()
-
+            print("BOT.py")
             # Estrutura responsavel por verificar todas novas mensagens
             self.updater = Updater(token=TELEGRAM_TOKEN, use_context=True)
 
@@ -34,6 +35,9 @@ class Bot:
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
+
+            # Handler para mostrar informações do usuário
+            # dispatcher.add_handler(MessageHandler(Filters.text("Editar informações"), handlers.edit_user_info)) 
             
             # Estrutura para registros
             dispatcher.add_handler(handlers.signup_handler())
@@ -41,6 +45,9 @@ class Bot:
             # Estrutura para login
             dispatcher.add_handler(handlers.login_handler())
             
+            # Estrutura para login
+            dispatcher.add_handler(handlers.perfil_handler())
+
             # Função de logout
             dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))
             
@@ -59,5 +66,6 @@ class Bot:
 
     def run(self):
         #Mantem o bot rodando localmente enquanto o programa estiver sendo executado
+        print("run")
         self.updater.start_polling()
         self.updater.idle()

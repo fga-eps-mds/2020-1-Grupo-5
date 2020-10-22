@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils
+from src import signup, login, Bot, utils, perfil
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
@@ -18,6 +18,7 @@ def start(update, context):
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar']]
+    print("função start")
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -30,13 +31,13 @@ def start(update, context):
 
 def menu(update, context):
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Sobre'],
+        reply_keyboard = [['Minhas informações','Editar informações'],
                           ['Sobre','Logout']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar']]
-
+    print("função menu")
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
 
@@ -45,9 +46,10 @@ def menu(update, context):
         text=resposta,
         reply_markup=markup
     )
+    print("função menu parte 2")
 
 
-
+#Retorna as informações dos usuarios
 def get_user_info(update, context):
     if utils.is_logged(context.user_data):
         user_data = context.user_data
@@ -57,6 +59,35 @@ def get_user_info(update, context):
 
     else:
         unknown(update, context)
+
+# ---------------------------------------------------------------------------------
+
+def edit_user_info(update, context):
+    if utils.is_logged(context.user_data):
+        user_data = context.user_data
+        
+        # print("Chave:", user_data['AUTH_TOKEN'])
+
+        resposta = utils.request_informations(user_data)
+       
+        print("Resposta no Handler:", resposta)
+
+        # head = "Atualmente essas são suas informações:\n"
+                
+        # context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
+        # update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
+
+        # perfil.requestEdit(update, user_data['AUTH_TOKEN'], resposta)       
+        perfil.requestEdit(update, resposta)        
+
+
+    else:
+        unknown(update, context)
+
+
+
+# ---------------------------------------------------------------------------------
+
 
 
 #Cadastra novo user
@@ -111,6 +142,7 @@ def logout(update, context):
 
 #Login de usuario
 def login_handler():
+    print("login_handler")
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Login"), login.start)],
             states={
@@ -122,6 +154,24 @@ def login_handler():
                                 login.received_information)],
             },
             fallbacks=[MessageHandler(Filters.regex('^Done$'), login.done),
+            MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
+            )
+
+#Login de usuario
+def perfil_handler():
+    print("perfil_handler")
+    return ConversationHandler(
+            entry_points=[MessageHandler(Filters.text("Editar informações"), perfil.start)],
+            states={
+                perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER),
+                                        perfil.regular_choice)
+                        ],
+                perfil.TYPING_REPLY: [
+                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
+                                perfil.received_information)],
+            },
+            fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
             )
