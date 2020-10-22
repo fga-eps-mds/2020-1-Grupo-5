@@ -27,7 +27,7 @@ def start(update, context):
                             ['Instituição de Ensino', 'Universidade'],
                             ['Municipio', 'Matricula'],
                             ['Faculdade', 'Trabalha'],
-                            ['Mostrar informações', 'Cancelar']]
+                            ['Mostrar informações', 'Voltar']]
     markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
     # if utils.is_logged(context.user_data):
@@ -131,7 +131,7 @@ def regular_choice(update, context):
         return CHOOSING
 
 
-    if "Cancelar" in text:
+    if "Voltar" in text:
         handlers.menu(update, context)
         return ConversationHandler.END
 
@@ -175,12 +175,6 @@ def received_information(update, context):
     requestEdit(update, context)
 
 
-
-
-
-
-
-
     keyboard =  [['Username', 'Raça'],
                 ['Genero sexual', 'Nascimento'],
                 ['País', ' Estado'],
@@ -188,7 +182,7 @@ def received_information(update, context):
                 ['Instituição de Ensino', 'Universidade'],
                 ['Municipio', 'Matricula'],
                 ['Faculdade', 'Trabalha'],
-                ['Mostrar informações', 'Cancelar']]
+                ['Mostrar informações', 'Voltar']]
 
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
     update.message.reply_text(
@@ -259,6 +253,7 @@ def requestEdit(update, context):
     head = "Atualmente essas são suas informações:\n"
     update.message.reply_text(head + "{}".format(utils.dict_to_str(user_data)))
 
+    user_data.update({str(edit_item) : str(resp_item)})
 
     #Pega todas as infos adcionadas
 
@@ -267,25 +262,28 @@ def requestEdit(update, context):
     if user_data.get('is_professional') == 'Sim':
         user_data.update({'is_professional' : 'true'})
 
-    else:
+    if user_data.get('is_professional') == 'Não':
         user_data.update({'is_professional' : 'false'})
     
     # if user_data.get('is_professional') and 'Sim' in user_data.get('is_professional').lower():
 
+
+
     if user_data.get('risk_group') == 'Sim':
         user_data.update({'risk_group' : 'true'})
 
-    else:
+    if user_data.get('risk_group') == 'Não':
         user_data.update({'risk_group' : 'false'})
+
+
 
     if user_data.get('group_id') == 'Sim':
         user_data.update({'group_id' : 'true'})
 
-    else:
+    if user_data.get('group_id') == 'Não':
         user_data.update({'group_id' : 'false'})
 
 
-    user_data.update({str(edit_item) : str(resp_item)})
 
     print("User data para alterar:", user_data)
     # print("Retornou", editInformation(update, user_data))
@@ -297,7 +295,7 @@ def requestEdit(update, context):
             # "email": user_data.get('Email'),
             "user_name": user_data.get('user_name'),
             "birthdate": str(user_data.get('birthdate')),
-            # "country": "Brazil",
+            "country": user_data.get('country'),
             "gender": user_data.get('gender'),
             "race": user_data.get('race'),
             "school_unit_id": user_data.get('school_unit_id'),
@@ -319,29 +317,12 @@ def requestEdit(update, context):
 
     # # Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
-        print("Successfull edit:")
-        # resposta = utils.request_informations(user_data)
-        # print("Novas informações:", resposta)
-
-
-
-    #     context.bot.send_message(
-    #         chat_id=update.effective_chat.id,
-    #         text=f"{user_data.get('Username')}, você foi cadastrado com sucesso!"
-    #     )
-
-    #     login.request_login(update, context)        
+        print("Successfull edit:")      
 
     else: #Falha
         
         print("Edit Failed!")
-        
-    #     context.bot.send_message(
-    #         chat_id=update.effective_chat.id,
-    #         text=f"{user_data.get('Username')}, seu cadastrado falhou!"
-    #     )
-
-    # print(r.content)    
+         
 
 
 
@@ -356,7 +337,7 @@ def editInformation(update, context):
                         ['Instituição de Ensino', 'Universidade'],
                         ['Municipio', 'Matricula'],
                         ['Faculdade'],
-                        ['Cancelar']]
+                        ['Voltar']]
     edit_markup = ReplyKeyboardMarkup(edit_options, resize_keyboard=True)
     print("edit_options", edit_options)
     text = update.message.text
@@ -372,29 +353,3 @@ def editInformation(update, context):
         reply_markup=edit_markup)
 
     return CHOOSING
-
-
-
-
-
-# def edit_user_info(update, context):
-#     if utils.is_logged(context.user_data):
-#         user_data = context.user_data
-        
-#         # print("Chave:", user_data['AUTH_TOKEN'])
-
-#         resposta = utils.request_informations(user_data)
-       
-#         print("Resposta no Handler:", resposta)
-
-#         # head = "Atualmente essas são suas informações:\n"
-                
-#         # context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
-#         # update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
-
-#         # perfil.requestEdit(update, user_data['AUTH_TOKEN'], resposta)       
-#         perfil.requestEdit(update, resposta)        
-
-
-#     else:
-#         unknown(update, context)

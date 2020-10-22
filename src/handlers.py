@@ -31,7 +31,7 @@ def start(update, context):
 
 def menu(update, context):
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Editar informações'],
+        reply_keyboard = [['Minhas informações','Meu perfil'],
                           ['Sobre','Logout']]
     
     else:
@@ -162,7 +162,7 @@ def login_handler():
 def perfil_handler():
     print("perfil_handler")
     return ConversationHandler(
-            entry_points=[MessageHandler(Filters.text("Editar informações"), perfil.start)],
+            entry_points=[MessageHandler(Filters.text("Meu perfil"), perfil.start)],
             states={
                 perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER),
                                         perfil.regular_choice)
@@ -172,8 +172,8 @@ def perfil_handler():
                                 perfil.received_information)],
             },
             fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
-            MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
+            MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry)]
             )
 
 #Envia informaçoes sobre o bot
