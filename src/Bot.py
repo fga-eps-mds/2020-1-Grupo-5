@@ -40,6 +40,9 @@ class Bot:
             
             # Estrutura para login
             dispatcher.add_handler(handlers.login_handler())
+
+            # Estrutura para dicas
+            dispatcher.add_handler(handlers.tips_handler())
             
             # Função de logout
             dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))

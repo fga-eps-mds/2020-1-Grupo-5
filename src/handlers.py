@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils
+from src import signup, login, Bot, utils, tips
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
@@ -178,6 +178,16 @@ def ajuda(update, context):
         text=resposta,
 		parse_mode=ParseMode.HTML,
 		disable_web_page_preview = True
+    )
+
+def tips_handler():
+    return ConversationHandler(
+        entry_points=[MessageHandler(Filters.text("Dicas"), tips.start)],
+        states={
+            tips.CHOOSING: [MessageHandler(Filters.regex(tips.ENTRY_REGEX), tips.regular_choice)]
+        },
+        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
+                    MessageHandler(Filters.all, utils.bad_entry)]
     )
     
 def finalizar(update, context):
