@@ -193,7 +193,11 @@ def request_login(update, context):
             chat_id=update.effective_chat.id,
             text=f"{context.user_data['Username']} seja bem vindo(a) ao DoctorS Bot, o chat bot integrado ao Guardiões da Saúde."
         )
-    
+
+        link = "https://scontent-gig2-1.xx.fbcdn.net/v/t1.0-9/103274216_112293347182974_7934951402525681679_o.png?_nc_cat=101&ccb=2&_nc_sid=85a577&_nc_ohc=DfmCZ9ndG5cAX-Mq4qP&_nc_ht=scontent-gig2-1.xx&oh=0566da2b649761aa3348d1f8c89c640a&oe=5FBA8F35"
+        # context.bot.send_photo(chat_id=chat_id, photo=open('tests/test.png', 'rb'))
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=link)
+
     else: #Falha
         context.bot.send_message(
             chat_id=update.effective_chat.id,

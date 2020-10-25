@@ -15,8 +15,8 @@ def start(update, context):
     resposta = utils.request_informations(user_data)
     context = utils.request_informations(user_data)
 
-    head = "Atualmente essas são suas informações:\n"
-    update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
+    # head = "Atualmente essas são suas informações:\n"
+    # update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
      
     print("Resposta no Handler:", resposta)
 
@@ -126,8 +126,20 @@ def regular_choice(update, context):
         resposta = utils.request_informations(user_data)
         user_data['edit_item'] = 'none'
         user_data['choice'] = 'none'
-        head = "Atualmente essas são suas informações:\n"
-        update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
+        # head = "Atualmente essas são suas informações:\n"
+        # update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
+
+
+# ----------------------------------------------------------------------
+        returnText = ""
+
+        returnText = utils.image(resposta)
+        # head = "Atualmente essas são suas informações:\n"
+        # update.message.reply_text(head + returnText)
+        path = 'src/images/robo_save.png'
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
+# ---------------------------------------------------------------------
+
         return CHOOSING
 
 
@@ -250,8 +262,8 @@ def requestEdit(update, context):
 
     user_data = utils.request_informations(user_data)
 
-    head = "Atualmente essas são suas informações:\n"
-    update.message.reply_text(head + "{}".format(utils.dict_to_str(user_data)))
+    # head = "Atualmente essas são suas informações:\n"
+    # update.message.reply_text(head + "{}".format(utils.dict_to_str(user_data)))
 
     user_data.update({str(edit_item) : str(resp_item)})
 
