@@ -19,7 +19,7 @@ def start(update, context):
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-                      ['Ajuda']]
+                      ['Ajuda', 'Dicas']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -39,7 +39,7 @@ def menu(update, context):
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-						 ['Ajuda']]
+						 ['Ajuda', 'Dicas']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
