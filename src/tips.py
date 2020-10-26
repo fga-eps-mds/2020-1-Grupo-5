@@ -1,11 +1,12 @@
-from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 
-ENTRY_REGEX = '^(O que é|Prevenção|Sintomas|Transmissão|Suspeita|Fake news|Telefones)$'
+ENTRY_REGEX = '^(O que é|Prevenção|Sintomas|Transmissão|Suspeita|Fake news|Telefones|Locais)$'
 CHOOSING = 0
 reply_keyboard = [['O que é', 'Prevenção'],
                     ['Sintomas', 'Transmissão'],
                     ['Suspeita', 'Fake news'],
-                    ['Telefones', 'Voltar']]
+                    ['Telefones', 'Locais'],
+					['Voltar']]
 
 def start(update, context):
     markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -33,6 +34,8 @@ def regular_choice(update, context):
 		transmission(update, context)
 	elif 'Suspeita' in text:
 		suspected(update, context)
+	elif 'Locais' in text:
+		locations(update, context)
 
 	markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 	update.message.reply_text(
@@ -145,4 +148,14 @@ def suspected(update, context):
 	context.bot.send_message(
 		chat_id=update.effective_chat.id,
 		text = text,
+	)
+
+def locations(update, context):
+	context.bot.send_message(
+    	text='Clique em um botão abaixo e encontre locais próximos no Google Maps:',
+    	reply_markup=InlineKeyboardMarkup([
+        	[InlineKeyboardButton(text='Fármacias', url='https://www.google.com.br/maps/search/farmacias')],
+	        [InlineKeyboardButton(text='Hospitais', url='https://www.google.com.br/maps/search/hospitais')],
+    	]),
+		chat_id=update.effective_chat.id
 	)
