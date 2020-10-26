@@ -11,7 +11,7 @@ reply_keyboard = [['O que é', 'Prevenção'],
 def start(update, context):
     markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
     update.message.reply_text(
-            "Escolha uma das opções abaixo e veja as informações que eu reuni para você!",
+            "Escolha uma das opções abaixo e veja as informações que reuni para você!",
             reply_markup=markup
     )
     return CHOOSING
@@ -39,30 +39,34 @@ def regular_choice(update, context):
 
 	markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 	update.message.reply_text(
-            "Escolha uma das opções abaixo e veja as dicas que eu reuni para você!\n\n",
+            "Escolha uma das opções abaixo e veja as dicas que reuni para você!\n\n",
             reply_markup=markup
     )
 
 
 def about(update, context):
-    text = ('Os coronavírus são uma família de vírus comuns em várias espécies de animais. Esses vírus que infectam animais podem raramente infectar pessoas, como é o caso do SARS-CoV. '
-            'Em dezembro de 2019 foi identificado em Wuhan, na China, a transmissão de um novo coronavírus (SARS-CoV-2), causador da COVID-19. Em seguida a doença foi transmitida de pessoa para pessoa.\n\n'
-            'A COVID-19  pode variar de infecções assintomáticas a quadros graves. Segundo a Organização Mundial de Saúde (OMS), cerca de 80% dos pacientes com a doença podem ser assintomáticos ou apresentar poucos sintomas, '
+    text = ('Os coronavírus são uma família de vírus comuns em várias espécies de animais. Esses vírus que infectam animais podem raramente infectar pessoas, como é o caso do <b>SARS-CoV</b>. '
+            'Em dezembro de 2019 foi identificado em <b>Wuhan, na China</b>, a transmissão de um novo coronavírus (<b>SARS-CoV-2</b>), causador da <b>COVID-19</b>. Em seguida a doença foi transmitida de pessoa para pessoa.\n\n'
+            'A <b>COVID-19</b> pode variar de infecções assintomáticas a quadros graves. Segundo a <b>Organização Mundial de Saúde</b>, cerca de 80% dos pacientes com a doença podem ser assintomáticos ou apresentar poucos sintomas, '
             'e cerca de 20% requer atendimento hospitalar por dificuldade respiratória. Desses, 5% podem precisar de suporte ventilatório.')
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=text,
+		parse_mode=ParseMode.HTML
     )
 
 
 def symptoms(update, context):
-    text = ('Os sintomas vão desde um resfriado ou uma síndrome gripal até uma pneumonia severa.\n\nOs sintomas mais comuns são:\n'
+    text = ('Os sintomas vão desde um resfriado ou uma síndrome gripal até uma pneumonia severa.\n\n<b>Os sintomas mais comuns são:</b>\n'
             '- Tosse\n- Febre\n- Coriza\n- Dor de garganta\n- Dificuldade para respirar\n- Perda de olfato\n- Alteração do paladar\n- Distúrbios gastrintestinais\n'
             '- Cansaço\n- Diminuição de apetite\n- Falta de ar')
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=text,
+		parse_mode=ParseMode.HTML
     )
+
+
 def prevention(update, context):
 	text = ('Aqui você encontra informações sobre prevenção de agravos, diagnósticos, tratamentos, reabilitação e a manutenção da saúde. O Ministério da Saúde aconselha a população a tomar medidas preventivas de eficácia comprovada:\n\n'
 			'<b>Higiene pessoal:</b>\n\n'
@@ -128,18 +132,19 @@ def phone_numbers(update, context):
 	)
 
 def transmission(update, context):
-	text = ('A transmissão pode ocorrer de uma pessoa com a doença para outra ou por meio de contato próximo como: aperto de mãos contaminadas, '
+	text = ('<b>A transmissão pode ocorrer de uma pessoa com a doença para outra ou por meio de contato próximo como:</b> aperto de mãos contaminadas, '
 			'gotículas de saliva, espirro, tosse, catarro ou objetos e superfícies contaminadas, incluindo celulares, mesas, '
 			'talheres, maçanetas, brinquedos e teclados de computador.')
 	context.bot.send_message(
 		chat_id=update.effective_chat.id,
 		text = text,
+		parse_mode=ParseMode.HTML
 	)
 
 def suspected(update, context):
-	text = ('Se estiver doente, com sintomas compatíveis com a COVID-19, como febre, tosse, dor de garganta e/ou coriza, com ou sem falta de ar:\n\n'
+	text = ('<b>Se estiver doente, com sintomas compatíveis com a COVID-19, como febre, tosse, dor de garganta e/ou coriza, com ou sem falta de ar:</b>\n\n'
 			'- Evite contato físico com outras pessoas, principalmente idosos e doentes crônicos.\n'
-			'- Procure imediatamente os postos de triagem nas Unidades Básicas de Saúde / UPAS ou outras unidades de saúde. Após encaminhamento consulte-se com o médico.\n'
+			'- <b>Procure imediatamente os postos de triagem nas Unidades Básicas de Saúde / UPAS ou outras unidades de saúde.</b> Após encaminhamento consulte-se com o médico.\n'
 			'- Uma vez diagnosticado pelo médico, receba as orientações e prescrição dos medicamentos que você deverá usar.\n'
 			'- Mantenha seu médico sempre informado da evolução dos sintomas durante o tratamento e siga suas recomendações.\n'
 			'- Utilize máscara o tempo todo.\n'
@@ -151,14 +156,16 @@ def suspected(update, context):
 	context.bot.send_message(
 		chat_id=update.effective_chat.id,
 		text = text,
+		parse_mode=ParseMode.HTML
 	)
 
 def locations(update, context):
 	context.bot.send_message(
-    	text='Clique em um botão abaixo e encontre locais próximos no Google Maps:',
+    	text='Clique em um botão abaixo e encontre locais próximos no <i>Google Maps</i>:',
     	reply_markup=InlineKeyboardMarkup([
         	[InlineKeyboardButton(text='Fármacias', url='https://www.google.com.br/maps/search/farmacias')],
 	        [InlineKeyboardButton(text='Hospitais', url='https://www.google.com.br/maps/search/hospitais')],
     	]),
-		chat_id=update.effective_chat.id
+		chat_id=update.effective_chat.id,
+		parse_mode=ParseMode.HTML
 	)
