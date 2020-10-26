@@ -153,6 +153,7 @@ def ajuda(update, context):
 				'- <b><i>Login</i></b>: Entre em sua conta. Caso você ainda não possua uma, use a função de cadastro.\n\n'
 				'- <b><i>Logout</i></b>: Saia de sua conta. Você poderá entrar novamente quando quiser.\n\n'
 				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
+				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos\n\n' 
  				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
 	)
     context.bot.send_message(
