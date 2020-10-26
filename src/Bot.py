@@ -6,7 +6,7 @@ import pathlib
 
 SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
-PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|País|Estado|Cidade|Grupo de Risco|Instituição de Ensino|Universidade|Matricula|Faculdade|Trabalha|Mostrar informações|Voltar)$'
+PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|Trabalho|Mostrar informações|Voltar)$'
 
 class Bot:
 

@@ -132,8 +132,6 @@ def validations_signup(user_data):
 
 def request_informations(context):
     
-
-
     json_entry = {
         "user" : {
             "email" : context['Email'],
@@ -158,29 +156,6 @@ def request_informations(context):
         return user
 
 
-
-    #     #Token de autorização de sessão
-    #     context.user_data['AUTH_TOKEN'] = r.headers['Authorization']
-
-    #     context.user_data['Username'] = user['user_name']
-
-    #     context.user_data['user_id'] = user['id']
-
-    #     del context.user_data['Senha'] # Remove a senha do usuário do cache para garantir segurança
-
-    #     context.bot.send_message(
-    #         chat_id=update.effective_chat.id,
-    #         text=f"{context.user_data['Username']} seja bem vindo(a) ao DoctorS Bot, o chat bot integrado ao Guardiões da Saúde."
-    #     )
-    
-    # else: #Falha
-    #     context.bot.send_message(
-    #         chat_id=update.effective_chat.id,
-    #         text="Seu login falhou!\n\nTem certeza que digitou os dados corretamente?"
-    #     )
-
-    # #Chama o menu novamente
-    # handlers.menu(update, context)
 
 
 def image(entradaTexto):
@@ -221,13 +196,12 @@ def image(entradaTexto):
     # out.show()
 
 def geraString(text):
-    
+
     texto = "Atualmente essas são suas informações: " + "\n" 
 
         #De acordo com a escolha, chama uma função
     if "user_name" in text:
         texto =  texto  + "\n" + 'Username' + ": " + str(text['user_name'])
-        # texto =  texto  + "\n" + 'user_name'
 
     if "race" in text:
         texto =  texto  + "\n" + 'Raça' + ": " + str(text['race'])
@@ -238,32 +212,18 @@ def geraString(text):
     if "birthdate" in text:
         texto =  texto  + "\n" + 'Nascimento' + ": " + str(text['birthdate'])
   
-#    if "country" in text:
-#        texto =  texto  + "\n" + 'País' + ": " + str(text['country'])
-
-#    if "state" in text:
-#        texto =  texto  + "\n" + 'Estado' + ": " + str(text['state'])
-
-#    if "city" in text:
-#        texto =  texto  + "\n" + 'Cidade' + ": " + str(text['city'])
 
     if "risk_group" in text:
-        texto =  texto  + "\n" + 'Grupo de Risco' + ": " + str(text['risk_group'])
-    
-#    if "group_id" in text:
-#        texto =  texto  + "\n" + 'Instituição de Ensino' + ": " + str(text['group_id'])
-
-#    if "school_unit_id" in text:
-#        texto =  texto  + "\n" + 'Universidade' + ": " + str(text['school_unit_id'])
-    
-#    if "identification_code" in text:
-#        texto =  texto  + "\n" + 'Matricula' + ": " + str(text['identification_code'])
-    
-#    if "group" in text:
-#        texto =  texto  + "\n" + 'Faculdade' + ": " + str(text['group'])
+        if text['risk_group'] == True:
+            texto =  texto  + "\n" + 'Grupo de Risco' + ": Sim"
+        else:
+            texto = texto + "\n" + 'Grupo de Risco' + ": Não"
 
     if "is_professional" in text:
-        texto =  texto  + "\n" + 'Trabalha' + ": " + str(text['is_professional'])
+        if text['is_professional'] == True:
+            texto =  texto  + "\n" + 'Trabalho' + ": Sim"
+        else:
+            texto = texto + "\n" + 'Trabalho' + ": Não"
 
     
     return texto

@@ -17,11 +17,7 @@ def start(update, context):
 
     user_data['Keyboard'] = [['Username', 'Raça'],
                             ['Genero sexual', 'Nascimento'],
-                            ['País', ' Estado'],
-                            ['Cidade', 'Grupo de Risco'],
-                            ['Instituição de Ensino', 'Universidade'],
-                            ['Municipio', 'Matricula'],
-                            ['Faculdade', 'Trabalha'],
+                            ['Trabalho', 'Grupo de Risco'],
                             ['Mostrar informações', 'Voltar']]
     markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
@@ -61,41 +57,12 @@ def regular_choice(update, context):
         user_data['edit_item'] = 'birthdate'
         getters.get_birthday(update, context)    
 
-    # if "Raça" in text:
-    #     getters.get_Race(update, context)    
-    if "País" in text:
-        user_data['edit_item'] = 'country'
-        getters.get_Pais(update, context)   
-
-    if "Estado" in text:
-        user_data['edit_item'] = 'state'
-        getters.get_Estado(update, context)    
-
-    if "Cidade" in text:
-        user_data['edit_item'] = 'city'
-        getters.get_Cidade(update, context)    
-
     if "Grupo de Risco" in text:
         user_data['edit_item'] = 'risk_group'
         getters.get_Risco(update, context)    
-    
-    if "Instituição de Ensino" in text:
-        user_data['edit_item'] = 'group_id'
-        getters.get_Instituicao(update, context)
+          
 
-    if "Universidade" in text:
-        user_data['edit_item'] = 'school_unit_id'
-        getters.get_Universidade(update, context)
-    
-    if "Matricula" in text:
-        user_data['edit_item'] = 'identification_code'
-        getters.get_Matricula(update, context)
-    
-    if "Faculdade" in text:
-        user_data['edit_item'] = 'group'
-        getters.get_Faculdade(update, context)        
-
-    if "Trabalha" in text:
+    if "Trabalho" in text:
         user_data['edit_item'] = 'is_professional'
         getters.get_professional(update, context)
 
@@ -103,19 +70,12 @@ def regular_choice(update, context):
         resposta = utils.request_informations(user_data)
         user_data['edit_item'] = 'none'
         user_data['choice'] = 'none'
-        # head = "Atualmente essas são suas informações:\n"
-        # update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
 
-
-# ----------------------------------------------------------------------
         returnText = ""
-
         returnText = utils.image(resposta)
-        # head = "Atualmente essas são suas informações:\n"
-        # update.message.reply_text(head + returnText)
         path = 'src/images/robo_save.png'
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
-# ---------------------------------------------------------------------
+
 
         return CHOOSING
 
@@ -149,11 +109,7 @@ def received_information(update, context):
 
     keyboard =  [['Username', 'Raça'],
                 ['Genero sexual', 'Nascimento'],
-                ['País', ' Estado'],
-                ['Cidade', 'Grupo de Risco'],
-                ['Instituição de Ensino', 'Universidade'],
-                ['Municipio', 'Matricula'],
-                ['Faculdade', 'Trabalha'],
+                ['Trabalho', 'Grupo de Risco'],
                 ['Mostrar informações', 'Voltar']]
 
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -272,41 +228,15 @@ def requestEdit(update, context):
 
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(user_data['AUTH_TOKEN'])}
 
-    # print("Token:", str(token))
     # #Faz a tentativa de cadastro utilizando o json e os headers inseridos
-
     r = requests.patch("http://127.0.0.1:3001/users/" + str(user_data.get('id')) , json=json_entry, headers=headers)
     
 
-    # # Log de sucesso ou falha no cadastro
+    ## Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
         update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
 
     else: #Falha
-        
-        print("Edit Failed!")
+        update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")  
+
          
-
-
-
-#Inicia o cadastro
-def editInformation(update, context):
-    # user_data = context
-    # user_data['Keyboard'] = 
-    edit_options =    [['Username', 'Raça'],
-                        ['Genero sexual', 'Nascimento'],
-                        ['País', ' Estado'],
-                        ['Cidade', 'Grupo de Risco'],
-                        ['Instituição de Ensino', 'Universidade'],
-                        ['Municipio', 'Matricula'],
-                        ['Faculdade'],
-                        ['Voltar']]
-    edit_markup = ReplyKeyboardMarkup(edit_options, resize_keyboard=True)
-
-    text = update.message.text
-
-    update.message.reply_text(
-        "O que deseja alterar?",
-        reply_markup=edit_markup)
-
-    return CHOOSING
