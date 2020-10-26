@@ -29,6 +29,10 @@ def regular_choice(update, context):
 		fake_news(update, context)
 	elif 'Telefones' in text:
 		phone_numbers(update, context)
+	elif 'Transmissão' in text:
+		transmission(update, context)
+	elif 'Suspeita' in text:
+		suspected(update, context)
 
 	markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
 	update.message.reply_text(
@@ -117,4 +121,28 @@ def phone_numbers(update, context):
 		text = text,
 	)
 
+def transmission(update, context):
+	text = ('A transmissão pode ocorrer de uma pessoa com a doença para outra ou por meio de contato próximo como: aperto de mãos contaminadas, '
+			'gotículas de saliva, espirro, tosse, catarro ou objetos e superfícies contaminadas, incluindo celulares, mesas, '
+			'talheres, maçanetas, brinquedos e teclados de computador.')
+	context.bot.send_message(
+		chat_id=update.effective_chat.id,
+		text = text,
+	)
 
+def suspected(update, context):
+	text = ('Se estiver doente, com sintomas compatíveis com a COVID-19, como febre, tosse, dor de garganta e/ou coriza, com ou sem falta de ar:\n\n'
+			'- Evite contato físico com outras pessoas, principalmente idosos e doentes crônicos.\n'
+			'- Procure imediatamente os postos de triagem nas Unidades Básicas de Saúde / UPAS ou outras unidades de saúde. Após encaminhamento consulte-se com o médico.\n'
+			'- Uma vez diagnosticado pelo médico, receba as orientações e prescrição dos medicamentos que você deverá usar.\n'
+			'- Mantenha seu médico sempre informado da evolução dos sintomas durante o tratamento e siga suas recomendações.\n'
+			'- Utilize máscara o tempo todo.\n'
+			'- Se precisar cozinhar utilize máscara de proteção, cobrindo boca e nariz o tempo todo.\n'
+			'- Separe toalhas, talheres, copos e outros objetos apenas para seu uso.\n'
+			'- O lixo produzido pela pessoa com suspeita ou já diagnosticada precisa ser separado e descartado.\n'
+			'- Evite o compartilhamento de sofás e cadeiras e faça a limpeza frequentemente com água sanitária, álcool 70% ou outro produto recomendado pela Anvisa.\n'
+			'- Se o paciente não mora sozinho é recomendado que os demais moradores da residência durmam em outro cômodo e mantenham a distância mínima de 1 metro da pessoa infectada.')
+	context.bot.send_message(
+		chat_id=update.effective_chat.id,
+		text = text,
+	)
