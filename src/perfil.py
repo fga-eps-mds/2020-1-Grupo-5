@@ -15,11 +15,6 @@ def start(update, context):
     resposta = utils.request_informations(user_data)
     context = utils.request_informations(user_data)
 
-    # head = "Atualmente essas são suas informações:\n"
-    # update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
-     
-    print("Resposta no Handler:", resposta)
-
     user_data['Keyboard'] = [['Username', 'Raça'],
                             ['Genero sexual', 'Nascimento'],
                             ['País', ' Estado'],
@@ -30,20 +25,11 @@ def start(update, context):
                             ['Mostrar informações', 'Voltar']]
     markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
-    # if utils.is_logged(context.user_data):
-    #     handlers.unknown(context, update)
-    #     return ConversationHandler.END
-    
-    # else:
-    #Mensagem de inicio de cadastro
     update.message.reply_text(
         "Escolha qual informação deseja alterar!",
         reply_markup=markup)
 
     return CHOOSING
-
-    # update.message.reply_text( "{}".format(utils.dict_to_str(user_data))
-
 
 
 
@@ -51,21 +37,12 @@ def start(update, context):
 def regular_choice(update, context):
     user_data = context.user_data
 
-    print("Perfil regular choice")
-
-    #Remove a check mark da entrada do usuário caso esteja presente
-    # if '✅' in update.message.text:
-    #     update.message.text = update.message.text[:-1]
-
-    #Pega as informações adcionadas 
-    # user_data = context.user_data
-    # print("user_data ", user_data)
 
     #Adciona uma chave com o valor de 'Email' ou 'Senha' de acordo com a escolha do user
     text = update.message.text
     # user_data['choice'] = text
 
-    print("user_data['choice'] ", text )
+
 
     #De acordo com a escolha, chama uma função
     if "Username" in text:
@@ -147,13 +124,7 @@ def regular_choice(update, context):
         handlers.menu(update, context)
         return ConversationHandler.END
 
-    print("data", user_data)
 
-    # user_data['edit_item'] = text
-
-    print("contuser_dataext", user_data)
-
-    print("Voltou!")
     return TYPING_REPLY
 
 
@@ -161,28 +132,17 @@ def regular_choice(update, context):
 def received_information(update, context):
     user_data = context.user_data
 
-    print("Perfil received_information")
 
     edit_item = user_data['edit_item']
 
-    # del user_data['edit_item']
 
-
-
-    print("Edit_intem:", edit_item)
 
     #Get data of user
     # user_data = context.user_data
 
     text = update.message.text
-    print("\nText::", text)
-
     user_data['resp_item'] = text
     del user_data['choice']
-
-
-    print("Dict final", user_data)
-
 
     requestEdit(update, context)
 
@@ -200,7 +160,7 @@ def received_information(update, context):
     update.message.reply_text(
         "Escolha qual informação deseja alterar!",
         reply_markup=markup)
-    print("\n")
+
     return CHOOSING
 
 
@@ -262,8 +222,7 @@ def requestEdit(update, context):
 
     user_data = utils.request_informations(user_data)
 
-    # head = "Atualmente essas são suas informações:\n"
-    # update.message.reply_text(head + "{}".format(utils.dict_to_str(user_data)))
+
 
     user_data.update({str(edit_item) : str(resp_item)})
 
@@ -277,8 +236,6 @@ def requestEdit(update, context):
     if user_data.get('is_professional') == 'Não':
         user_data.update({'is_professional' : 'false'})
     
-    # if user_data.get('is_professional') and 'Sim' in user_data.get('is_professional').lower():
-
 
 
     if user_data.get('risk_group') == 'Sim':
@@ -297,14 +254,9 @@ def requestEdit(update, context):
 
 
 
-    print("User data para alterar:", user_data)
-    # print("Retornou", editInformation(update, user_data))
-
     #Json enviado a API do guardiões com informações
     #Retiradas da API do telegram
     json_entry = {
-        # "user" : {
-            # "email": user_data.get('Email'),
             "user_name": user_data.get('user_name'),
             "birthdate": str(user_data.get('birthdate')),
             "country": user_data.get('country'),
@@ -316,20 +268,19 @@ def requestEdit(update, context):
             "risk_group": user_data.get('risk_group'),
             "state": user_data.get('state'),
             "city": user_data.get('city')
-        # }
     }
 
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(user_data['AUTH_TOKEN'])}
-    print("Headers:", headers)
+
     # print("Token:", str(token))
     # #Faz a tentativa de cadastro utilizando o json e os headers inseridos
-    print("Endereço:", "http://127.0.0.1:3001/users/" + str(user_data.get('id')))
+
     r = requests.patch("http://127.0.0.1:3001/users/" + str(user_data.get('id')) , json=json_entry, headers=headers)
     
 
     # # Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
-        print("Successfull edit:")      
+        update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
 
     else: #Falha
         
@@ -351,15 +302,9 @@ def editInformation(update, context):
                         ['Faculdade'],
                         ['Voltar']]
     edit_markup = ReplyKeyboardMarkup(edit_options, resize_keyboard=True)
-    print("edit_options", edit_options)
+
     text = update.message.text
-    print("text",text)
-    # if utils.is_logged(user_data):
-    #     handlers.unknown(context, update)
-    #     return ConversationHandler.END
-    
-    # else:
-    #Mensagem de inicio de cadastro
+
     update.message.reply_text(
         "O que deseja alterar?",
         reply_markup=edit_markup)

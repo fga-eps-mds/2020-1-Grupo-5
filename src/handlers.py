@@ -18,7 +18,6 @@ def start(update, context):
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar']]
-    print("função start")
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -45,7 +44,6 @@ def menu(update, context):
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar']]
-    print("função menu")
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
 
@@ -54,7 +52,7 @@ def menu(update, context):
         text=resposta,
         reply_markup=markup
     )
-    print("função menu parte 2")
+
 
 
 #Retorna as informações dos usuarios
@@ -68,24 +66,12 @@ def get_user_info(update, context):
     else:
         unknown(update, context)
 
-# ---------------------------------------------------------------------------------
 
 def edit_user_info(update, context):
     if utils.is_logged(context.user_data):
         user_data = context.user_data
-        
-        # print("Chave:", user_data['AUTH_TOKEN'])
 
-        resposta = utils.request_informations(user_data)
-       
-        print("Resposta no Handler:", resposta)
-
-        # head = "Atualmente essas são suas informações:\n"
-                
-        # context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
-        # update.message.reply_text(head + "{}".format(utils.dict_to_str(resposta)))
-
-        # perfil.requestEdit(update, user_data['AUTH_TOKEN'], resposta)       
+        resposta = utils.request_informations(user_data)   
         perfil.requestEdit(update, resposta)        
 
 
@@ -93,8 +79,6 @@ def edit_user_info(update, context):
         unknown(update, context)
 
 
-
-# ---------------------------------------------------------------------------------
 
 
 
@@ -150,7 +134,7 @@ def logout(update, context):
 
 #Login de usuario
 def login_handler():
-    print("login_handler")
+
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Login"), login.start)],
             states={
@@ -168,7 +152,6 @@ def login_handler():
 
 #Login de usuario
 def perfil_handler():
-    print("perfil_handler")
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Meu perfil"), perfil.start)],
             states={

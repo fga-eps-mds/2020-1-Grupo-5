@@ -2,6 +2,7 @@ import json, requests
 from validate_email import validate_email
 from src import handlers
 from telegram.ext import ConversationHandler
+from PIL import Image, ImageDraw, ImageFont
 
 def is_logged(user_data):
     if user_data.get('AUTH_TOKEN'):
@@ -131,9 +132,7 @@ def validations_signup(user_data):
 
 def request_informations(context):
     
-    print("Entrou!")
 
-    print(context)
 
     json_entry = {
         "user" : {
@@ -150,14 +149,11 @@ def request_informations(context):
        #Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
 
-        # print("user Antes:", user)
-
         user = json.loads(r.content)['user'] # Pega os dados do usuario logado
 
         user['AUTH_TOKEN'] = r.headers['Authorization']
         user['Senha'] = context['Senha']
 
-        # print("User:", user)
 
         return user
 
@@ -185,21 +181,6 @@ def request_informations(context):
 
     # #Chama o menu novamente
     # handlers.menu(update, context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from PIL import Image, ImageDraw, ImageFont
 
 
 def image(entradaTexto):
@@ -241,7 +222,6 @@ def image(entradaTexto):
 
 def geraString(text):
     
-    # texto = "\033[1m "
     texto = "Atualmente essas são suas informações: " + "\n" 
 
         #De acordo com a escolha, chama uma função
@@ -258,51 +238,37 @@ def geraString(text):
     if "birthdate" in text:
         texto =  texto  + "\n" + 'Nascimento' + ": " + str(text['birthdate'])
   
-    if "country" in text:
-        texto =  texto  + "\n" + 'País' + ": " + str(text['country'])
+#    if "country" in text:
+#        texto =  texto  + "\n" + 'País' + ": " + str(text['country'])
 
-    if "state" in text:
-        texto =  texto  + "\n" + 'Estado' + ": " + str(text['state'])
+#    if "state" in text:
+#        texto =  texto  + "\n" + 'Estado' + ": " + str(text['state'])
 
-    if "city" in text:
-        texto =  texto  + "\n" + 'Cidade' + ": " + str(text['city'])
+#    if "city" in text:
+#        texto =  texto  + "\n" + 'Cidade' + ": " + str(text['city'])
 
     if "risk_group" in text:
         texto =  texto  + "\n" + 'Grupo de Risco' + ": " + str(text['risk_group'])
     
-    if "group_id" in text:
-        texto =  texto  + "\n" + 'Instituição de Ensino' + ": " + str(text['group_id'])
+#    if "group_id" in text:
+#        texto =  texto  + "\n" + 'Instituição de Ensino' + ": " + str(text['group_id'])
 
-    if "school_unit_id" in text:
-        texto =  texto  + "\n" + 'Universidade' + ": " + str(text['school_unit_id'])
+#    if "school_unit_id" in text:
+#        texto =  texto  + "\n" + 'Universidade' + ": " + str(text['school_unit_id'])
     
-    if "identification_code" in text:
-        texto =  texto  + "\n" + 'Matricula' + ": " + str(text['identification_code'])
+#    if "identification_code" in text:
+#        texto =  texto  + "\n" + 'Matricula' + ": " + str(text['identification_code'])
     
-    if "group" in text:
-        texto =  texto  + "\n" + 'Faculdade' + ": " + str(text['group'])
+#    if "group" in text:
+#        texto =  texto  + "\n" + 'Faculdade' + ": " + str(text['group'])
 
     if "is_professional" in text:
         texto =  texto  + "\n" + 'Trabalha' + ": " + str(text['is_professional'])
 
-
-    # texto = texto + "\033[0;0m"
-
-    print(texto)
     
     return texto
 
 
-
-# entradaTexto =  {'id': 3, 'user_name': 'Marcos Adriano Nery de Abrantes', 'email': 'marcosadrianonery@gmail.com',
-#                 'birthdate': None, 'country': 'Brazil', 'gender': 'Homem Cis', 'race': 'Pardo', 'is_professional': True,
-#                 'picture': 'default', 'app_id': 1, 'city': 'Ceilândia', 'state': 'Df', 'identification_code': '150062567',
-#                 'group_id': None, 'school_unit_id': None, 'risk_group': 'true', 'group': None,
-#                 'app': {'id': 1, 'app_name': 'Brazil', 'owner_country': 'Brazil'}, 'households': [],
-#                 'AUTH_TOKEN': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNjAzNTYzMzk3LCJleHAiOjE2MDYxOTMxNDMsImp0aSI6ImE0N2U4MGY3LWEzODQtNGQwMS1iN2EyLTlkODdlNzUzZmMxYSJ9.BGoatXC-Zf1IyeQ87IXilZtvA0P3idFx9vwsFEkKD3g',
-#                 'Senha': 'etb-190586'}
-
-# image(entradaTexto)
 
 
 

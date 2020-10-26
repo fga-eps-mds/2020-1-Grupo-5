@@ -11,7 +11,6 @@ required_data = set()
 
 #Inicia o login
 def start(update, context):
-    print("Login start")
     user_data = context.user_data
     user_data['Keyboard'] = [['Email', 'Senha'],
                     ['Cancelar']]
@@ -31,7 +30,6 @@ def start(update, context):
 
 #Opçoes de entrada de informação do menu de login
 def regular_choice(update, context):
-    print("Login regular choice")
 
     #Remove a check mark da entrada do usuário caso esteja presente
     if '✅' in update.message.text:

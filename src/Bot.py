@@ -18,7 +18,7 @@ class Bot:
             current_path = pathlib.Path(__file__).parent.absolute()
             f = open(str(current_path) + "/../config/token.txt", "r")
             TELEGRAM_TOKEN = f.read()
-            print("BOT.py")
+
             # Estrutura responsavel por verificar todas novas mensagens
             self.updater = Updater(token=TELEGRAM_TOKEN, use_context=True)
 
@@ -45,7 +45,7 @@ class Bot:
             # Estrutura para login
             dispatcher.add_handler(handlers.login_handler())
             
-            # Estrutura para login
+            # Estrutura para mostrar o perfil/editar perfil
             dispatcher.add_handler(handlers.perfil_handler())
 
             # Função de logout
@@ -66,6 +66,5 @@ class Bot:
 
     def run(self):
         #Mantem o bot rodando localmente enquanto o programa estiver sendo executado
-        print("run")
         self.updater.start_polling()
         self.updater.idle()
