@@ -12,7 +12,7 @@ import time
 def start(update, context):
 
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Sobre'],
+        reply_keyboard = [['Minhas informações','Meu perfil'],
                           ['Sobre','Logout'],
                           ['Ajuda']]
     
