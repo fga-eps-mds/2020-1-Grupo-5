@@ -125,7 +125,7 @@ def phone_numbers(update, context):
 			'- SAMU:\n<b>(192)</b>\n'
 			'- Polícia Militar:\n<b>(190)</b>\n'			
 			'- Polícia Rodoviária Federal:\n<b>(191)</b>\n'
-			'- Poiícia Rodoviária Estadual:\n<b>(198)</b>\n'
+			'- Polícia Rodoviária Estadual:\n<b>(198)</b>\n'
 			'- Defesa Civil:\n<b>(199)</b>')
 	context.bot.send_message(
 		chat_id=update.effective_chat.id,
