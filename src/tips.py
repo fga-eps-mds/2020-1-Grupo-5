@@ -1,20 +1,24 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 
-ENTRY_REGEX = '^(O que é|Prevenção|Sintomas|Transmissão|Suspeita|Fake news|Telefones|Locais)$'
+ENTRY_REGEX = '^(O que é|Prevenção|Sintomas|Transmissão|Suspeita|Fake news|Telefones|Locais|Fontes)$'
 CHOOSING = 0
 reply_keyboard = [['O que é', 'Prevenção'],
                     ['Sintomas', 'Transmissão'],
                     ['Suspeita', 'Fake news'],
                     ['Telefones', 'Locais'],
-					['Voltar']]
+					['Fontes', 'Voltar']]
 
 def start(update, context):
-    markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
-    update.message.reply_text(
-            "Escolha uma das opções abaixo e veja as informações que reuni para você!",
-            reply_markup=markup
-    )
+    defaultReply(update, context)
     return CHOOSING
+
+
+def defaultReply(update, context):
+	markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
+	update.message.reply_text(
+        "Escolha uma das opções abaixo e veja as informações que reuni para você!",
+        reply_markup=markup
+    )
 
 
 def regular_choice(update, context):
@@ -36,12 +40,10 @@ def regular_choice(update, context):
 		suspected(update, context)
 	elif 'Locais' in text:
 		locations(update, context)
+	elif 'Fontes' in text:
+		sources(update, context)
 
-	markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
-	update.message.reply_text(
-            "Escolha uma das opções abaixo e veja as dicas que reuni para você!\n\n",
-            reply_markup=markup
-    )
+	defaultReply(update, context)
 
 
 def about(update, context):
@@ -168,4 +170,16 @@ def locations(update, context):
     	]),
 		chat_id=update.effective_chat.id,
 		parse_mode=ParseMode.HTML
+	)
+
+def sources(update, context):
+	text = ('As informações foram obtidas das seguintes fontes:\n'
+			'- <a href="https://play.google.com/store/apps/details?id=com.guardioesapp&hl=pt_BR">Guardiões da Saúde</a>\n'
+			'- <a href="https://coronavirus.saude.gov.br/">Ministério da Saúde</a>'
+			)
+	context.bot.send_message(
+		chat_id=update.effective_chat.id,
+		text = text,
+		parse_mode=ParseMode.HTML,
+		disable_web_page_preview=True
 	)
