@@ -2,6 +2,7 @@ import json, requests
 from validate_email import validate_email
 from src import handlers
 from telegram.ext import ConversationHandler
+from PIL import Image, ImageDraw, ImageFont
 
 def is_logged(user_data):
     if user_data.get('AUTH_TOKEN'):
@@ -128,3 +129,80 @@ def validations_signup(user_data):
             return False
 
     return True
+
+
+def image(entradaTexto):
+
+    # get an image
+    base = Image.open('src/robo.jpg').convert('RGBA')
+
+    # make a blank image for the text, initialized to transparent text color
+    txt = Image.new('RGBA', base.size, (0,0,0,0))
+
+
+    # get a font
+    # fnt = ImageFont.truetype("arial", 21)arial.pil
+    fnt = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 21, encoding='Adobe Standard')
+    # fnt = ImageFont.truetype('arial.ttf', 21, encoding='gb')
+
+    # get a drawing context
+    d = ImageDraw.Draw(txt)
+
+    # draw text, half opacity
+
+    printText = geraString(entradaTexto)
+
+
+    d.text((10,10), str(printText), font=fnt, fill=(255,0,0,255))
+    
+    # draw text, full opacity
+    # d.text((10,60), "World", font=fnt, fill=(255,255,255,255))
+
+    out = Image.alpha_composite(base, txt)
+
+    # base.save(sys.stdout, "PNG")
+    # out = Image.alpha_composite(base, txt)
+
+    out.save("src/images/robo_save.png")
+
+    return printText
+    # out.show()
+
+def geraString(text):
+
+    texto = "Atualmente essas são suas informações: " + "\n" 
+
+        #De acordo com a escolha, chama uma função
+    if "user_name" in text:
+        texto =  texto  + "\n" + 'Username' + ": " + str(text['user_name'])
+
+    if "race" in text:
+        texto =  texto  + "\n" + 'Raça' + ": " + str(text['race'])
+
+    if "gender" in text:
+        texto =  texto  + "\n" + 'Genero sexual' + ": " + str(text['gender'])
+
+    if "birthdate" in text:
+        texto =  texto  + "\n" + 'Nascimento' + ": " + str(text['birthdate'])
+  
+
+    if "risk_group" in text:
+        if text['risk_group'] == True:
+            texto =  texto  + "\n" + 'Grupo de Risco' + ": Sim"
+        else:
+            texto = texto + "\n" + 'Grupo de Risco' + ": Não"
+
+    if "is_professional" in text:
+        if text['is_professional'] == True:
+            texto =  texto  + "\n" + 'Trabalho' + ": Sim"
+        else:
+            texto = texto + "\n" + 'Trabalho' + ": Não"
+
+    
+    return texto
+
+
+
+
+
+'key = a779f354317e4df61cdb56adfe3469e0'

@@ -6,6 +6,7 @@ import pathlib
 
 SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
+PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|Trabalho|Mostrar informações|Voltar)$'
 
 class Bot:
 
@@ -34,6 +35,9 @@ class Bot:
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
+
+            # Handler para mostrar informações do usuário
+            # dispatcher.add_handler(MessageHandler(Filters.text("Editar informações"), handlers.edit_user_info)) 
             
             # Estrutura para registros
             dispatcher.add_handler(handlers.signup_handler())
@@ -41,6 +45,9 @@ class Bot:
             # Estrutura para login
             dispatcher.add_handler(handlers.login_handler())
             
+            # Estrutura para mostrar o perfil/editar perfil
+            dispatcher.add_handler(handlers.perfil_handler())
+
             # Função de logout
             dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))
 
