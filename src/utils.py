@@ -200,9 +200,3 @@ def geraString(text):
 
     
     return texto
-
-
-
-
-
-'key = a779f354317e4df61cdb56adfe3469e0'
