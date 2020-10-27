@@ -175,7 +175,10 @@ def locations(update, context):
 def sources(update, context):
 	text = ('As informações foram obtidas das seguintes fontes:\n'
 			'- <a href="https://play.google.com/store/apps/details?id=com.guardioesapp&hl=pt_BR">Guardiões da Saúde</a>\n'
-			'- <a href="https://coronavirus.saude.gov.br/">Ministério da Saúde</a>'
+			'- <a href="https://coronavirus.saude.gov.br/">Ministério da Saúde</a>\n'
+			'- <a href="https://ssp.df.gov.br/emergencia-190-193-e-199/">Secretaria de Estado de Segurança Pública</a>\n'
+			'- <a href="https://bbc.com/portuguese/geral-45967195">BBC News</a>\n'
+			'- <a href="https://www.gov.br/saude/pt-br">Governo Federal</a>'
 			)
 	context.bot.send_message(
 		chat_id=update.effective_chat.id,
