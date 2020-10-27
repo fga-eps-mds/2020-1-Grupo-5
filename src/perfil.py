@@ -12,8 +12,8 @@ required_data = set()
 def start(update, context):
     user_data = context.user_data
     
-    resposta = utils.request_informations(user_data)
-    context = utils.request_informations(user_data)
+    resposta = context.user_data
+    context = context.user_data
 
     user_data['Keyboard'] = [['Username', 'Raça'],
                             ['Genero sexual', 'Nascimento'],
@@ -67,7 +67,7 @@ def regular_choice(update, context):
         getters.get_professional(update, context)
 
     if "Mostrar informações" in text:
-        resposta = utils.request_informations(user_data)
+        resposta = context.user_data
         user_data['edit_item'] = 'none'
         user_data['choice'] = 'none'
 
@@ -176,10 +176,6 @@ def requestEdit(update, context):
     del user_data['edit_item']
     del user_data['resp_item']
 
-    user_data = utils.request_informations(user_data)
-
-
-
     user_data.update({str(edit_item) : str(resp_item)})
 
     #Pega todas as infos adcionadas
@@ -228,11 +224,11 @@ def requestEdit(update, context):
 
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(user_data['AUTH_TOKEN'])}
 
-    # #Faz a tentativa de cadastro utilizando o json e os headers inseridos
+
     r = requests.patch("http://127.0.0.1:3001/users/" + str(user_data.get('id')) , json=json_entry, headers=headers)
     
 
-    ## Log de sucesso ou falha no cadastro
+
     if r.status_code == 200: # Sucesso
         update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
 

@@ -130,33 +130,6 @@ def validations_signup(user_data):
 
     return True
 
-def request_informations(context):
-    
-    json_entry = {
-        "user" : {
-            "email" : context['Email'],
-            "password" : context['Senha']
-        }
-    }
-
-    headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
-
-    #Faz a tentativa de cadastro utilizando o json e os headers inseridos
-    r = requests.post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
-    
-       #Log de sucesso ou falha no cadastro
-    if r.status_code == 200: # Sucesso
-
-        user = json.loads(r.content)['user'] # Pega os dados do usuario logado
-
-        user['AUTH_TOKEN'] = r.headers['Authorization']
-        user['Senha'] = context['Senha']
-
-
-        return user
-
-
-
 
 def image(entradaTexto):
 
