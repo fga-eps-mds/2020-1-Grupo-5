@@ -2,8 +2,8 @@ import requests, json
 from telegram import ReplyKeyboardMarkup, KeyboardButton, Update, Bot
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler, Dispatcher)
-from src import utils, handlers, getters
-
+from src import utils, handlers, getters, news
+import _thread as thread
 
 #States
 CHOOSING, TYPING_REPLY = range(2)
@@ -198,6 +198,14 @@ def request_login(update, context):
             chat_id=update.effective_chat.id,
             text="Seu login falhou!\n\nTem certeza que digitou os dados corretamente?"
         )
+
+# ____________________________
+
+    # a = news.Th(1)
+    # a.run(update, context) 
+    thread.start_new_thread(news.run, (update, context))
+# ____________________________
+
 
     #Chama o menu novamente
     handlers.menu(update, context)

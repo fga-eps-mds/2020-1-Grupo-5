@@ -3,6 +3,12 @@ from validate_email import validate_email
 from src import handlers
 from telegram.ext import ConversationHandler
 from PIL import Image, ImageDraw, ImageFont
+from googlesearch import search
+# pip install google
+
+import re
+import time
+
 
 def is_logged(user_data):
 
@@ -193,3 +199,25 @@ def geraString(text):
             texto = texto + "\n" + 'Trabalho' + ": Não"
   
     return texto
+
+def sendNews(update, context):
+    regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
+
+    res = []
+    # for resultado in search('"noticias saúde" news', stop=10):
+    for resultado in search("saude plantão news", stop=10):
+        res.append(resultado)
+        # print(resultado)
+
+        # print(res)
+    resultadoPrint = ""
+
+    for resultado in res:
+        if not re.search(regex, resultado):
+            # print("\n", resultado)
+            if len(resultado) > len(resultadoPrint):
+                resultadoPrint = resultado
+
+    print("Resul print: ", resultadoPrint)
+    context.bot.send_message(   chat_id=update.effective_chat.id,
+                                text= str(resultadoPrint))
