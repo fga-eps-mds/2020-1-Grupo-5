@@ -65,16 +65,12 @@ def regular_choice(update, context):
         getters.get_professional(update, context)
 
     if "Mostrar informações" in text:
-        print("\n Context user data em Mostras Inf: ", context.user_data)
-        # resposta = context.user_data
+
         user_data['edit_item'] = 'none'
         user_data['choice'] = 'none'
-
-        # returnText = ""
         utils.image(context.user_data)
         path = 'general/images/robo_save.png'
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
-
 
         return CHOOSING
 
