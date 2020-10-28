@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils, tips
+from src import signup, login, Bot, utils, perfil, tips
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
@@ -12,7 +12,7 @@ import time
 def start(update, context):
 
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Sobre'],
+        reply_keyboard = [['Minhas informações','Meu perfil'],
                           ['Sobre','Logout'],
                           ['Ajuda']]
     
@@ -30,9 +30,17 @@ def start(update, context):
         chat_id=update.effective_chat.id, text=resposta, reply_markup=markup
     )
 
+    link = "https://scontent-gig2-1.xx.fbcdn.net/v/t1.0-9/103274216_112293347182974_7934951402525681679_o.png?_nc_cat=101&ccb=2&_nc_sid=85a577&_nc_ohc=DfmCZ9ndG5cAX-Mq4qP&_nc_ht=scontent-gig2-1.xx&oh=0566da2b649761aa3348d1f8c89c640a&oe=5FBA8F35"
+    # context.bot.send_photo(chat_id=chat_id, photo=open('tests/test.png', 'rb'))
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=link)
+
+
+
+
+
 def menu(update, context):
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Sobre'],
+        reply_keyboard = [['Minhas informações','Meu perfil'],
                           ['Sobre','Logout'],
 						  ['Ajuda']]
     
@@ -52,6 +60,7 @@ def menu(update, context):
 
 
 
+#Retorna as informações dos usuarios
 def get_user_info(update, context):
     if utils.is_logged(context.user_data):
         user_data = context.user_data
@@ -68,6 +77,21 @@ def get_user_info(update, context):
 
     else:
         unknown(update, context)
+
+
+def edit_user_info(update, context):
+    if utils.is_logged(context.user_data):
+        user_data = context.user_data
+
+        resposta = context.user_data
+        perfil.requestEdit(update, resposta)        
+
+
+    else:
+        unknown(update, context)
+
+
+
 
 
 #Cadastra novo user
@@ -122,6 +146,7 @@ def logout(update, context):
 
 #Login de usuario
 def login_handler():
+
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Login"), login.start)],
             states={
@@ -135,6 +160,23 @@ def login_handler():
             fallbacks=[MessageHandler(Filters.regex('^Done$'), login.done),
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
+            )
+
+#Login de usuario
+def perfil_handler():
+    return ConversationHandler(
+            entry_points=[MessageHandler(Filters.text("Meu perfil"), perfil.start)],
+            states={
+                perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER),
+                                        perfil.regular_choice)
+                        ],
+                perfil.TYPING_REPLY: [
+                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
+                                perfil.received_information)],
+            },
+            fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
+            MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry)]
             )
 
 #Envia informaçoes sobre o bot
