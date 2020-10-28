@@ -40,7 +40,7 @@ def start(update, context):
 
 def menu(update, context):
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Meu perfil'],
+        reply_keyboard = [['Minhas informações','Editar perfil'],
                           ['Sobre','Logout'],
 						  ['Ajuda']]
     
@@ -62,18 +62,23 @@ def menu(update, context):
 
 #Retorna as informações dos usuarios
 def get_user_info(update, context):
+
     if utils.is_logged(context.user_data):
-        user_data = context.user_data
-        resposta = (f"Username - {user_data['user_name']}\n"
-        f"Email - {user_data['email']}\n"  
-        f"País - {user_data['country']}\n"  
-        f"Estado - {user_data['state']}\n"
-        f"Cidade - {user_data['city']}\n"
-        f"Gênero sexual - {user_data['gender']}\n"
-        f"Raça - {user_data['race']}\n"
-        f"Aniversário - {user_data['birthdate']}\n") 
-        
-        context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
+        resposta = context.user_data
+        utils.image(resposta)
+        path = 'general/images/robo_save.png'
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
+
+        # user_data = context.user_data
+        # resposta = (f"Username - {user_data['user_name']}\n"
+        # f"Email - {user_data['email']}\n"  
+        # f"País - {user_data['country']}\n"  
+        # f"Estado - {user_data['state']}\n"
+        # f"Cidade - {user_data['city']}\n"
+        # f"Gênero sexual - {user_data['gender']}\n"
+        # f"Raça - {user_data['race']}\n"
+        # f"Aniversário - {user_data['birthdate']}\n") 
+        # context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
 
     else:
         unknown(update, context)
@@ -165,7 +170,7 @@ def login_handler():
 #Login de usuario
 def perfil_handler():
     return ConversationHandler(
-            entry_points=[MessageHandler(Filters.text("Meu perfil"), perfil.start)],
+            entry_points=[MessageHandler(Filters.text("Editar perfil"), perfil.start)],
             states={
                 perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER),
                                         perfil.regular_choice)

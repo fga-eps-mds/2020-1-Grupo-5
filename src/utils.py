@@ -5,6 +5,7 @@ from telegram.ext import ConversationHandler
 from PIL import Image, ImageDraw, ImageFont
 
 def is_logged(user_data):
+
     if user_data.get('AUTH_TOKEN'):
         return True
 
@@ -34,6 +35,7 @@ def dict_to_str(user_data):
     
 
 def cancel(update, context):
+
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Cancelando!\nRetornando automaticamente ao menu!"
@@ -43,6 +45,7 @@ def cancel(update, context):
     return ConversationHandler.END
 
 def bad_entry(update, context):
+
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Opção inválida, tente utilizar os botões!\nRetornando ao menu."
@@ -54,12 +57,14 @@ def bad_entry(update, context):
     return ConversationHandler.END
 
 def validaNome(nome):
+
     if len(nome) >= 8:
         return True
 
     return False
 
 def validaSenha(senha):
+
     if len(senha) >= 8:
         return True
 
@@ -73,18 +78,21 @@ def validaEmail(email):
     return False
 
 def validaGenero(genero):
+
     if str(genero).lower() in ['homem cis', 'homem homossexual', 'mulher cis', 'mulher homossexual', 'outro']:
         return True
 
     return False
 
 def validaRaca(raca):
+
     if str(raca).lower() in ['branco', 'negro', 'pardo', 'indigena', 'amarelo', 'outro']:
         return True
 
     return False
 
 def validaTrabalho(trabalho):
+
     if str(trabalho).lower() in ['sim', 'não', 'nao']:
         return True
 
@@ -92,6 +100,7 @@ def validaTrabalho(trabalho):
 
 
 def validations_login(user_data):
+
     if "Email" in user_data and not validaEmail(user_data['Email']):
             user_data.pop("Email")
             return False
@@ -134,36 +143,22 @@ def validations_signup(user_data):
 def image(entradaTexto):
 
     # get an image
-    base = Image.open('src/robo.jpg').convert('RGBA')
+    base = Image.open('general/images/robo.jpg').convert('RGBA')
 
     # make a blank image for the text, initialized to transparent text color
     txt = Image.new('RGBA', base.size, (0,0,0,0))
-
-
-    # get a font
-    # fnt = ImageFont.truetype("arial", 21)arial.pil
     fnt = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 21, encoding='Adobe Standard')
-    # fnt = ImageFont.truetype('arial.ttf', 21, encoding='gb')
 
     # get a drawing context
     d = ImageDraw.Draw(txt)
 
-    # draw text, half opacity
-
+    # Organiza o texto a ser printado
     printText = geraString(entradaTexto)
 
-
-    d.text((10,10), str(printText), font=fnt, fill=(255,0,0,255))
-    
-    # draw text, full opacity
-    # d.text((10,60), "World", font=fnt, fill=(255,255,255,255))
-
+    # Posiçaõ inicial do texto na imagem
+    d.text((10,30), str(printText), font=fnt, fill=(0,0,0,255))
     out = Image.alpha_composite(base, txt)
-
-    # base.save(sys.stdout, "PNG")
-    # out = Image.alpha_composite(base, txt)
-
-    out.save("src/images/robo_save.png")
+    out.save("general/images/robo_save.png")
 
     return printText
     # out.show()
@@ -185,18 +180,16 @@ def geraString(text):
     if "birthdate" in text:
         texto =  texto  + "\n" + 'Nascimento' + ": " + str(text['birthdate'])
   
-
     if "risk_group" in text:
-        if text['risk_group'] == True:
+        if text['risk_group'] == 'true' or text['risk_group'] == True:
             texto =  texto  + "\n" + 'Grupo de Risco' + ": Sim"
         else:
             texto = texto + "\n" + 'Grupo de Risco' + ": Não"
 
     if "is_professional" in text:
-        if text['is_professional'] == True:
+        if text['is_professional'] == 'true' or text['is_professional'] == True:
             texto =  texto  + "\n" + 'Trabalho' + ": Sim"
         else:
             texto = texto + "\n" + 'Trabalho' + ": Não"
-
-    
+  
     return texto

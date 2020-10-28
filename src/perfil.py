@@ -38,8 +38,6 @@ def regular_choice(update, context):
     text = update.message.text
     # user_data['choice'] = text
 
-
-
     #De acordo com a escolha, chama uma função
     if "Username" in text:
         user_data['edit_item'] = 'user_name'
@@ -67,13 +65,14 @@ def regular_choice(update, context):
         getters.get_professional(update, context)
 
     if "Mostrar informações" in text:
-        resposta = context.user_data
+        print("\n Context user data em Mostras Inf: ", context.user_data)
+        # resposta = context.user_data
         user_data['edit_item'] = 'none'
         user_data['choice'] = 'none'
 
-        returnText = ""
-        returnText = utils.image(resposta)
-        path = 'src/images/robo_save.png'
+        # returnText = ""
+        utils.image(context.user_data)
+        path = 'general/images/robo_save.png'
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
 
 
@@ -93,7 +92,7 @@ def received_information(update, context):
     user_data = context.user_data
 
 
-    edit_item = user_data['edit_item']
+    # edit_item = user_data['edit_item']
 
 
 
@@ -184,27 +183,28 @@ def requestEdit(update, context):
     #banco de dados
     if user_data.get('is_professional') == 'Sim':
         user_data.update({'is_professional' : 'true'})
+        # context.user_data['is_professional'] = user_data['is_professional'] 
 
     if user_data.get('is_professional') == 'Não':
         user_data.update({'is_professional' : 'false'})
-    
+        # context.user_data['is_professional'] = user_data['is_professional'] 
 
 
     if user_data.get('risk_group') == 'Sim':
         user_data.update({'risk_group' : 'true'})
+        # context.user_data['risk_group'] = user_data['risk_group'] 
 
     if user_data.get('risk_group') == 'Não':
         user_data.update({'risk_group' : 'false'})
+        # context.user_data['risk_group'] = user_data['risk_group'] 
 
-
+    # print("User data update", user_data.get('risk_group'))
 
     if user_data.get('group_id') == 'Sim':
         user_data.update({'group_id' : 'true'})
 
     if user_data.get('group_id') == 'Não':
         user_data.update({'group_id' : 'false'})
-
-
 
     #Json enviado a API do guardiões com informações
     #Retiradas da API do telegram
@@ -222,12 +222,10 @@ def requestEdit(update, context):
             "city": user_data.get('city')
     }
 
+
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(user_data['AUTH_TOKEN'])}
 
-
     r = requests.patch("http://127.0.0.1:3001/users/" + str(user_data.get('id')) , json=json_entry, headers=headers)
-    
-
 
     if r.status_code == 200: # Sucesso
         update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
