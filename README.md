@@ -45,7 +45,11 @@ Caso queira executar uma instância do nosso projeto:
     ```ImportError: cannot import name 'Bot' from 'telegram'```
 
     Basta executar manualmente:
-
+    
+    ```python3 -m pip uninstall python-telegram-bot```
+    
+    logo após, execute:
+    
     ```python3 -m pip install python-telegram-bot```
 
 ## Integrantes
