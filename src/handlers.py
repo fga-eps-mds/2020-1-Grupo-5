@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils, perfil
+from src import signup, login, Bot, utils, perfil, tips
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
@@ -19,7 +19,7 @@ def start(update, context):
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-                      ['Ajuda']]
+                      ['Ajuda', 'Dicas']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -47,7 +47,7 @@ def menu(update, context):
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-						 ['Ajuda']]
+						 ['Ajuda', 'Dicas']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
@@ -200,6 +200,7 @@ def ajuda(update, context):
 				'- <b><i>Login</i></b>: Entre em sua conta. Caso você ainda não possua uma, use a função de cadastro.\n\n'
 				'- <b><i>Logout</i></b>: Saia de sua conta. Você poderá entrar novamente quando quiser.\n\n'
 				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
+				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos\n\n' 
  				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
 	)
     context.bot.send_message(
@@ -225,6 +226,16 @@ def ajuda(update, context):
         text=resposta,
 		parse_mode=ParseMode.HTML,
 		disable_web_page_preview = True
+    )
+
+def tips_handler():
+    return ConversationHandler(
+        entry_points=[MessageHandler(Filters.text("Dicas"), tips.start)],
+        states={
+            tips.CHOOSING: [MessageHandler(Filters.regex(tips.ENTRY_REGEX), tips.regular_choice)]
+        },
+        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
+                    MessageHandler(Filters.all, utils.bad_entry)]
     )
     
 def finalizar(update, context):
