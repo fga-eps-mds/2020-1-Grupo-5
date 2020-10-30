@@ -36,14 +36,10 @@ def start(update, context):
 #Opçoes de entrada de informação do menu de cadastro
 def regular_choice(update, context):
 
-    #Remove a check mark da entrada do usuário caso esteja presente
-    if '✅' in update.message.text:
-        update.message.text = update.message.text[:-1]
-
-    user_data = context.user_data
+    update.message.text = utils.remove_check_mark(update.message.text)
 
     text = update.message.text
-    user_data['choice'] = text
+    context.user_data['choice'] = text
 
     if  "Username" in text:
         getters.get_User(update,context)
@@ -89,20 +85,10 @@ def received_information(update, context):
     #Valida os dados inseridos
     validation = utils.validations_signup(user_data)
 
-    #Adiciona ou retira a check mark do botão da categoria conforme validação da entrada
-    for i, items in enumerate(user_data['Keyboard']):
-        for j, item in enumerate(items):
-            if category in item:
-                if validation and '✅' not in item:
-                    user_data['Keyboard'][i][j] = item + '✅'
-                elif not validation and '✅' in item:
-                    user_data['Keyboard'][i][j] = item[:-1]
+    utils.update_check_mark(user_data['Keyboard'], category, validation)
 
     #Estrutura que mostra informações que ainda faltam ser inseridas
-    if len(user_data) > 0:
-        for key in user_data:
-            if key in required_data:
-                required_data.remove(key)
+    utils.update_required_data(user_data, required_data)
 
     #Se a ultima entrada não for valida, enviamos mensagem de entrada
     #Invalida

@@ -193,3 +193,30 @@ def geraString(text):
             texto = texto + "\n" + 'Trabalho' + ": Não"
   
     return texto
+
+
+# Remove a check mark do final da palavra caso esteja presente
+def remove_check_mark(text):
+    if '✅' == text[-1]:
+        text = text[:-1]
+    return text
+
+
+# Insere ou remove a check mark do botão da categoria do teclado conforme sua validação
+def update_check_mark(keyboard, category, validation):
+    for i, items in enumerate(keyboard):
+        for j, item in enumerate(items):
+            if category in item:
+                if validation and '✅' not in item:
+                    keyboard[i][j] = item + '✅'
+                    return
+                elif not validation and '✅' in item:
+                    keyboard[i][j] = item[:-1]
+                    return
+
+
+# Atualiza as informações que ainda faltam ser inseridas
+def update_required_data(received_data, required_data):
+    for key in received_data:
+        if key in required_data:
+            required_data.remove(key)

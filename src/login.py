@@ -33,16 +33,11 @@ def start(update, context):
 #Opçoes de entrada de informação do menu de login
 def regular_choice(update, context):
 
-    #Remove a check mark da entrada do usuário caso esteja presente
-    if '✅' in update.message.text:
-        update.message.text = update.message.text[:-1]
-
-    #Pega as informações adcionadas 
-    user_data = context.user_data
+    update.message.text = utils.remove_check_mark(update.message.text)
 
     #Adciona uma chave com o valor de 'Email' ou 'Senha' de acordo com a escolha do user
     text = update.message.text
-    user_data['choice'] = text
+    context.user_data['choice'] = text
 
     #De acordo com a escolha, chama uma função
     if "Email" in text:
@@ -70,13 +65,7 @@ def received_information(update, context):
     #Validação de dados
     validation = utils.validations_login(user_data)
 
-    for i, items in enumerate(user_data['Keyboard']):
-        for j, item in enumerate(items):
-            if category in item:
-                if validation and '✅' not in item:
-                    user_data['Keyboard'][i][j] = item + '✅'
-                elif not validation and '✅' in item:
-                    user_data['Keyboard'][i][j] = item[:-1]
+    utils.update_check_mark(user_data['Keyboard'], category, validation)
 
     if not validation:
         head = "Entrada inválida, tem certeza que digitou corretamente?\n"
@@ -85,10 +74,7 @@ def received_information(update, context):
         head = "Perfeito, entrada aceita\n"
 
     #Estrutura que mostra informações que ainda faltam ser inseridas
-    if len(user_data) > 0:
-        for key in user_data:
-            if key in required_data:
-                required_data.remove(key)
+    utils.update_required_data(user_data, required_data)
 
     unreceived_info(context)
 
