@@ -220,3 +220,21 @@ def update_required_data(received_data, required_data):
     for key in received_data:
         if key in required_data:
             required_data.remove(key)
+
+
+# Função que adciona done ao terminar de adcionar todas informações
+def form_filled(keyboard):
+    if not ['Done'] in keyboard:
+        keyboard.append(['Done'])
+
+
+#Caso a pessoa tenha adcionado todas as informações e depois adcionou uma inválida novamente, ele retira o botão de done
+def undone_keyboard(keyboard):
+    keyboard.remove(['Done'])
+
+
+# Atualiza as informações que estão faltand
+def unreceived_info(received_data, required_data, all_items):
+    for item in all_items:
+        if not item in received_data:
+            required_data.add(item)

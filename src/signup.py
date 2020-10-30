@@ -98,7 +98,7 @@ def received_information(update, context):
     else:
         head = "Perfeito, ja temos esses dados:\n"
 
-    unreceived_info(context)
+    utils.unreceived_info(context.user_data, required_data, ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual"))
     
 
 
@@ -106,12 +106,12 @@ def received_information(update, context):
         footer = "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
 
         if ['Done'] in user_data['Keyboard']:
-            undone_keyboard(context)
+            utils.undone_keyboard(context.user_data['Keyboard'])
 
     else:
 
         footer = "\n\nAgora que adcionou todos os dados, pode editar os inseridos ou clicar em Done para enviar o formulário!\n"
-        form_filled(context)
+        utils.form_filled(context.user_data['Keyboard'])
 
     markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
     #Envia o feedback ao user
@@ -125,27 +125,6 @@ def received_information(update, context):
                                   "{}".format(utils.set_to_str(required_data)))
 
     return CHOOSING
-
-
-#Função que adciona done ao terminar de adcionar todas informações
-def form_filled(context):
-    user_data = context.user_data
-    if not ['Done'] in user_data['Keyboard']:
-        user_data['Keyboard'].append(['Done'])
-
-
-#Caso a pessoa tenha adcionado todas as informações e 
-#Depois adcionou uma inválida novamente, ele retira o
-#Botão de done
-def undone_keyboard(context):
-    context.user_data['Keyboard'].remove(['Done'])
-
-
-def unreceived_info(context):
-    all_items = ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual")
-    for item in all_items:
-        if not item in context.user_data:
-            required_data.add(item)
     
 
 #Termina cadastro e envia ao servidor da API do guardiões
