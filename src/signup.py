@@ -8,6 +8,7 @@ CHOOSING, TYPING_REPLY = range(2)
 
 required_data = set()
 
+
 #Inicia o cadastro
 def start(update, context):
     user_data = context.user_data
@@ -30,6 +31,42 @@ def start(update, context):
             reply_markup=markup)
 
         return CHOOSING
+
+
+#Opçoes de entrada de informação do menu de cadastro
+def regular_choice(update, context):
+
+    #Remove a check mark da entrada do usuário caso esteja presente
+    if '✅' in update.message.text:
+        update.message.text = update.message.text[:-1]
+
+    user_data = context.user_data
+
+    text = update.message.text
+    user_data['choice'] = text
+
+    if  "Username" in text:
+        getters.get_User(update,context)
+        
+    if "Email" in text:
+        getters.get_Email(update, context)
+
+    if "Senha" in text:
+        getters.get_Pass(update, context)
+
+    if "Raça" in text:
+        getters.get_Race(update, context)
+
+    if "Genero sexual" in text:
+        getters.get_Gender(update, context)
+
+    if "Trabalho" in text:
+        getters.get_professional(update, context)
+
+    if "Localização" in text:
+        getters.get_location(update, context)
+        
+    return TYPING_REPLY
 
 
 #Send current received information from user
@@ -104,6 +141,13 @@ def received_information(update, context):
     return CHOOSING
 
 
+#Função que adciona done ao terminar de adcionar todas informações
+def form_filled(context):
+    user_data = context.user_data
+    if not ['Done'] in user_data['Keyboard']:
+        user_data['Keyboard'].append(['Done'])
+
+
 #Caso a pessoa tenha adcionado todas as informações e 
 #Depois adcionou uma inválida novamente, ele retira o
 #Botão de done
@@ -111,11 +155,11 @@ def undone_keyboard(context):
     context.user_data['Keyboard'].remove(['Done'])
 
 
-#Função que adciona done ao terminar de adcionar todas informações
-def form_filled(context):
-    user_data = context.user_data
-    if not ['Done'] in user_data['Keyboard']:
-        user_data['Keyboard'].append(['Done'])
+def unreceived_info(context):
+    all_items = ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual")
+    for item in all_items:
+        if not item in context.user_data:
+            required_data.add(item)
     
 
 #Termina cadastro e envia ao servidor da API do guardiões
@@ -144,47 +188,6 @@ def done(update, context):
     
     return ConversationHandler.END
 
-def unreceived_info(context):
-    all_items = ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual")
-    for item in all_items:
-        if not item in context.user_data:
-            required_data.add(item)
-
-
-#Opçoes de entrada de informação do menu de cadastro
-def regular_choice(update, context):
-
-    #Remove a check mark da entrada do usuário caso esteja presente
-    if '✅' in update.message.text:
-        update.message.text = update.message.text[:-1]
-
-    user_data = context.user_data
-
-    text = update.message.text
-    user_data['choice'] = text
-
-    if  "Username" in text:
-        getters.get_User(update,context)
-        
-    if "Email" in text:
-        getters.get_Email(update, context)
-
-    if "Senha" in text:
-        getters.get_Pass(update, context)
-
-    if "Raça" in text:
-        getters.get_Race(update, context)
-
-    if "Genero sexual" in text:
-        getters.get_Gender(update, context)
-
-    if "Trabalho" in text:
-        getters.get_professional(update, context)
-
-    if "Localização" in text:
-        getters.get_location(update, context)
-        
-    return TYPING_REPLY
 
 #Funcao que cadastra o usuario
 def requestSignup(update, context):

@@ -4,11 +4,11 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
                           ConversationHandler, CallbackQueryHandler, Dispatcher)
 from src import utils, handlers, getters
 
-
 #States
 CHOOSING, TYPING_REPLY = range(2)
 
 required_data = set()
+
 
 #Inicia o login
 def start(update, context):
@@ -28,6 +28,7 @@ def start(update, context):
             reply_markup=markup)
 
         return CHOOSING
+
 
 #Opçoes de entrada de informação do menu de login
 def regular_choice(update, context):
@@ -51,19 +52,6 @@ def regular_choice(update, context):
         getters.get_Pass(update, context)        
 
     return TYPING_REPLY
-
-#Função que adciona done ao terminar de adcionar todas informações
-def form_filled(context):
-    user_data = context.user_data
-    if not ['Done'] in user_data['Keyboard']:
-        user_data['Keyboard'].append(['Done'])
-
-
-#Caso a pessoa tenha adcionado todas as informações e 
-#Depois adcionou uma inválida novamente, ele retira o
-#Botão de done
-def undone_keyboard(context):
-    context.user_data['Keyboard'].remove(['Done'])
 
 
 #Send current received information from user
@@ -127,11 +115,26 @@ def received_information(update, context):
     return CHOOSING
 
 
+#Função que adciona done ao terminar de adcionar todas informações
+def form_filled(context):
+    user_data = context.user_data
+    if not ['Done'] in user_data['Keyboard']:
+        user_data['Keyboard'].append(['Done'])
+
+
+#Caso a pessoa tenha adcionado todas as informações e 
+#Depois adcionou uma inválida novamente, ele retira o
+#Botão de done
+def undone_keyboard(context):
+    context.user_data['Keyboard'].remove(['Done'])
+
+
 def unreceived_info(context):
     all_items = {'Email', 'Senha'}
     for item in all_items:
         if not item in context.user_data:
             required_data.add(item)
+
 
 #Termina o login e envia ao servidor da API do guardiões
 def done(update, context):
