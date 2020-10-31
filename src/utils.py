@@ -219,5 +219,6 @@ def sendNews(update, context):
                 resultadoPrint = resultado
 
     print("Resul print: ", resultadoPrint)
+    
     context.bot.send_message(   chat_id=update.effective_chat.id,
                                 text= str(resultadoPrint))
