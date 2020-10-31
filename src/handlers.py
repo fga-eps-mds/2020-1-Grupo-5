@@ -95,10 +95,6 @@ def edit_user_info(update, context):
     else:
         unknown(update, context)
 
-
-
-
-
 #Cadastra novo user
 def signup_handler():
     return ConversationHandler(
@@ -126,9 +122,15 @@ def birthDayCallBack(update, context):
     elif result:
         
         context.user_data['Nascimento'] = result
+        context.user_data.update({'birthdate' : str(result)})
         update.callback_query.edit_message_text(f'Selecionado: {result}')
-        
-        signup.requestSignup(update, context)
+
+        if utils.is_logged(context.user_data):
+            context.user_data['resp_item'] = str(result)
+            perfil.requestEdit(update, context)
+            None
+        else:
+            signup.requestSignup(update, context)
 
 
 def logout(update, context):
@@ -178,6 +180,9 @@ def perfil_handler():
                 perfil.TYPING_REPLY: [
                     MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                                 perfil.received_information)],
+                #  signup.TYPING_REPLY: [
+                #     MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
+                #                 perfil.received_information)], 
             },
             fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
             MessageHandler(Filters.regex('^Voltar$'), utils.cancel),

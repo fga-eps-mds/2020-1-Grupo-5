@@ -8,7 +8,7 @@ def run(update, context):
     
     hora = time.ctime().split()
 
-    regex_time = r"[1][3]:[4][9]:[1][0]"
+    regex_time = r"[1][9]:[4][1]:[1][0]"
 
     while utils.is_logged(context.user_data):
         

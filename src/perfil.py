@@ -53,7 +53,11 @@ def regular_choice(update, context):
 
     if "Nascimento" in text:
         user_data['edit_item'] = 'birthdate'
-        getters.get_birthday(update, context)    
+        getters.get_birthday_edit(update, context)   
+        print("User data regular", context.user_data)
+        
+        return CHOOSING
+
 
     if "Grupo de Risco" in text:
         user_data['edit_item'] = 'risk_group'
@@ -97,7 +101,7 @@ def received_information(update, context):
 
     text = update.message.text
     user_data['resp_item'] = text
-    del user_data['choice']
+    # del user_data['choice']
 
     requestEdit(update, context)
 
@@ -194,19 +198,22 @@ def requestEdit(update, context):
         user_data.update({'risk_group' : 'false'})
         # context.user_data['risk_group'] = user_data['risk_group'] 
 
-    # print("User data update", user_data.get('risk_group'))
+    print("User data request", user_data)
 
     if user_data.get('group_id') == 'Sim':
         user_data.update({'group_id' : 'true'})
 
     if user_data.get('group_id') == 'Não':
         user_data.update({'group_id' : 'false'})
+    print("\n \n Nascimento: ", str(user_data.get('birthdate')))
+    print("Nascimento: ", user_data.get('birthdate'))
+    print("Nascimento Nascimento: ", user_data.get('Nascimento'))
 
     #Json enviado a API do guardiões com informações
     #Retiradas da API do telegram
     json_entry = {
             "user_name": user_data.get('user_name'),
-            "birthdate": str(user_data.get('birthdate')),
+            "birthdate": str(user_data.get('Nascimento')),
             "country": user_data.get('country'),
             "gender": user_data.get('gender'),
             "race": user_data.get('race'),
@@ -224,9 +231,20 @@ def requestEdit(update, context):
     r = requests.patch("http://127.0.0.1:3001/users/" + str(user_data.get('id')) , json=json_entry, headers=headers)
 
     if r.status_code == 200: # Sucesso
-        update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
+        # update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
+        context.bot.send_message(   chat_id=update.effective_chat.id,
+                                text= "Você alterou a informação com sucesso, retornando ao menu de edição\n")
+        print("request acept")
+        print("User data request acept", user_data)
 
     else: #Falha
-        update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")  
+        # update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")  
+        
+        context.bot.send_message(   chat_id=update.effective_chat.id,
+                                text= "Algo deu errado com a edição, retornando ao menu de edição\n")
+
+        print("request fail")
+        print("User data request fail", user_data)
+        print("User data verif id acept")
 
          
