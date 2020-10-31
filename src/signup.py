@@ -71,7 +71,12 @@ def received_information(update, context):
     category = update_received_information(context, update)
     head = validation_management(context.user_data, category)
     footer = update_missing_info(context.user_data)
-    received_information_reply(update, context, head, footer)
+
+    feedback = head + "{}".format(utils.dict_to_str(context.user_data)) + footer
+    # Se as informações  estiverem completas, essa estrutura não é adicionada
+    if len(required_data) > 0:
+        feedback = feedback + "Ainda falta(m):\n{}".format(utils.set_to_str(required_data))
+    utils.received_information_reply(update, context, feedback)
 
     return CHOOSING
 
@@ -116,18 +121,6 @@ def update_missing_info(user_data):
         utils.undone_keyboard(user_data['Keyboard'])
 
     return "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
-
-
-def received_information_reply(update, context, head, footer):
-    markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
-
-    #Envia o feedback ao user
-    update.message.reply_text(head + "{}".format(utils.dict_to_str(context.user_data)) + footer, reply_markup=markup)
-
-    #Se as informações  estiverem completas, essa estrutura não é enviada
-    if len(required_data) > 0:
-        update.message.reply_text("Ainda falta(m):\n"
-                                  "{}".format(utils.set_to_str(required_data)))
 
 
 #Termina cadastro e envia ao servidor da API do guardiões

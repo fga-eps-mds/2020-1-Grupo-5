@@ -2,6 +2,7 @@ import json, requests
 from validate_email import validate_email
 from src import handlers
 from telegram.ext import ConversationHandler
+from telegram import ReplyKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
 
 def is_logged(user_data):
@@ -238,3 +239,10 @@ def unreceived_info(received_data, required_data, all_items):
     for item in all_items:
         if not item in received_data:
             required_data.add(item)
+
+
+def received_information_reply(update, context, feedback):
+    markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
+
+    #Envia o feedback ao user
+    update.message.reply_text(feedback, reply_markup=markup)
