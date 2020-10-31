@@ -52,53 +52,58 @@ def regular_choice(update, context):
 #Send current received information from user
 def received_information(update, context):
 
-    #Get data of user
-    user_data = context.user_data
-    text = update.message.text
+    category = update_received_information(context.user_data, update.message.text)
+    head = validation_management(context.user_data, category)
+    update_missing_info(context.user_data)
+    received_information_reply(update, context, head)
 
+    return CHOOSING
+
+
+def update_received_information(user_data, text):
     #Adciona a informação enviada pelo user à sua respectiva chave
     category = user_data['choice']
-    user_data[category] = text
-    
     del user_data['choice']
-       
+    user_data[category] = text
+
+    return category
+
+
+def validation_management(user_data, category):
     #Validação de dados
     validation = utils.validations_login(user_data)
 
     utils.update_check_mark(user_data['Keyboard'], category, validation)
 
-    if not validation:
-        head = "Entrada inválida, tem certeza que digitou corretamente?\n"
-
+    if validation:
+        return "Perfeito, entrada aceita\n"
     else:
-        head = "Perfeito, entrada aceita\n"
+        return "Entrada inválida, tem certeza que digitou corretamente?\n"
 
+
+def update_missing_info(user_data):
     #Estrutura que mostra informações que ainda faltam ser inseridas
     utils.update_required_data(user_data, required_data)
-
-    utils.unreceived_info(context.user_data, required_data, {'Email', 'Senha'})
+    utils.unreceived_info(user_data, required_data, {'Email', 'Senha'})
 
     #Caso todas informações tenham sido adcionadas, 
     if len(required_data) == 0:
-        utils.form_filled(context.user_data['Keyboard'])
+        utils.form_filled(user_data['Keyboard'])
+    elif ['Done'] in user_data['Keyboard']:
+        utils.undone_keyboard(user_data['Keyboard'])
 
-    else:
-        if ['Done'] in user_data['Keyboard']:
-            utils.undone_keyboard(context.user_data['Keyboard'])
 
-    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
+def received_information_reply(update, context, head):
+    markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
     #Envia o feedback ao user
-    update.message.reply_text(  head + 
-                                "{} Você pode me dizer os outros dados ou alterar os"
-                                " já inseridos.\n\n".format(utils.dict_to_str(user_data)), reply_markup=markup)
+    update.message.reply_text(head + "{} Você pode me dizer os outros dados ou alterar os já inseridos.\n\n".format(utils.dict_to_str(context.user_data)),
+                                reply_markup=markup)
 
     #Se as informações  estiverem completas, essa estrutura não é enviada
     if len(required_data) > 0:
         update.message.reply_text("Ainda falta(m):\n"
                                   "{}".format(utils.set_to_str(required_data)))
-
-    return CHOOSING
 
 
 #Termina o login e envia ao servidor da API do guardiões
