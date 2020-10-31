@@ -12,7 +12,8 @@ def is_logged(user_data):
 
     return False
 
-#Funcao que retorna uma string de um SET
+
+# Função que retorna uma string de um SET
 def set_to_str(data):
 
     remain_data = list()
@@ -23,7 +24,7 @@ def set_to_str(data):
     return "\n".join(remain_data).join(['\n', '\n'])    
 
 
-#Passa dict para string
+# Passa dict para string
 def dict_to_str(user_data):
     
     lst = list()
@@ -45,6 +46,7 @@ def cancel(update, context):
     handlers.menu(update, context)
     return ConversationHandler.END
 
+
 def bad_entry(update, context):
 
     context.bot.send_message(
@@ -57,12 +59,14 @@ def bad_entry(update, context):
 
     return ConversationHandler.END
 
+
 def validaNome(nome):
 
     if len(nome) >= 8:
         return True
 
     return False
+
 
 def validaSenha(senha):
 
@@ -71,12 +75,14 @@ def validaSenha(senha):
 
     return False
 
+
 def validaEmail(email):
 
     if validate_email(email):
         return True
 
     return False
+
 
 def validaGenero(genero):
 
@@ -85,12 +91,14 @@ def validaGenero(genero):
 
     return False
 
+
 def validaRaca(raca):
 
     if str(raca).lower() in ['branco', 'negro', 'pardo', 'indigena', 'amarelo', 'outro']:
         return True
 
     return False
+
 
 def validaTrabalho(trabalho):
 
@@ -111,6 +119,7 @@ def validations_login(user_data):
             return False
     
     return True
+
 
 def validations_signup(user_data):
     
@@ -156,7 +165,7 @@ def image(entradaTexto):
     # Organiza o texto a ser printado
     printText = geraString(entradaTexto)
 
-    # Posiçaõ inicial do texto na imagem
+    # Posição inicial do texto na imagem
     d.text((10,30), str(printText), font=fnt, fill=(0,0,0,255))
     out = Image.alpha_composite(base, txt)
     out.save("general/images/robo_save.png")
@@ -166,9 +175,9 @@ def image(entradaTexto):
 
 def geraString(text):
 
-    texto = "Atualmente essas são suas informações: " + "\n" 
+    texto = "Atualmente essas são as suas informações: " + "\n"
 
-        #De acordo com a escolha, chama uma função
+    # De acordo com a escolha chama uma função
     if "user_name" in text:
         texto =  texto  + "\n" + 'Username' + ": " + str(text['user_name'])
 
@@ -223,18 +232,18 @@ def update_required_data(received_data, required_data):
             required_data.remove(key)
 
 
-# Função que adciona done ao terminar de adcionar todas informações
+# Função que adiciona done ao terminar de adicionar todas as informações
 def form_filled(keyboard):
     if not ['Done'] in keyboard:
         keyboard.append(['Done'])
 
 
-#Caso a pessoa tenha adcionado todas as informações e depois adcionou uma inválida novamente, ele retira o botão de done
+# Caso a pessoa tenha adicionado todas as informações e depois adicionou uma inválida novamente, ele retira o botão de done
 def undone_keyboard(keyboard):
     keyboard.remove(['Done'])
 
 
-# Atualiza as informações que estão faltand
+# Atualiza as informações que estão faltando
 def unreceived_info(received_data, required_data, all_items):
     for item in all_items:
         if not item in received_data:
@@ -244,5 +253,5 @@ def unreceived_info(received_data, required_data, all_items):
 def received_information_reply(update, context, feedback):
     markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
-    #Envia o feedback ao user
+    # Envia o feedback ao user
     update.message.reply_text(feedback, reply_markup=markup)
