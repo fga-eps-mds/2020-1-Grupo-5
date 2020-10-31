@@ -68,64 +68,67 @@ def regular_choice(update, context):
 #Send current received information from user
 def received_information(update, context):
     
-    #Get data of user
-    user_data = context.user_data
-    text = update.message.text
+    category = update_received_information(context, update)
+    head = validation_management(context.user_data, category)
+    footer = update_missing_info(context.user_data)
+    received_information_reply(update, context, head, footer)
 
-    category = user_data['choice']
-    
-    if not "Localização" in category:
-        user_data[category] = text
-    
-    else:
+    return CHOOSING
+
+
+def update_received_information(context, update):
+    #Adciona a informação enviada pelo user à sua respectiva chave
+    category = context.user_data['choice']
+    del context.user_data['choice']
+
+    if 'Localização' in category:
         location.reverseGeo(update.message.location, context)
-    
-    del user_data['choice']
+    else:
+        context.user_data[category] = update.message.text
 
-    #Valida os dados inseridos
+    return category
+
+
+def validation_management(user_data, category):
+    #Validação de dados
     validation = utils.validations_signup(user_data)
 
     utils.update_check_mark(user_data['Keyboard'], category, validation)
 
-    #Estrutura que mostra informações que ainda faltam ser inseridas
+    # Se a ultima entrada não for valida, enviamos mensagem de entrada invalida
+    if validation:
+        return "Perfeito, ja temos esses dados:\n"
+    else:
+        return "Entrada inválida. Tem certeza que seguiu o formato necessário?\n"
+
+
+def update_missing_info(user_data):
+    # Estrutura que mostra informações que ainda faltam ser inseridas
     utils.update_required_data(user_data, required_data)
 
-    #Se a ultima entrada não for valida, enviamos mensagem de entrada
-    #Invalida
-    if not validation:
-        head = "Entrada inválida. Tem certeza que seguiu o formato necessário?\n"
-
-    else:
-        head = "Perfeito, ja temos esses dados:\n"
-
-    utils.unreceived_info(context.user_data, required_data, ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual"))
+    utils.unreceived_info(user_data, required_data, ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual"))
     
+    if len(required_data) == 0:
+        utils.form_filled(user_data['Keyboard'])
+        return "\n\nAgora que adcionou todos os dados, pode editar os inseridos ou clicar em Done para enviar o formulário!\n"
+    
+    if ['Done'] in user_data['Keyboard']:
+        utils.undone_keyboard(user_data['Keyboard'])
+
+    return "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
 
 
-    if len(required_data) > 0:
-        footer = "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
+def received_information_reply(update, context, head, footer):
+    markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
-        if ['Done'] in user_data['Keyboard']:
-            utils.undone_keyboard(context.user_data['Keyboard'])
-
-    else:
-
-        footer = "\n\nAgora que adcionou todos os dados, pode editar os inseridos ou clicar em Done para enviar o formulário!\n"
-        utils.form_filled(context.user_data['Keyboard'])
-
-    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
     #Envia o feedback ao user
-    update.message.reply_text(head +
-                            "{}".format(utils.dict_to_str(user_data))
-                            + footer, reply_markup=markup)
+    update.message.reply_text(head + "{}".format(utils.dict_to_str(context.user_data)) + footer, reply_markup=markup)
 
     #Se as informações  estiverem completas, essa estrutura não é enviada
     if len(required_data) > 0:
         update.message.reply_text("Ainda falta(m):\n"
                                   "{}".format(utils.set_to_str(required_data)))
 
-    return CHOOSING
-    
 
 #Termina cadastro e envia ao servidor da API do guardiões
 def done(update, context):
