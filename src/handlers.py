@@ -1,7 +1,7 @@
-from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode
+from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode, InlineKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils, perfil, tips
+from src import signup, login, Bot, utils, perfil, tips, bad_report
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
@@ -68,26 +68,12 @@ def get_user_info(update, context):
         utils.image(resposta)
         path = 'general/images/robo_save.png'
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
-
-        # user_data = context.user_data
-        # resposta = (f"Username - {user_data['user_name']}\n"
-        # f"Email - {user_data['email']}\n"  
-        # f"País - {user_data['country']}\n"  
-        # f"Estado - {user_data['state']}\n"
-        # f"Cidade - {user_data['city']}\n"
-        # f"Gênero sexual - {user_data['gender']}\n"
-        # f"Raça - {user_data['race']}\n"
-        # f"Aniversário - {user_data['birthdate']}\n") 
-        # context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
-
     else:
         unknown(update, context)
 
 
 def edit_user_info(update, context):
     if utils.is_logged(context.user_data):
-        user_data = context.user_data
-
         resposta = context.user_data
         perfil.requestEdit(update, resposta)        
 
@@ -166,6 +152,17 @@ def login_handler():
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
             )
+
+def bad_report_handler():
+    return ConversationHandler(
+        entry_points=[CallbackQueryHandler(bad_report.start, pattern='^bad_report$')],
+        states={
+            bad_report.CHOOSING: [MessageHandler(Filters.regex('Febre|Falta de Ar|Dor de Cabeça|Alteração de Paladar e Olfato|Bolhas na Pele|Calafrios|Cansaço|Coceira|Congestão Nasal|Dor de Garganta|Dor nos Músculos|Dor nos olhos|Tosse|Mal-estar|Náuse ou Vômito$'), bad_report.regular_choice)]
+        },
+        fallbacks=[MessageHandler(Filters.regex('^Done'), bad_report.done),
+        MessageHandler(Filters.regex('^Voltar$'), bad_report.cancel),
+        MessageHandler(Filters.all & ~ Filters.regex('^Voltar|Done$'), bad_report.bad_entry)]
+    )
 
 #Login de usuario
 def perfil_handler():
@@ -254,3 +251,50 @@ def unknown(update, context):
         text=resposta,
     )
     menu(update, context)
+
+
+def daily_report(update, context):
+    if utils.is_logged(context.user_data):
+        
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Ativado notificações diárias")
+        
+        day_in_sec = 60# Dia em segundos
+        
+        context.job_queue.run_repeating(notify_assignees, day_in_sec, context=update.message.chat_id)
+    
+    else:
+        unknown(update, context)
+
+
+def cancel_daily(update, context):
+    if utils.is_logged(context.user_data):
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Notificações diárias desativadas"
+        )
+
+        context.job_queue.stop()
+    else:
+        unknown(update, context)
+
+
+def notify_assignees(context):
+
+    sim = InlineKeyboardButton(text="Sim",callback_data='bad_report')
+    nao = InlineKeyboardButton(text="Não", callback_data='good_report')
+
+    chat_id=context.job.context
+
+    # Mensagem teste
+    context.bot.send_message(
+        chat_id=chat_id,
+        text="Sentiu sintomas hoje?",
+        reply_markup=InlineKeyboardMarkup([[sim, nao]], 
+                                        resize_keyboard=True)
+    )
+    
+def good_report(update, context):
+    
+    update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")

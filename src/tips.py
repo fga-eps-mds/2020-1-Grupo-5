@@ -2,6 +2,7 @@ from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMa
 
 ENTRY_REGEX = '^(O que é|Prevenção|Sintomas|Transmissão|Suspeita|Fake news|Telefones|Locais|Fontes)$'
 CHOOSING = 0
+
 reply_keyboard = [['O que é', 'Prevenção'],
                     ['Sintomas', 'Transmissão'],
                     ['Suspeita', 'Fake news'],
@@ -19,7 +20,6 @@ def defaultReply(update, context):
         "Escolha uma das opções abaixo e veja as informações que reuni para você!",
         reply_markup=markup
     )
-
 
 def regular_choice(update, context):
 	text = update.message.text
