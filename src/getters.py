@@ -113,5 +113,14 @@ def get_location(update, context):
         text='Clique no botão para enviar sua localização', 
         reply_markup=location_markup
     )
+    return CHOOSING
+    
+#Funcao que recebe se o usuario eh do grupo de risco ou n
+def get_Risco(update, context):
+    text = update.message.text
+    context.user_data['choice'] = text
+    update.message.reply_text(
+        'Você é do Grupo de Risco?', reply_markup=yes_no_markup
+    )
 
     return CHOOSING

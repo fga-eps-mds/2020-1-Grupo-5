@@ -2,10 +2,13 @@ from telegram import Bot,Update
 from telegram.ext import CommandHandler, CallbackContext, Dispatcher, Filters, CallbackQueryHandler,MessageHandler, Updater, ConversationHandler
 from src import handlers, signup
 import pathlib
-
+import re
+import time
 
 SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
+PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|Trabalho|Mostrar informações|Voltar)$'
+regex_time = r"[1][0]:[3][6]:[0][0]"
 
 class Bot:
 
@@ -34,13 +37,23 @@ class Bot:
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
+            # dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
+
+            # Handler para mostrar informações do usuário
+            # dispatcher.add_handler(MessageHandler(Filters.text("Editar informações"), handlers.edit_user_info)) 
             
             # Estrutura para registros
             dispatcher.add_handler(handlers.signup_handler())
             
             # Estrutura para login
             dispatcher.add_handler(handlers.login_handler())
+
+            # Estrutura para dicas
+            dispatcher.add_handler(handlers.tips_handler())
             
+            # Estrutura para mostrar o perfil/editar perfil
+            dispatcher.add_handler(handlers.perfil_handler())
+
             # Função de logout
             dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))
 
@@ -52,7 +65,7 @@ class Bot:
 
             # Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
             dispatcher.add_handler(MessageHandler(Filters.all , handlers.unknown)) 
-
+           
         except Exception as e:
             print(e)
             print("Token não encontrado, alguns motivos:\n"

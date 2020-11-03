@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils
+from src import signup, login, Bot, utils, perfil, tips
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
@@ -12,14 +12,14 @@ import time
 def start(update, context):
 
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Sobre'],
+        reply_keyboard = [['Minhas informações','Meu perfil'],
                           ['Sobre','Logout'],
                           ['Ajuda']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-                      ['Ajuda']]
+                      ['Ajuda', 'Dicas']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -30,16 +30,24 @@ def start(update, context):
         chat_id=update.effective_chat.id, text=resposta, reply_markup=markup
     )
 
+    link = "https://scontent-gig2-1.xx.fbcdn.net/v/t1.0-9/103274216_112293347182974_7934951402525681679_o.png?_nc_cat=101&ccb=2&_nc_sid=85a577&_nc_ohc=DfmCZ9ndG5cAX-Mq4qP&_nc_ht=scontent-gig2-1.xx&oh=0566da2b649761aa3348d1f8c89c640a&oe=5FBA8F35"
+    # context.bot.send_photo(chat_id=chat_id, photo=open('tests/test.png', 'rb'))
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=link)
+
+
+
+
+
 def menu(update, context):
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Sobre'],
+        reply_keyboard = [['Minhas informações','Editar perfil'],
                           ['Sobre','Logout'],
 						  ['Ajuda']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-						 ['Ajuda']]
+						 ['Ajuda', 'Dicas']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
@@ -52,22 +60,43 @@ def menu(update, context):
 
 
 
+#Retorna as informações dos usuarios
 def get_user_info(update, context):
+
     if utils.is_logged(context.user_data):
-        user_data = context.user_data
-        resposta = (f"Username - {user_data['user_name']}\n"
-        f"Email - {user_data['email']}\n"  
-        f"País - {user_data['country']}\n"  
-        f"Estado - {user_data['state']}\n"
-        f"Cidade - {user_data['city']}\n"
-        f"Gênero sexual - {user_data['gender']}\n"
-        f"Raça - {user_data['race']}\n"
-        f"Aniversário - {user_data['birthdate']}\n") 
-        
-        context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
+        resposta = context.user_data
+        utils.image(resposta)
+        path = 'general/images/robo_save.png'
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
+
+        # user_data = context.user_data
+        # resposta = (f"Username - {user_data['user_name']}\n"
+        # f"Email - {user_data['email']}\n"  
+        # f"País - {user_data['country']}\n"  
+        # f"Estado - {user_data['state']}\n"
+        # f"Cidade - {user_data['city']}\n"
+        # f"Gênero sexual - {user_data['gender']}\n"
+        # f"Raça - {user_data['race']}\n"
+        # f"Aniversário - {user_data['birthdate']}\n") 
+        # context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
 
     else:
         unknown(update, context)
+
+
+def edit_user_info(update, context):
+    if utils.is_logged(context.user_data):
+        user_data = context.user_data
+
+        resposta = context.user_data
+        perfil.requestEdit(update, resposta)        
+
+
+    else:
+        unknown(update, context)
+
+
+
 
 
 #Cadastra novo user
@@ -122,6 +151,7 @@ def logout(update, context):
 
 #Login de usuario
 def login_handler():
+
     return ConversationHandler(
             entry_points=[MessageHandler(Filters.text("Login"), login.start)],
             states={
@@ -135,6 +165,23 @@ def login_handler():
             fallbacks=[MessageHandler(Filters.regex('^Done$'), login.done),
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
+            )
+
+#Login de usuario
+def perfil_handler():
+    return ConversationHandler(
+            entry_points=[MessageHandler(Filters.text("Editar perfil"), perfil.start)],
+            states={
+                perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER),
+                                        perfil.regular_choice)
+                        ],
+                perfil.TYPING_REPLY: [
+                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
+                                perfil.received_information)],
+            },
+            fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
+            MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry)]
             )
 
 #Envia informaçoes sobre o bot
@@ -153,6 +200,7 @@ def ajuda(update, context):
 				'- <b><i>Login</i></b>: Entre em sua conta. Caso você ainda não possua uma, use a função de cadastro.\n\n'
 				'- <b><i>Logout</i></b>: Saia de sua conta. Você poderá entrar novamente quando quiser.\n\n'
 				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
+				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos\n\n' 
  				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
 	)
     context.bot.send_message(
@@ -178,6 +226,16 @@ def ajuda(update, context):
         text=resposta,
 		parse_mode=ParseMode.HTML,
 		disable_web_page_preview = True
+    )
+
+def tips_handler():
+    return ConversationHandler(
+        entry_points=[MessageHandler(Filters.text("Dicas"), tips.start)],
+        states={
+            tips.CHOOSING: [MessageHandler(Filters.regex(tips.ENTRY_REGEX), tips.regular_choice)]
+        },
+        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
+                    MessageHandler(Filters.all, utils.bad_entry)]
     )
     
 def finalizar(update, context):
