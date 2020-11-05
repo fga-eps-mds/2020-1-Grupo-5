@@ -60,7 +60,7 @@ Data|Versão|Descrição|Autor
 
 <p align = "center"> &emsp;&emsp; <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Google_Drive_logo.png/250px-Google_Drive_logo.png" width="200" height="200"/> </p>
 
-## 3. <a name="1_1">Estratégias de Comunicação</a>
+## 3. Estratégias de Comunicação
 
 ### 3.1. <a name="1_1">Comunicação Interna</a>
 
