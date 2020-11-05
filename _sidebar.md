@@ -20,3 +20,4 @@
     - [Sprint 7](docs/sprints/sprint7.md)
     - [Sprint 8](docs/sprints/sprint8.md)
     - [Sprint 9](docs/sprints/sprint9.md)
+- [Ajuda](docs/Ajuda.md)

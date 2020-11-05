@@ -27,7 +27,7 @@ Saia da conta logada no dispositivo. Você poderá fazer *login* novamente quand
 Informe seu estado de saúde, utilizado para mapeamento de saúde. É recomendado uso diário.
 ### 5. Dicas
 Veja dicas e informações úteis para cuidar da saúde.
-#### Tópicos
+#### Tópicos:
 - O que é - O que é a COVID-19
 - Prevenção - Como se prevenir de doenças
 - Sintomas - Sintomas da COVID-19
@@ -39,4 +39,4 @@ Veja dicas e informações úteis para cuidar da saúde.
 - Fontes - Links para as fontes utilizadas
 ### 6. Alterar informações pessoais
 Altere alguma informação da sua conta
-
+	
