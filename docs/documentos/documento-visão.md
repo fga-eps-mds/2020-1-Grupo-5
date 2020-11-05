@@ -69,16 +69,16 @@ O aplicativo Guardiões da Saúde é de extrema importância para obter informa�
 ## **3. Descrições da Parte Interessada e do Usuário**
 
 Nome|Descrição|Responsabilidade
-|:--:|:--:|:--:|
-| Equipe de Desenvolvimento | Estudantes da disciplina Métodos de Desenvolvimento de <i>Software</i> da Universidade de Brasília Campus Gama | Desenvolvimento, documentação, implementação e testes do <i>software</i> solicitado. |
-| Professor e Professora | Professor da disciplina de Métodos de Desenvolvimento de <i>Software</i> e a professora da disciplina de Engenharia de Produto de <i>Software</i>, ambos da Universidade de Brasília Campus Gama | Avaliar e orientar os estudantes de ambas as disciplinas respectivamente. |
+:--:|:--:|:--:
+Equipe de Desenvolvimento | Estudantes da disciplina Métodos de Desenvolvimento de <i>Software</i> da Universidade de Brasília Campus Gama | Desenvolvimento, documentação, implementação e testes do <i>software</i> solicitado.
+Professor e Professora | Professor da disciplina de Métodos de Desenvolvimento de <i>Software</i> e a professora da disciplina de Engenharia de Produto de <i>Software</i>, ambos da Universidade de Brasília Campus Gama | Avaliar e orientar os estudantes de ambas as disciplinas respectivamente.
 
 
 ### 3.1 Resumo dos Usuários
 
 Nome|Descrição
-|:-:|:-:|
-| Monitorado | Usuário que está tendo a saúde monitorada continuamente. |
+:-:|:-:
+Monitorado | Usuário que está tendo a saúde monitorada continuamente.
 
 ### 3.2 Ambiente do Usuário
 
@@ -89,33 +89,33 @@ A aplicação será utilizada no mensageiro <i>Telegram</i>, que atende as plata
 #### 3.3.1 Equipe de Desenvolvimento
 
 Representante|Gabriel Batalha, João Alves, João Pedro, Kevin, Lucas, Marcos Adriano.
-|:-:|:-:|
-|**Descrição**|Desenvolvedores.|
-|**Tipo**|Estudantes da Universidade de Brasília, cursando a disciplina de Métodos de Desenvolvimento de Software.|
-|**Responsabilidade**|Desenvolvimento, Testes, Documentação e Implementação do <i>software</i>.|
-|**Critérios de Sucesso**|Finalizar o desenvolvimento e realizar a entrega do <i>software</i> dentro dos prazos.|
-|**Envolvimento**|Alto.|
-|**Problemas/Comentários**|Alguns integrantes da equipe são inexperientes nas linguagens de programação utilizadas no desenvolvimento, no padrão arquitetural e nas metodologias de desenvolvimento.|
+:-:|:-:
+**Descrição**|Desenvolvedores.
+**Tipo**|Estudantes da Universidade de Brasília, cursando a disciplina de Métodos de Desenvolvimento de Software.
+**Responsabilidade**|Desenvolvimento, Testes, Documentação e Implementação do <i>software</i>.
+**Critérios de Sucesso**|Finalizar o desenvolvimento e realizar a entrega do <i>software</i> dentro dos prazos.
+**Envolvimento**|Alto.
+**Problemas/Comentários**|Alguns integrantes da equipe são inexperientes nas linguagens de programação utilizadas no desenvolvimento, no padrão arquitetural e nas metodologias de desenvolvimento.
 
 
 ### 3.4 Perfis dos Usuários
 
 #### 3.4.1 Monitorado
 Representante|Monitorado
-|:-:|:-:|
-|**Descrição**|Monitoramento da saúde de pessoas, sobretudo durante a pandemia.|
-|**Tipo**|Monitorado.|
-|**Responsabilidade**| Utilizar o aparelho para o propósito.|
-|**Critérios de Sucesso**| Permanência da saúde.|
-|**Envolvimento**|Médio.|
-|**Problemas/Comentários**| - |
+:-:|:-
+**Descrição**|Monitoramento da saúde de pessoas, sobretudo durante a pandemia.
+**Tipo**|Monitorado.
+**Responsabilidade**| Utilizar o aparelho para o propósito.
+**Critérios de Sucesso**| Permanência da saúde.
+**Envolvimento**|Médio.
+**Problemas/Comentários**| - 
 
 
 ### 3.5 Principais Necessidades dos Usuários ou dos Envolvidos
 
 Necessidade|Prioridade|Interesse|Solução Atual|Solução Proposta
-|:-:|:-:|:-:|:-:|:-:|
-|Auxiliar na manutenção da saúde do usuário.|Alta|Tornar a manutenção da saúde mais fácil e dinâmica.|Monitoramento contínuo.|Aplicação que, por meio de um mensageiro, fará o report diário da saúde do usuário.|
+:-:|:-:|:-:|:-:|:-:
+Auxiliar na manutenção da saúde do usuário.|Alta|Tornar a manutenção da saúde mais fácil e dinâmica.|Monitoramento contínuo.|Aplicação que, por meio de um mensageiro, fará o report diário da saúde do usuário.
 
 ### 3.6 Alternativas e Concorrência
 
