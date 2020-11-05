@@ -2,7 +2,7 @@
 - [**Documentos**](#)
     - [Canvas](docs/documentos/canvas.md)
     - [Backlog](docs/documentos/backlog.md)
-    - [Plano de comunicação](docs/documentos/plano-comunicação.md)
+    - [Plano de comunicação](docs/documentos/plano-comunicacao.md)
     - [Riscos](docs/documentos/riscos.md)    
     - [Documento de arquitetura](docs/documentos/documento-arquitetura.md)
     - [Documento de visão](docs/documentos/documento-visão.md)    
