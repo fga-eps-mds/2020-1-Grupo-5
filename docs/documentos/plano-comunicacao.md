@@ -4,12 +4,12 @@ Data|Versão|Descrição|Autor
 -|-|-|-
 27/08|0.0.1|Criação do Documento| Marcos Adriano|
 
-## 1. <a name="1_1">Objetivo</a>
+## 1. Objetivo
 
  <p align = "justify"> &emsp;&emsp; Este documento tem como objetivo evidenciar a comunicação interna da equipe e as ferramentas utilizadas para obtenção da mesma. As ferramentas utilizadas tem principal função de facilitar a comunicação e que torne eficiente as soluções das dúvidas referentes ao andamento do projeto.
 
 
-## 2. <a name="1_1">Ferramentas</a>
+## 2. Ferramentas
 
 #### WhatsApp
 
