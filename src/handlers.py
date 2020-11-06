@@ -131,6 +131,9 @@ def logout(update, context):
         )
 
         menu(update,context)
+
+        cancel_daily(update, context)
+
     else:
         #Caso não esteja logado, não entra na função de logout
         unknown(update, context)
@@ -153,11 +156,18 @@ def login_handler():
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
             )
 
+def return_regex(sintomas):
+    reg = str()
+    for sintoma in sintomas:
+        reg = reg + sintoma
+
+    return reg
+
 def bad_report_handler():
     return ConversationHandler(
         entry_points=[CallbackQueryHandler(bad_report.start, pattern='^bad_report$')],
         states={
-            bad_report.CHOOSING: [MessageHandler(Filters.regex('Febre|Falta de Ar|Dor de Cabeça|Alteração de Paladar e Olfato|Bolhas na Pele|Calafrios|Cansaço|Coceira|Congestão Nasal|Dor de Garganta|Dor nos Músculos|Dor nos olhos|Tosse|Mal-estar|Náuse ou Vômito$'), bad_report.regular_choice)]
+            bad_report.CHOOSING: [MessageHandler(Filters.regex('^Dor de Cabeça$') | Filters.location, bad_report.regular_choice)]
         },
         fallbacks=[MessageHandler(Filters.regex('^Done'), bad_report.done),
         MessageHandler(Filters.regex('^Voltar$'), bad_report.cancel),
@@ -260,7 +270,7 @@ def daily_report(update, context):
             chat_id=update.effective_chat.id,
             text="Ativado notificações diárias")
         
-        day_in_sec = 60# Dia em segundos
+        day_in_sec = 30# Dia em segundos
         
         context.job_queue.run_repeating(notify_assignees, day_in_sec, context=update.message.chat_id)
     
@@ -278,7 +288,6 @@ def cancel_daily(update, context):
         context.job_queue.stop()
     else:
         unknown(update, context)
-
 
 def notify_assignees(context):
 

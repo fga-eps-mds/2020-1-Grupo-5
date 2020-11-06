@@ -1,7 +1,7 @@
 import requests, json
 from telegram import ReplyKeyboardMarkup, KeyboardButton, Update, Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, Dispatcher
-from src import utils, handlers, getters
+from src import utils, handlers, getters, bad_report
 
 
 # Estados
@@ -129,7 +129,7 @@ def request_login(update, context):
 
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
 
-
+    
     # Faz a tentativa de cadastro utilizando o json e os headers inseridos
     r = requests.post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
     
@@ -145,7 +145,7 @@ def request_login(update, context):
         del context.user_data['app']
         # Token de autorização de sessão
         context.user_data['AUTH_TOKEN'] = r.headers['Authorization']
-
+     
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=f"{context.user_data['user_name']} seja bem vindo(a) ao DoctorS Bot, o chatbot integrado ao Guardiões da Saúde."

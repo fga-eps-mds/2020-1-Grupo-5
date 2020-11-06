@@ -1,22 +1,29 @@
 from telegram import ReplyKeyboardMarkup
+import requests
+import json
+from src import getters
 
-CHOOSING = 0
+CHOOSING, SEND_LOC = range(2)
 
-sintomas = ['Febre', 'Falta de ar', 'Dor de cabeça', 'Alteração de Paladar e Olfato', 'Bolhas na Pele',
-'Calafrios', 'Cansaço', 'Coceira', 'Congestão Nasal','Dor de Garganta', 'Dor nos Músculos','Dor nos olhos',
-'Tosse', 'Mal-estar', 'Náuse ou Vômito']
+sintomas = ["Dor de Cabeça"]
 
-markup = ReplyKeyboardMarkup([['Febre', 'Falta de Ar', 'Dor de Cabeça'],
-                              ['Alteração de Paladar e Olfato', 'Bolhas na Pele'],
-                               ['Calafrios', 'Cansaço', 'Coceira'],
-                               ['Congestão Nasal','Dor de Garganta'],
-                               ['Dor nos Músculos','Dor nos olhos'],
-                               ['Tosse', 'Mal-estar', 'Náuse ou Vômito'],
+def get_symptoms(update, context):
+    headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
+
+    r = requests.get(url="http://localhost:3001/symptoms", headers=headers)
+
+    symptoms = json.loads(r.content)['symptoms']
+    
+    for symptom in symptoms:
+        sintomas.append(symptom)
+
+markup = ReplyKeyboardMarkup([['Dor de Cabeça'],
                                ['Done']],
         resize_keyboard=True,
         one_time_keyboard=True)
 
 def start(update, context):
+    context.user_data['Symptoms'] = list()
 
     update.callback_query.edit_message_text(
         "Obrigado por nos informar!"
@@ -30,22 +37,23 @@ def start(update, context):
 
     return CHOOSING
 
+def get_loc(update, context):
+    getters.get_location(update, context)
+
+    return CHOOSING
+
 
 def regular_choice(update, context):
-    actual_symptoms = list()
 
-    if context.user_data.get('Symptoms'):
-        print(context.user_data.get('Symptoms'))
-        actual_symptoms = list(context.user_data['Symptoms'])
-    
-    if(update.message.text in sintomas):
-        if actual_symptoms:
-            actual_symptoms.append(update.message.text)
-            context.user_data['Symptoms'] = actual_symptoms
 
-        else:
-            context.user_data['Symptoms'] = update.message.text  
+    if update.message.text:
+        context.user_data['Symptoms'].append(update.message.text)
 
+
+    else:
+        local = update.message.location
+        context.user_data['latitude'] = local.latitude
+        context.user_data['longitude'] = local.longitude
     
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -55,8 +63,29 @@ def regular_choice(update, context):
 
     return CHOOSING
 
+
 def done(update, context):
-    print("Done")   
+
+
+    headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
+
+    json_entry = {
+        "survey" : {
+                "latitute" : context.user_data['latitude'],
+                "longitude": context.user_data['longitude'],
+                "symptom": context.user_data['Symptoms']
+        }
+    }
+
+    url = f"http://localhost:3001/users/{context.user_data['id']}/surveys"
+
+    req = requests.post(headers=headers, json=json_entry, url=url)
+
+    if req.status_code == 200:
+        print('Bad report feito')
+
+    else:
+        print(req)
 
     return -1 # END
 
