@@ -24,5 +24,34 @@ class UtilsTests(unittest.TestCase):
         self.assertFalse(['Username✅', 'Email'] in keyboard)
 
 
+    def test_update_required_data(self):
+        received_data = set(['Username', 'Email', 'Senha', 'Trabalho'])
+        required_data = {'Email', 'Raça', 'Genero sexual', 'Localização'}
+        utils.update_required_data(received_data, required_data)
+        self.assertFalse('Email' in required_data)
+
+
+    def test_form_filled(self):
+        keyboard = [['Email', 'Senha'],
+                    ['Cancelar']]
+        utils.form_filled(keyboard)
+        self.assertTrue(['Done'] in keyboard)
+
+
+    def test_undone_keyboard(self):
+        keyboard = [['Email', 'Senha'],
+                    ['Cancelar'],
+                    ['Done']]
+        utils.undone_keyboard(keyboard)
+        self.assertFalse(['Done'] in keyboard)
+
+
+    def test_unreceived_info(self):
+        received_data = set(['Username', 'Email', 'Senha'])
+        required_data = {'Raça', 'Genero sexual'}
+        utils.unreceived_info(received_data, required_data, ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual"))
+        self.assertTrue('Trabalho' in required_data)
+
+
 if __name__ == '__main__':
     unittest.main()
