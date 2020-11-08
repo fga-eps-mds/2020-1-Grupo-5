@@ -2,6 +2,63 @@ import unittest
 from src import utils
 
 class UtilsTests(unittest.TestCase):
+	def test_validaNome(self):
+		nome = 'Menor'
+		self.assertFalse(utils.validaNome(nome))
+		nome = 'Igual---'
+		self.assertTrue(utils.validaNome(nome))
+		nome = 'Maior----'
+		self.assertTrue(utils.validaNome(nome))
+
+	# Exatamente igual a validaNome
+	def test_validaSenha(self):
+		senha = 'Menor'
+		self.assertFalse(utils.validaSenha(senha))
+		senha = 'Igual---'
+		self.assertTrue(utils.validaSenha(senha))
+		senha = 'Maior----'
+		self.assertTrue(utils.validaSenha(senha))
+
+	def test_validaEmail(self):
+		email = 'invalido'
+		self.assertFalse(utils.validaEmail(email))
+		email = 'valido@gmail.com'
+		self.assertTrue(utils.validaEmail(email))
+	
+	def test_validaGenero(self):
+		# Certo
+		genero = 'outro'
+		self.assertTrue(utils.validaGenero(genero))
+		# Certo maiúsculo
+		genero = 'Outro'
+		self.assertTrue(utils.validaGenero(genero))
+		# Errado
+		genero = 'errado'
+		self.assertFalse(utils.validaGenero(genero))
+
+	def test_validaRaca(self):
+		# Certo 
+		raca = 'branco'
+		self.assertTrue(utils.validaRaca(raca))
+		# Certo maiúsculo
+		raca = 'Negro'
+		self.assertTrue(utils.validaRaca(raca))
+		# Errado
+		raca = 'errado'
+		self.assertFalse(utils.validaRaca(raca))
+
+		
+	def test_validaTrabalho(self):
+		# Certo 
+		trabalho = 'não'
+		self.assertTrue(utils.validaTrabalho(trabalho))
+		# Certo maiúsculo
+		trabalho = 'Sim'
+		self.assertTrue(utils.validaTrabalho(trabalho))
+		# Errado
+		trabalho = 'errado'
+		self.assertFalse(utils.validaTrabalho(trabalho))
+
 	def test_geraString(self):
 		text = {"user_name" : 'User', "gender" : 'Gender'}
 		# Certo
