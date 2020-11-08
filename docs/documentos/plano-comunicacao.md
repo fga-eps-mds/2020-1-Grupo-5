@@ -66,6 +66,6 @@ Data|Versão|Descrição|Autor
 
 <p align = "justify"> &emsp;&emsp; A comunicação interna entre os time, ocorrerá por meio das ferramentas descritas acima. Os times terão reuniões semanalmente. Essas reuniões são fixas e ocorrerão toda terça, com horário de início definido às 16:00 e horário de término previsto até às 18:00. Caso tenha necessidade de uma reunião para a discussão ou resolução de problemas urgentes, a reunião poderá acontecer qualquer dia da semana de forma que maior quantidade de membros possam estar presentes.
 
-### 3.1. <a name="1_1">Comunicação Externa</a>
+### 3.2. <a name="1_1">Comunicação Externa</a>
 
 <p align = "justify"> &emsp;&emsp; No caso do projeto, não há um cliente real. Porém esclarecimentos são realizados por meio da comunicação com a professora Carla no apoio ao desenvolvimento do projeto pela ferramenta telegram ou por reuniões semanais que acontecem geralmente ao término das aulas das disciplinas.
