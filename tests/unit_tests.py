@@ -2,6 +2,29 @@ import unittest
 from src import utils
 
 class UtilsTests(unittest.TestCase):
+
+	def test_is_logged(self):
+		user_data = {}
+		self.assertFalse(utils.is_logged(user_data))
+
+		user_data = {'AUTH_TOKEN': 'GENERIC'}
+		self.assertTrue(utils.is_logged(user_data))
+
+	def test_set_to_str(self):
+		required_data = set(['Username', 'Senha', 'Raça', 'Trabalho'])
+		result = utils.set_to_str(required_data)
+		self.assertIn('Username', result)
+		self.assertIn('Senha', result)
+		self.assertIn('Raça', result)
+		self.assertIn('Trabalho', result)
+
+	def test_dict_to_str(self):
+		user_data = {'Username': 'User Teste', 'Senha': 'Senha12345', 'Trabalho': 'Não'}
+		result = utils.dict_to_str(user_data)
+		self.assertIn('Username - User Teste', result)
+		self.assertIn('Senha - Senha12345', result)
+		self.assertIn('Trabalho - Não', result)
+
 	def test_validaNome(self):
 		nome = 'Menor'
 		self.assertFalse(utils.validaNome(nome))
