@@ -33,7 +33,6 @@ class UtilsTests(unittest.TestCase):
 		nome = 'Maior----'
 		self.assertTrue(utils.validaNome(nome))
 
-	# Exatamente igual a validaNome
 	def test_validaSenha(self):
 		senha = 'Menor'
 		self.assertFalse(utils.validaSenha(senha))
@@ -49,13 +48,10 @@ class UtilsTests(unittest.TestCase):
 		self.assertTrue(utils.validaEmail(email))
 	
 	def test_validaGenero(self):
-		# Certo
 		genero = 'outro'
 		self.assertTrue(utils.validaGenero(genero))
-		# Certo maiúsculo
 		genero = 'Outro'
 		self.assertTrue(utils.validaGenero(genero))
-		# Errado
 		genero = 'errado'
 		self.assertFalse(utils.validaGenero(genero))
 
@@ -81,6 +77,64 @@ class UtilsTests(unittest.TestCase):
 		# Errado
 		trabalho = 'errado'
 		self.assertFalse(utils.validaTrabalho(trabalho))
+
+	def test_validations_login(self):
+		data = {"Email": "valido@gmail.com"}
+		self.assertTrue(utils.validations_login(data))
+
+		data = {"Email": "valido@gmail.com", "Senha": "valida--"}
+		self.assertTrue(utils.validations_login(data))
+
+		data = {"Email": "invalido"}
+		self.assertFalse(utils.validations_login(data))
+
+		data = {"Email": "valido@gmail.com", "Senha": "errada"}
+		self.assertFalse(utils.validations_login(data))
+
+	def test_validations_signup(self):
+		# Username
+		data = {"Username": "errado"}
+		self.assertFalse(utils.validations_signup(data))
+		data = {"Username": "valido--"}
+		self.assertTrue(utils.validations_signup(data))
+		# Email
+		data = {"Email": "errado",}
+		self.assertFalse(utils.validations_signup(data))
+		data = {"Email": "valido@gmail.com"}
+		self.assertTrue(utils.validations_signup(data))
+		# Senha
+		data = {"Senha": "errado"}
+		self.assertFalse(utils.validations_signup(data))
+		data = {"Senha": "valido--"}
+		self.assertTrue(utils.validations_signup(data))
+		# Genero sexual 
+		data = {"Genero sexual": "invalido"}
+		self.assertFalse(utils.validations_signup(data))
+		data = {"Genero sexual": "Outro"}
+		self.assertTrue(utils.validations_signup(data))
+		# Raca
+		data = {"Raça": "invalida"}
+		self.assertFalse(utils.validations_signup(data))
+		data = {"Raça": "Outro"}
+		self.assertTrue(utils.validations_signup(data))
+		# Trabalho
+		data = {"Trabalho": "invalido"}
+		self.assertFalse(utils.validations_signup(data))
+		data = {"Trabalho": "Sim"}
+		self.assertTrue(utils.validations_signup(data))
+		
+		# Todos
+		data = {"Username": "valido--", "Email": "valido@gmail.com", "Senha": "valida--",
+				 "Genero sexual": "Outro", "Trabalho": "Sim", "Raça": "Outro"}
+		self.assertTrue(utils.validations_signup(data))
+		self.assertEqual({"Username": "valido--", "Email": "valido@gmail.com", "Senha": "valida--",
+				 "Genero sexual": "Outro", "Trabalho": "Sim", "Raça": "Outro"}, data)
+
+		data = {"Username": "errado", "Email": "invalido", "Senha": "errada",
+				 "Genero sexual": "invalido", "Trabalho": "invalido", "Raça": "invalida"}
+		self.assertFalse(utils.validations_signup(data))
+		self.assertNotEqual({"Username": "errado", "Email": "invalido", "Senha": "errada",
+				 "Genero sexual": "invalido", "Trabalho": "invalido", "Raça": "invalida"}, data)
 
 	def test_geraString(self):
 		text = {"user_name" : 'User', "gender" : 'Gender'}
