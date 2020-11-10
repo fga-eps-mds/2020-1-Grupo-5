@@ -47,23 +47,17 @@ O back-end é reponsável por interpretar a mensagem do usuário, e responder da
 
 ### 2.3 Tecnologias
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/python.png" />
-</p>
+<p align = "center"> &emsp;&emsp; <img src="https://i.ibb.co/M6wZRbb/python.png" width="150" height="150"/> </p> 
 
 O projeto em sua maior parte será feito na linguagem [Python](https://www.python.org). Este software ficará responsável por interpretar as mensagens recebidas, respondelas e quando necessário ela também fará toda a comunicação entre a API responsável pelo armazenamento de dados(Guardiões da Saúde) e a API responsável pela entrada de dados(Telegram Bot API).
 
 <br>
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/telegram.png" />
-</p>
+<p align = "center"> &emsp;&emsp; <img src="https://i.ibb.co/ZJV4pXM/telegram.png" width="150" height="150"/> </p>  
 
 A entrada de dados ocorre somente por meio do Telegram, que fornece uma API que envia todas as mensagens (dados) recebidas para o codigo do DoctorS, onde ocorre a validação de dados, reconhecimento de comandos e mensagens recebidas.
 
 <br>
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/GuardioesLogo.png" />
-</p>
+<p align = "center"> &emsp;&emsp; <img src="https://i.ibb.co/RjyfJ6T/Guardioes-Logo.png" width="150" height="150"/> </p>  
 
 A partir do momento que for solicitado algum acesso ao nosso banco de dados, nossa API fará uma request para a API do Guardiões da Saúde pedindo ou inserindo todos os dados requisitados caso o pedido seja válido.
 
@@ -91,26 +85,18 @@ Os objetivos do DoctorS são :
 
 Os diagramas de pacotes mostram a interação entre as relações das pastas e seus arquivos.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/Diagrama%20Telegram.png" />
-</p>
+![](https://i.ibb.co/4P2W1R0/Diagrama-Telegram.png)
 
 Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/Diagrama%20Guardi%C3%B5es.png" />
-</p>
+![](https://i.ibb.co/YP3YVMf/Diagrama-Guardi-es.png)
 
 Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saúde.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/Diagrama%20Python.png" />
-</p>
+![](https://i.ibb.co/r5GsBTD/Diagrama-Python.png)
 
 Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/Diagrama%20Geral.png" />
-</p>
+![](https://i.ibb.co/Vt8qpfG/Diagrama-Geral.png)
 
 Imagem 8 - Diagrama de pacotes geral dos Microsserviços.
