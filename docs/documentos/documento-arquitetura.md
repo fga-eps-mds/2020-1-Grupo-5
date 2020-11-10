@@ -26,12 +26,7 @@ Por meio desse documento pretende-se apresentar de forma estruturada a construç
 
 ### 2.1 Diagrama de relações
 
-
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/gh-pages/assets/doc_arquitetura/Diagrama%20de%20Rela%C3%A7%C3%B5es.png" />
-</p>
-
-
+![](https://i.ibb.co/6wZ9dGF/Diagrama-de-Rela-es.png)
 
 ### 2.1.1 Front-End
 
