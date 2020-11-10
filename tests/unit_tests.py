@@ -136,6 +136,11 @@ class UtilsTests(unittest.TestCase):
 		self.assertNotEqual({"Username": "errado", "Email": "invalido", "Senha": "errada",
 				 "Genero sexual": "invalido", "Trabalho": "invalido", "Raça": "invalida"}, data)
 
+	def test_image(self):
+		text = {'user_name': 'Usuario Teste', 'race': 'Pardo', 'risk_group': True}
+		expected_reply = 'Atualmente essas são as suas informações: \n\nUsername: Usuario Teste\nRaça: Pardo\nGrupo de Risco: Sim'
+		self.assertEqual(expected_reply, utils.geraString(text))
+
 	def test_geraString(self):
 		text = {"user_name" : 'User', "gender" : 'Gender'}
 		# Certo
