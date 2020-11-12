@@ -33,17 +33,17 @@
 
 |Feature|ID|Descrição|
 |:--:|-----|:--:|
-|F1|US01|Eu, como usuário, desejo me cadastrar|
-|F1|US02|Eu, como usuário, desejo fazer login|
-|F1|US03|Eu, como usuário, desejo fazer logout|
-|F2|US04|Eu, como usuário, desejo reportar meu estado de saúde|
-|F2|US05|Eu, como usuário, desejo visualizar meu histórico de saúde|
-|F4|US06|Eu, como usuário, desejo receber dicas para cuidar da saúde|
-|F4|US07|Eu, como usuário, desejo saber as funcionalidades do ChatBot|
+|F1|US01|Eu, como usuário, desejo me cadastrar| ✅
+|F1|US02|Eu, como usuário, desejo fazer login| ✅
+|F1|US03|Eu, como usuário, desejo fazer logout| ✅
+|F2|US04|Eu, como usuário, desejo reportar meu estado de saúde| ✅
+|F2|US05|Eu, como usuário, desejo visualizar meu histórico de saúde| 
+|F4|US06|Eu, como usuário, desejo receber dicas para cuidar da saúde| ✅
+|F4|US07|Eu, como usuário, desejo saber as funcionalidades do ChatBot| ✅
 |F4|US08|Eu, como usuário, desejo ser informado de comandos não reconhecidos|
-|F3|US09|Eu, como usuário, desejo visualizar os relatórios de saúde produzidos pela plataforma|
-|F1|US10|Eu, como usuário, desejo editar meus dados pessoais|
-|F4|US11|Eu, como usuário, desejo ver tutoriais de utilização do ChatBot|
+|F3|US09|Eu, como usuário, desejo visualizar os relatórios de saúde produzidos pela plataforma| 
+|F1|US10|Eu, como usuário, desejo editar meus dados pessoais| ✅
+|F4|US11|Eu, como usuário, desejo ver tutoriais de utilização do ChatBot| 
 |F4|US12|Eu, como usuário, desejo receber notícias relacionadas à saúde|
 |F5|DS01|Eu, como desenvolvedor, desejo estudar a estrutura da API do Python Telegram Bot|
 |F5|DS02|Eu, como desenvolvedor, desejo estudar a estrutura da API do Guardiões da Saúde|

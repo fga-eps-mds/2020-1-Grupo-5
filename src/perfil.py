@@ -71,6 +71,7 @@ def regular_choice(update, context):
     if "Mostrar informações" in text:
 
         user_data['edit_item'] = 'none'
+        user_data['edit_item'] = 'none'
         user_data['choice'] = 'none'
         utils.image(context.user_data)
         path = 'general/images/robo_save.png'
@@ -89,6 +90,8 @@ def regular_choice(update, context):
 
 #Send current received information from user
 def received_information(update, context):
+
+    print("\n received_information init \n")
     user_data = context.user_data
 
 
@@ -103,7 +106,28 @@ def received_information(update, context):
     user_data['resp_item'] = text
     # del user_data['choice']
 
-    requestEdit(update, context)
+# ------------------------------------------------
+    dictEdit = {}
+    dictEdit[user_data['edit_item']] = user_data['resp_item']
+    # edit_item = user_data['edit_item']
+    # resp_item = user_data['resp_item']
+    print("Dict:", dictEdit)
+    #Valida os dados inseridos
+    validation = utils.validations_edition(dictEdit)
+
+    if not validation:
+        mens = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
+        head = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
+        context.bot.send_message(   chat_id=update.effective_chat.id,
+                                    text= str(head))
+        print(mens)
+    else:
+        mens = "Perfeito, ja temos esses dados:\n"
+        head = "Perfeito, ja temos esses dados:\n"
+
+
+        print(mens)
+        requestEdit(update, context)
 
 
     keyboard =  [['Username', 'Raça'],
@@ -117,6 +141,40 @@ def received_information(update, context):
         reply_markup=markup)
 
     return CHOOSING
+
+def error_information(update, context):
+
+    print("\n error_information init \n")
+    user_data = context.user_data
+
+
+    if not validation:
+        mens = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
+        head = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
+        context.bot.send_message(   chat_id=update.effective_chat.id,
+                                    text= str(head))
+        print(mens)
+    else:
+        mens = "Perfeito, ja temos esses dados:\n"
+        head = "Perfeito, ja temos esses dados:\n"
+
+
+        print(mens)
+        # requestEdit(update, context)
+
+
+    keyboard =  [['Username', 'Raça'],
+                ['Genero sexual', 'Nascimento'],
+                ['Trabalho', 'Grupo de Risco'],
+                ['Mostrar informações', 'Voltar']]
+
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+    update.message.reply_text(
+        "Escolha qual informação deseja alterar!",
+        reply_markup=markup)
+
+    return CHOOSING
+
 
 
 
