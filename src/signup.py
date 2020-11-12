@@ -237,7 +237,6 @@ def requestSignup(update, context):
         login.request_login(update, context)        
 
     else: #Falha
-        
         print("Signup Failed!")
         
         context.bot.send_message(

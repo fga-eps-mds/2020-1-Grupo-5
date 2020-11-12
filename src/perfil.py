@@ -27,16 +27,13 @@ def start(update, context):
 
     return CHOOSING
 
-
-
 #Opçoes de entrada de informação do menu de login
 def regular_choice(update, context):
-    user_data = context.user_data
 
+    user_data = context.user_data
 
     #Adciona uma chave com o valor de 'Email' ou 'Senha' de acordo com a escolha do user
     text = update.message.text
-    # user_data['choice'] = text
 
     #De acordo com a escolha, chama uma função
     if "Username" in text:
@@ -54,16 +51,13 @@ def regular_choice(update, context):
     if "Nascimento" in text:
         user_data['edit_item'] = 'birthdate'
         getters.get_birthday_edit(update, context)   
-        print("User data regular", context.user_data)
         
         return CHOOSING
-
 
     if "Grupo de Risco" in text:
         user_data['edit_item'] = 'risk_group'
         getters.get_Risco(update, context)    
           
-
     if "Trabalho" in text:
         user_data['edit_item'] = 'is_professional'
         getters.get_professional(update, context)
@@ -79,57 +73,35 @@ def regular_choice(update, context):
 
         return CHOOSING
 
-
     if "Voltar" in text:
         handlers.menu(update, context)
         return ConversationHandler.END
 
-
     return TYPING_REPLY
-
 
 #Send current received information from user
 def received_information(update, context):
 
-    print("\n received_information init \n")
     user_data = context.user_data
-
-
-    # edit_item = user_data['edit_item']
-
-
-
-    #Get data of user
-    # user_data = context.user_data
-
     text = update.message.text
     user_data['resp_item'] = text
-    # del user_data['choice']
 
-# ------------------------------------------------
     dictEdit = {}
     dictEdit[user_data['edit_item']] = user_data['resp_item']
-    # edit_item = user_data['edit_item']
-    # resp_item = user_data['resp_item']
-    print("Dict:", dictEdit)
+
     #Valida os dados inseridos
     validation = utils.validations_edition(dictEdit)
 
     if not validation:
-        mens = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
+
         head = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
         context.bot.send_message(   chat_id=update.effective_chat.id,
                                     text= str(head))
-        print(mens)
     else:
-        mens = "Perfeito, ja temos esses dados:\n"
+
         head = "Perfeito, ja temos esses dados:\n"
-
-
-        print(mens)
         requestEdit(update, context)
 
-
     keyboard =  [['Username', 'Raça'],
                 ['Genero sexual', 'Nascimento'],
                 ['Trabalho', 'Grupo de Risco'],
@@ -141,44 +113,6 @@ def received_information(update, context):
         reply_markup=markup)
 
     return CHOOSING
-
-def error_information(update, context):
-
-    print("\n error_information init \n")
-    user_data = context.user_data
-
-
-    if not validation:
-        mens = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
-        head = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
-        context.bot.send_message(   chat_id=update.effective_chat.id,
-                                    text= str(head))
-        print(mens)
-    else:
-        mens = "Perfeito, ja temos esses dados:\n"
-        head = "Perfeito, ja temos esses dados:\n"
-
-
-        print(mens)
-        # requestEdit(update, context)
-
-
-    keyboard =  [['Username', 'Raça'],
-                ['Genero sexual', 'Nascimento'],
-                ['Trabalho', 'Grupo de Risco'],
-                ['Mostrar informações', 'Voltar']]
-
-    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
-    update.message.reply_text(
-        "Escolha qual informação deseja alterar!",
-        reply_markup=markup)
-
-    return CHOOSING
-
-
-
-
-
 
 #Caso a pessoa tenha adcionado todas as informações e 
 #Depois adcionou uma inválida novamente, ele retira o
@@ -186,14 +120,12 @@ def error_information(update, context):
 def undone_keyboard(context):
     context.user_data['Keyboard'].remove(['Done'])
 
-
 #Função que adciona done ao terminar de adcionar todas informações
 def form_filled(context):
     user_data = context.user_data
     if not ['Done'] in user_data['Keyboard']:
         user_data['Keyboard'].append(['Done'])
     
-
 #Termina cadastro e envia ao servidor da API do guardiões
 def done(update, context):
 
@@ -208,7 +140,6 @@ def done(update, context):
 
         getters.get_birthday(update, context)   #Recebe o aniversário e envia a request a API
                                         #Para registrar
-
     
     #Caso não, ele manda uma mensagem de falha no cadastro
     else:   
@@ -235,37 +166,25 @@ def requestEdit(update, context):
 
     user_data.update({str(edit_item) : str(resp_item)})
 
-    #Pega todas as infos adcionadas
-
     #Transforma a resposta do trabalho legivel ao
     #banco de dados
     if user_data.get('is_professional') == 'Sim':
         user_data.update({'is_professional' : 'true'})
-        # context.user_data['is_professional'] = user_data['is_professional'] 
 
     if user_data.get('is_professional') == 'Não':
         user_data.update({'is_professional' : 'false'})
-        # context.user_data['is_professional'] = user_data['is_professional'] 
-
 
     if user_data.get('risk_group') == 'Sim':
         user_data.update({'risk_group' : 'true'})
-        # context.user_data['risk_group'] = user_data['risk_group'] 
 
     if user_data.get('risk_group') == 'Não':
         user_data.update({'risk_group' : 'false'})
-        # context.user_data['risk_group'] = user_data['risk_group'] 
-
-    print("User data request", user_data)
 
     if user_data.get('group_id') == 'Sim':
         user_data.update({'group_id' : 'true'})
 
     if user_data.get('group_id') == 'Não':
         user_data.update({'group_id' : 'false'})
-    print("\n \n Nascimento: ", str(user_data.get('birthdate')))
-    print("Nascimento: ", user_data.get('birthdate'))
-    print("Nascimento Nascimento: ", user_data.get('Nascimento'))
 
     #Json enviado a API do guardiões com informações
     #Retiradas da API do telegram
@@ -292,8 +211,7 @@ def requestEdit(update, context):
         # update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
         context.bot.send_message(   chat_id=update.effective_chat.id,
                                 text= "Você alterou a informação com sucesso, retornando ao menu de edição\n")
-        print("request acept")
-        print("User data request acept", user_data)
+        print("request perfil acept")
 
     else: #Falha
         # update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")  
@@ -301,8 +219,6 @@ def requestEdit(update, context):
         context.bot.send_message(   chat_id=update.effective_chat.id,
                                 text= "Algo deu errado com a edição, retornando ao menu de edição\n")
 
-        print("request fail")
-        print("User data request fail", user_data)
-        print("User data verif id acept")
+        print("request perfil fail")
 
          

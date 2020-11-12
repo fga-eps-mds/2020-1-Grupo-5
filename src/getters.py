@@ -92,26 +92,16 @@ def get_birthday(update, context):
     update.message.reply_text(f"Selecione o {CustomCalendar.LSTEP[step]}",
                             reply_markup=calendar)
 
-    print("\n User data nascimento regular", context.user_data)
-
     return CHOOSING
 
 
 #Funcao que recebe o dia de nascimento
 def get_birthday_edit(update, context):
-    print("\n get_birthday_edit init \n")
 
     update.message.reply_text('Preencha com a data de nascimento correta.')
-
     calendar, step = CustomCalendar(locale='br', max_date=date.today()).build()
-    update.message.reply_text(f"Selecione o {CustomCalendar.LSTEP[step]}",
-                            reply_markup=calendar)
-    print("DATA DE NASCIMENTO: ", calendar)
-    print("TIPO DATA DE NASCIMENTO: ", type(calendar))
-    # context.user_data['choice'] = context.user_data['birthdate']
-    print("\n User data nascimento", context.user_data)
-    
-    print("\n get_birthday_edit end \n")
+    update.message.reply_text(  f"Selecione o {CustomCalendar.LSTEP[step]}",
+                                reply_markup=calendar)
 
     return CHOOSING
 

@@ -114,7 +114,7 @@ def signup_handler():
 
 #Função de callback do calendário
 def birthDayCallBack(update, context):
-    print("\n birthDayCallBack \n")
+
     result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(update.callback_query.data)
     if not result and key:
         update.callback_query.edit_message_text(f"Selecione o {CustomCalendar.LSTEP[step]}",
@@ -124,7 +124,7 @@ def birthDayCallBack(update, context):
         context.user_data['Nascimento'] = result
         context.user_data.update({'birthdate' : str(result)})
         update.callback_query.edit_message_text(f'Selecionado: {result}')
-        print("")
+
         if utils.is_logged(context.user_data):
             context.user_data['resp_item'] = str(result)
             perfil.requestEdit(update, context)

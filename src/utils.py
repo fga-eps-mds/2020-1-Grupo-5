@@ -68,11 +68,9 @@ def bad_entry_edit(update, context):
         chat_id=update.effective_chat.id,
         text="Opção inválida, tente utilizar os botões!\nRetornando ao menu de edição."
     )
-    # context.user_data.clear()
+    
     perfil.start(update, context)
-    # handlers.menu(update, context)
 
-    # return ConversationHandler.END
 def validaNome(nome):
 
     if len(nome) >= 8:
@@ -122,14 +120,6 @@ def validaRisco(risco):
 
     return False
 
-def validaNascimento(nascimento):
-
-    if str(risco).lower() in ['sim', 'não', 'nao']:
-        return True
-
-    return False
-
-
 def validations_login(user_data):
 
     if "Email" in user_data and not validaEmail(user_data['Email']):
@@ -145,91 +135,52 @@ def validations_login(user_data):
 def validations_signup(user_data):
     
     if "Username" in user_data and not validaNome(user_data['Username']):
-            user_data.pop("Username")
-            return False
+        user_data.pop("Username")
+        return False
 
     if "Email" in user_data and not validaEmail(user_data['Email']):
-            user_data.pop("Email")
-            return False
+        user_data.pop("Email")
+        return False
     
     if "Senha" in user_data and not validaSenha(user_data['Senha']):
-            user_data.pop("Senha")
-            return False
+        user_data.pop("Senha")
+        return False
 
     if "Genero sexual" in user_data and not validaGenero(user_data['Genero sexual']):
-            user_data.pop('Genero sexual')
-            return False
+        user_data.pop('Genero sexual')
+        return False
 
     if "Raça" in user_data and not validaRaca(user_data['Raça']):
-            user_data.pop('Raça')
-            return False
-    
+        user_data.pop('Raça')
+        return False
+
     if "Trabalho" in user_data and not validaTrabalho(user_data['Trabalho']):
-            user_data.pop("Trabalho")
-            return False
+        user_data.pop("Trabalho")
+        return False
 
     return True
 
 def validations_edition(user_data):
-    
-    # sendMens = "Entrada incorreta!"
 
     if "user_name" in user_data and not validaNome(user_data['user_name']):
-            # user_data.pop("Username")
-            print("Nome não valido")
-            # context.bot.send_message(   chat_id=update.effective_chat.id,
-            #                             text= str(sendMens))
-            return False
-
-    # if "Email" in user_data and not validaEmail(user_data['Email']):
-    #         # user_data.pop("Email")
-    #         print("Email não valido")
-
-    #         return False
-    
-    # if "Senha" in user_data and not validaSenha(user_data['Senha']):
-    #         # user_data.pop("Senha")
-    #         print("Senha não valido")
-    #         return False
+        return False
 
     if "gender" in user_data and not validaGenero(user_data['gender']):
-            # user_data.pop('Genero sexual')
-            print("gender não valido")
-            return False
+        return False
 
     if "race" in user_data and not validaRaca(user_data['race']):
-            # user_data.pop('Raça')
-            print("race não valido")
-
-            return False
+        return False
     
     if "is_professional" in user_data and not validaTrabalho(user_data['is_professional']):
-            # user_data.pop("Trabalho")
-            print("is_professional não valido")
-
-            return False
+        return False
 
     if "risk_group" in user_data and not validaRisco(user_data['risk_group']):
-            # user_data.pop("Trabalho")
-            print("risk_group não valido")
+        return False
 
-            return False
-
-    if "birthdate" in user_data and not validaNascimento(user_data['birthdate']):
-            # user_data.pop("Trabalho")
-            print("birthdate não valido")
-
-            return False
-
-    # grupo de risco
-    # nascimento
+    # if "birthdate" in user_data and not validaNascimento(user_data['birthdate']):
+    #     return False
 
     return True
-
-
-
-
-
 
 def image(entradaTexto):
 
@@ -286,24 +237,21 @@ def geraString(text):
     return texto
 
 def sendNews(update, context):
-    regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
 
+    regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
     res = []
+
     # for resultado in search('"noticias saúde" news', stop=10):
     for resultado in search("saude plantão news", stop=10):
         res.append(resultado)
-        # print(resultado)
 
-        # print(res)
     resultadoPrint = ""
 
     for resultado in res:
+
         if not re.search(regex, resultado):
-            # print("\n", resultado)
             if len(resultado) > len(resultadoPrint):
                 resultadoPrint = resultado
 
-    print("Resul print: ", resultadoPrint)
-    
     context.bot.send_message(   chat_id=update.effective_chat.id,
                                 text= str(resultadoPrint))
