@@ -220,7 +220,7 @@ def ajuda(update, context):
         parse_mode=ParseMode.HTML
     )
 	#Mais informações
-    resposta = 'Para informações mais detalhadas <a href="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/commits/feature/tutorial_1.0.0"> clique aqui</a> (<i>To do</i>)'
+    resposta = 'Para informações mais detalhadas <a href="https://fga-eps-mds.github.io/2020-1-DoctorS-Bot/#/docs/Ajuda"> clique aqui</a>'
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
         text=resposta,
