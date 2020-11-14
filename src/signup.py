@@ -196,12 +196,8 @@ def requestSignup(update, context):
 
         login.request_login(update, context)        
 
-<<<<<<< HEAD
     else: # Falha
-=======
-    else: # Falha
-        
->>>>>>> 8ea4057d4a83d18386243b696c2c61014d236b25
+
         print("Signup Failed!")
         
         context.bot.send_message(
