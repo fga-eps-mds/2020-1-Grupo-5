@@ -47,6 +47,9 @@ class Bot:
             
             # Estrutura para login
             dispatcher.add_handler(handlers.login_handler())
+
+            # Estrutura para dicas
+            dispatcher.add_handler(handlers.tips_handler())
             
             # Estrutura para mostrar o perfil/editar perfil
             dispatcher.add_handler(handlers.perfil_handler())

@@ -1,206 +1,166 @@
 import requests
 from telegram import ReplyKeyboardMarkup, KeyboardButton
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          ConversationHandler, CallbackQueryHandler)
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
 from src import login, utils, handlers, getters, location
+
 
 CHOOSING, TYPING_REPLY = range(2)
 
 required_data = set()
 
-#Inicia o cadastro
+
+# Inicia o cadastro
 def start(update, context):
     user_data = context.user_data
     user_data['Keyboard'] = [['Username', 'Email'],
                             ['Senha', 'Raça'],
                             ['Trabalho', 'Genero sexual'],
                             ['Localização', 'Cancelar']]
-    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
-    if utils.is_logged(context.user_data):
+    if utils.is_logged(user_data):
         handlers.unknown(context, update)
         return ConversationHandler.END
-    
     else:
-        #Mensagem de inicio de cadastro
+        # Mensagem de início de cadastro
+        markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
         update.message.reply_text(
-            "Olá, é um prazer te conhecer! Eu sou o DoctorS Bot e estou aqui para facilitar sua vida em tempos de pandemia.\n\n"
-            "Para utilizar nosso sistema, preciso que adcione todas essas informações listadas abaixo!\n\n"
-            "Basta selecionar a opção que deseja adcionar e digitar!",
-            reply_markup=markup)
+            "Olá, é um prazer te conhecer! Eu sou o DoctorS Bot e estou aqui para facilitar a sua vida em tempos de pandemia.\n\n"
+            "Para utilizar nosso sistema preciso que adicione todas essas informações listadas abaixo!\n\n"
+            "Basta selecionar a opção que deseja adicionar e digitar!",
+            reply_markup=markup
+        )
 
         return CHOOSING
 
 
-#Send current received information from user
-def received_information(update, context):
-    
-    #Get data of user
-    user_data = context.user_data
-    text = update.message.text
-
-    category = user_data['choice']
-    
-    if not "Localização" in category:
-        user_data[category] = text
-    
-    else:
-        location.reverseGeo(update.message.location, context)
-    
-    del user_data['choice']
-
-    #Valida os dados inseridos
-    validation = utils.validations_signup(user_data)
-
-    #Adiciona ou retira a check mark do botão da categoria conforme validação da entrada
-    for i, items in enumerate(user_data['Keyboard']):
-        for j, item in enumerate(items):
-            if category in item:
-                if validation and '✅' not in item:
-                    user_data['Keyboard'][i][j] = item + '✅'
-                elif not validation and '✅' in item:
-                    user_data['Keyboard'][i][j] = item[:-1]
-
-    #Estrutura que mostra informações que ainda faltam ser inseridas
-    if len(user_data) > 0:
-        for key in user_data:
-            if key in required_data:
-                required_data.remove(key)
-
-    #Se a ultima entrada não for valida, enviamos mensagem de entrada
-    #Invalida
-    if not validation:
-        head = "Entrada inválida. Tem certeza que seguiu o formato necessário?\n"
-
-    else:
-        head = "Perfeito, ja temos esses dados:\n"
-
-    unreceived_info(context)
-    
-
-
-    if len(required_data) > 0:
-        footer = "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
-
-        if ['Done'] in user_data['Keyboard']:
-            undone_keyboard(context)
-
-    else:
-
-        footer = "\n\nAgora que adcionou todos os dados, pode editar os inseridos ou clicar em Done para enviar o formulário!\n"
-        form_filled(context)
-
-    markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
-    #Envia o feedback ao user
-    update.message.reply_text(head +
-                            "{}".format(utils.dict_to_str(user_data))
-                            + footer, reply_markup=markup)
-
-    #Se as informações  estiverem completas, essa estrutura não é enviada
-    if len(required_data) > 0:
-        update.message.reply_text("Ainda falta(m):\n"
-                                  "{}".format(utils.set_to_str(required_data)))
-
-    return CHOOSING
-
-
-#Caso a pessoa tenha adcionado todas as informações e 
-#Depois adcionou uma inválida novamente, ele retira o
-#Botão de done
-def undone_keyboard(context):
-    context.user_data['Keyboard'].remove(['Done'])
-
-
-#Função que adciona done ao terminar de adcionar todas informações
-def form_filled(context):
-    user_data = context.user_data
-    if not ['Done'] in user_data['Keyboard']:
-        user_data['Keyboard'].append(['Done'])
-    
-
-#Termina cadastro e envia ao servidor da API do guardiões
-def done(update, context):
-
-
-    #Estrutura necessária para não permitir a finalização incorreta de um cadastro
-    #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
-    #7, pois devem existir 6 informações do usuário + teclado
-    if len(context.user_data) == 10:
-        
-        #Reinicia o teclado removendo a opção de Done
-        context.user_data['Keyboard'].remove(['Done'])
-
-        getters.get_birthday(update, context)   #Recebe o aniversário e envia a request a API
-                                        #Para registrar
-
-    
-    #Caso não, ele manda uma mensagem de falha no cadastro
-    else:   
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Falha ao registrar, não adcionou todos dados necessários!"
-        )
-
-    
-    return ConversationHandler.END
-
-def unreceived_info(context):
-    all_items = ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual")
-    for item in all_items:
-        if not item in context.user_data:
-            required_data.add(item)
-
-
-#Opçoes de entrada de informação do menu de cadastro
+# Opções de entrada de informação do menu de cadastro
 def regular_choice(update, context):
 
-    #Remove a check mark da entrada do usuário caso esteja presente
-    if '✅' in update.message.text:
-        update.message.text = update.message.text[:-1]
-
-    user_data = context.user_data
+    update.message.text = utils.remove_check_mark(update.message.text)
 
     text = update.message.text
-    user_data['choice'] = text
+    context.user_data['choice'] = text
 
     if  "Username" in text:
         getters.get_User(update,context)
         
-    if "Email" in text:
+    elif "Email" in text:
         getters.get_Email(update, context)
 
-    if "Senha" in text:
+    elif "Senha" in text:
         getters.get_Pass(update, context)
 
-    if "Raça" in text:
+    elif "Raça" in text:
         getters.get_Race(update, context)
 
-    if "Genero sexual" in text:
+    elif "Genero sexual" in text:
         getters.get_Gender(update, context)
 
-    if "Trabalho" in text:
+    elif "Trabalho" in text:
         getters.get_professional(update, context)
 
-    if "Localização" in text:
+    elif "Localização" in text:
         getters.get_location(update, context)
         
     return TYPING_REPLY
 
-#Funcao que cadastra o usuario
+
+# Envia as informações atualmente recebidas do usuário
+def received_information(update, context):
+    
+    category = update_received_information(context, update)
+    head = validation_management(context.user_data, category)
+    footer = update_missing_info(context.user_data)
+
+    feedback = head + "{}".format(utils.dict_to_str(context.user_data)) + footer
+
+    # Se as informações estiverem completas essa estrutura não é adicionada
+    if len(required_data) > 0:
+        feedback = feedback + "Ainda falta(m):\n{}".format(utils.set_to_str(required_data))
+
+    utils.received_information_reply(update, context, feedback)
+
+    return CHOOSING
+
+
+def update_received_information(context, update):
+    # Adiciona a informação enviada pelo user à sua respectiva chave
+    category = context.user_data['choice']
+    del context.user_data['choice']
+
+    if 'Localização' in category:
+        location.reverseGeo(update.message.location, context)
+    else:
+        context.user_data[category] = update.message.text
+
+    return category
+
+
+def validation_management(user_data, category):
+    # Validação de dados
+    validation = utils.validations_signup(user_data)
+
+    utils.update_check_mark(user_data['Keyboard'], category, validation)
+
+    # Se a última entrada não for válida, enviamos mensagem de entrada inválida
+    if validation:
+        return "Perfeito, já temos esses dados:\n"
+    else:
+        return "Entrada inválida. Tem certeza que seguiu o formato necessário?\n"
+
+
+def update_missing_info(user_data):
+    # Estrutura que mostra as informações que ainda faltam ser inseridas
+    utils.update_required_data(user_data, required_data)
+
+    utils.unreceived_info(user_data, required_data, ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual"))
+    
+    if len(required_data) == 0:
+        utils.form_filled(user_data['Keyboard'])
+        return "\n\nAgora que adicionou todos os dados, pode editar os já inseridos ou clicar em Done para enviar o formulário!\n"
+    
+    if ['Done'] in user_data['Keyboard']:
+        utils.undone_keyboard(user_data['Keyboard'])
+
+    return "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
+
+
+# Termina o cadastro e envia ao servidor da API do guardiões
+def done(update, context):
+
+    # Estrutura necessária para não permitir a finalização incorreta de um cadastro
+    # Caso o usuário tenha adicionado todas as infos, ele aceita a entrada
+    # 7, pois devem existir 6 informações do usuário + teclado
+    if len(context.user_data) == 10:
+        
+        # Reinicia o teclado removendo a opção de Done
+        context.user_data['Keyboard'].remove(['Done'])
+
+        getters.get_birthday(update, context)   # Recebe o aniversário e envia a request a API para registrar
+
+    
+    # Caso contrário, ele manda uma mensagem de falha no cadastro
+    else:   
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Falha ao registrar, não adicionou todos os dados necessários!"
+        )
+
+    return ConversationHandler.END
+
+
+# Função que cadastra o usuário
 def requestSignup(update, context):
-    #Pega todas as infos adcionadas
+    # Pega todas as infos adicionadas
     user_data = context.user_data
 
-    #Transforma a resposta do trabalho legivel ao
-    #banco de dados
+    # Transforma a resposta do trabalho legível ao banco de dados
     if user_data.get('Trabalho') and 'sim' in user_data.get('Trabalho').lower():
         user_data.update({'Trabalho' : 'true'})
-
     else:
         user_data.update({'Trabalho' : 'false'})
 
-    #Json enviado a API do guardiões com informações
-    #Retiradas da API do telegram
+    # Json enviado à API do guardiões com as informações retiradas da API do Telegram
     json_entry = {
         "user" : {
             "email": user_data.get('Email'),
@@ -221,11 +181,11 @@ def requestSignup(update, context):
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
 
 
-    #Faz a tentativa de cadastro utilizando o json e os headers inseridos
+    # Faz a tentativa de cadastro utilizando o json e os headers inseridos
     r = requests.post("http://127.0.0.1:3001/user/signup", json=json_entry, headers=headers)
     
 
-    #Log de sucesso ou falha no cadastro
+    # Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
         print("Successfull signup:")
         
@@ -236,12 +196,17 @@ def requestSignup(update, context):
 
         login.request_login(update, context)        
 
-    else: #Falha
+<<<<<<< HEAD
+    else: # Falha
+=======
+    else: # Falha
+        
+>>>>>>> 8ea4057d4a83d18386243b696c2c61014d236b25
         print("Signup Failed!")
         
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"{user_data.get('Username')}, seu cadastrado falhou!"
+            text=f"{user_data.get('Username')}, seu cadastro falhou!"
         )
 
     print(r.content)    

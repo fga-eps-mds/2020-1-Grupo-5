@@ -10,6 +10,7 @@
 |16/09|0.6|Adicionando subitem 4.1 |João Pedro|
 |17/09|0.7|Revisão ortográfica|Lucas Rodrigues|
 |23/09|0.8|Corrigido subitens 2.1 e 2.2|João Alves|
+|12/11|0.9|Corrigido subitem 4.1|João Pedro|
 ## 1. Introdução
 
 ### 1.1 Finalidade 

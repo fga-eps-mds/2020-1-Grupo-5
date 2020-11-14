@@ -6,3 +6,6 @@ __pycache__
 
 #Arquivo temporário contendo o token do bot
 token.txt
+
+#Foto gerada com as informações do usuário
+robo_sabe.png
