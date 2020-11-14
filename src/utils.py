@@ -244,6 +244,57 @@ def geraString(text):
   
     return texto
 
+# Remove a check mark do final da palavra caso esteja presente
+def remove_check_mark(text):
+    if '✅' == text[-1]:
+        text = text[:-1]
+    return text
+
+
+# Insere ou remove a check mark do botão da categoria do teclado conforme sua validação
+def update_check_mark(keyboard, category, validation):
+    for i, items in enumerate(keyboard):
+        for j, item in enumerate(items):
+            if category in item:
+                if validation and '✅' not in item:
+                    keyboard[i][j] = item + '✅'
+                    return
+                elif not validation and '✅' in item:
+                    keyboard[i][j] = item[:-1]
+                    return
+
+
+# Atualiza as informações que ainda faltam ser inseridas
+def update_required_data(received_data, required_data):
+    for key in received_data:
+        if key in required_data:
+            required_data.remove(key)
+
+
+# Função que adiciona done ao terminar de adicionar todas as informações
+def form_filled(keyboard):
+    if not ['Done'] in keyboard:
+        keyboard.append(['Done'])
+
+
+# Caso a pessoa tenha adicionado todas as informações e depois adicionou uma inválida novamente, ele retira o botão de done
+def undone_keyboard(keyboard):
+    keyboard.remove(['Done'])
+
+
+# Atualiza as informações que estão faltando
+def unreceived_info(received_data, required_data, all_items):
+    for item in all_items:
+        if not item in received_data:
+            required_data.add(item)
+
+
+def received_information_reply(update, context, feedback):
+    markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
+
+    # Envia o feedback ao user
+    update.message.reply_text(feedback, reply_markup=markup)
+
 def sendNews(update, context):
 
     regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
@@ -263,3 +314,5 @@ def sendNews(update, context):
 
     context.bot.send_message(   chat_id=update.effective_chat.id,
                                 text= str(resultadoPrint))
+
+
