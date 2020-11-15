@@ -1,23 +1,14 @@
 from telegram import ReplyKeyboardMarkup
 import requests
 import json
-from src import getters
+from src import getters, utils, handlers
 
-CHOOSING, SEND_LOC = range(2)
+CHOOSING = 0
 
-sintomas = ["Dor de Cabeça"]
+sintomas = ["Dor de Cabeça", "Febre", "Tosse", "Falta de Ar"]
 
-def get_symptoms(update, context):
-    headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
-
-    r = requests.get(url="http://localhost:3001/symptoms", headers=headers)
-
-    symptoms = json.loads(r.content)['symptoms']
-    
-    for symptom in symptoms:
-        sintomas.append(symptom)
-
-markup = ReplyKeyboardMarkup([['Dor de Cabeça'],
+markup = ReplyKeyboardMarkup([ ['Dor de Cabeça', 'Febre'],
+                               ['Falta de Ar', 'Tosse'],
                                ['Done']],
         resize_keyboard=True,
         one_time_keyboard=True)
@@ -37,27 +28,19 @@ def start(update, context):
 
     return CHOOSING
 
-def get_loc(update, context):
-    getters.get_location(update, context)
-
-    return CHOOSING
-
 
 def regular_choice(update, context):
 
+    message = update.message.text
 
-    if update.message.text:
+    if message in sintomas and not message in context.user_data['Symptoms']:
         context.user_data['Symptoms'].append(update.message.text)
 
+    string = utils.list_to_str(context.user_data['Symptoms'])
 
-    else:
-        local = update.message.location
-        context.user_data['latitude'] = local.latitude
-        context.user_data['longitude'] = local.longitude
-    
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=f"{context.user_data['Symptoms']}, selecione mais sintomas abaixo.",
+        text=f"{string}\nSelecione os sintomas que sentiu, lembrando que é necessário nos fornecer sua localização antes de enviar.",
         reply_markup=markup
     )
 
@@ -71,8 +54,6 @@ def done(update, context):
 
     json_entry = {
         "survey" : {
-                "latitute" : context.user_data['latitude'],
-                "longitude": context.user_data['longitude'],
                 "symptom": context.user_data['Symptoms']
         }
     }
@@ -81,20 +62,9 @@ def done(update, context):
 
     req = requests.post(headers=headers, json=json_entry, url=url)
 
-    if req.status_code == 200:
-        print('Bad report feito')
+    if req.status_code != 200:
+        print(req.status_code)
 
-    else:
-        print(req)
+    handlers.menu(update.context)
 
-    return -1 # END
-
-def cancel(update, context):
-    print("Voltar")
-
-    return -1 # END
-
-def bad_entry(update, context):
-    print('Bad_entry')
-    
     return -1 # END

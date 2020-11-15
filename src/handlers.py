@@ -167,11 +167,10 @@ def bad_report_handler():
     return ConversationHandler(
         entry_points=[CallbackQueryHandler(bad_report.start, pattern='^bad_report$')],
         states={
-            bad_report.CHOOSING: [MessageHandler(Filters.regex('^Dor de Cabeça$') | Filters.location, bad_report.regular_choice)]
+            bad_report.CHOOSING: [MessageHandler(Filters.text & ~(Filters.regex("^Done$")), bad_report.regular_choice)
+            ]
         },
-        fallbacks=[MessageHandler(Filters.regex('^Done'), bad_report.done),
-        MessageHandler(Filters.regex('^Voltar$'), bad_report.cancel),
-        MessageHandler(Filters.all & ~ Filters.regex('^Voltar|Done$'), bad_report.bad_entry)]
+        fallbacks=[MessageHandler(Filters.regex('^Done'), bad_report.done)]
     )
 
 #Login de usuario
@@ -270,9 +269,9 @@ def daily_report(update, context):
             chat_id=update.effective_chat.id,
             text="Ativado notificações diárias")
         
-        day_in_sec = 30# Dia em segundos
+        day_in_sec = 60 * 60 * 24# Dia em segundos
         
-        context.job_queue.run_repeating(notify_assignees, day_in_sec, context=update.message.chat_id)
+        context.job_queue.run_repeating(notify_assignees, day_in_sec, context=update.effective_chat.id)
     
     else:
         unknown(update, context)
@@ -307,3 +306,13 @@ def notify_assignees(context):
 def good_report(update, context):
     
     update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")
+
+    headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
+    
+    json = {
+        "survey" : {
+            "symptom" : []
+        }
+    }
+
+    req = requests.post(url=f'http://localhost:3001/{context.user_data["id"]}/surveys', headers=headers, json=json)
