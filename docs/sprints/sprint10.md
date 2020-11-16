@@ -1,6 +1,6 @@
 ## 1. Relato da _Sprint_
 
-<p align="justify">&emsp;&emsp; Na sprint 10 foram combinadas 3 issues: Refatoração da feature de login e cadastro, fazer o github pages e fazer a US12. A US04 continuava em desenvolvimento por um dos integrantes. Foi combinado também um treinamento de testes durante a sprint. </p>
+<p align="justify">&emsp;&emsp; Na sprint 10 foram combinadas 3 issues: Refatoração da feature de login e cadastro, fazer o github pages e fazer a US12. A US04 continua em desenvolvimento por um dos integrantes. Foi combinado também um treinamento de testes durante a sprint. </p>
 
 
 ------------
