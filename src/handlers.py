@@ -116,6 +116,7 @@ def signup_handler():
 def birthDayCallBack(update, context):
 
     result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(update.callback_query.data)
+    update.callback_query.answer()
     if not result and key:
         update.callback_query.edit_message_text(f"Selecione o {CustomCalendar.LSTEP[step]}",
                               reply_markup=key)

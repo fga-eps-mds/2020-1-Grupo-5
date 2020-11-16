@@ -9,3 +9,10 @@ token.txt
 
 #Foto gerada com as informações do usuário
 robo_sabe.png
+
+#Arquivos dos testes de integração
+config.ini
+my_account.session
+my_account.session-journal
+unknown_errors.txt
+bot_name.txt
