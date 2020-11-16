@@ -60,11 +60,17 @@ def done(update, context):
 
     url = f"http://localhost:3001/users/{context.user_data['id']}/surveys"
 
-    req = requests.post(headers=headers, json=json_entry, url=url)
+    requests.post(headers=headers, json=json_entry, url=url)
 
-    if req.status_code != 200:
-        print(req.status_code)
+    resposta = "Obrigado por nos informar o seu estado de saúde.\n\nEsperamos que tudo fique bem, mantenha-se sempre hidratado e isolado.\n\nImportante lembrar que caso precise de alguma ajuda, temos o botão de ajuda no menu abaixo."
+    
+    context.bot.send_message(
+        chat_id= update.effective_chat.id,
+        text = resposta
+    )
 
-    handlers.menu(update.context)
+    context.user_data.pop('Symptoms', None)
+
+    handlers.menu(update, context)
 
     return -1 # END

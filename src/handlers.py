@@ -315,4 +315,4 @@ def good_report(update, context):
         }
     }
 
-    req = requests.post(url=f'http://localhost:3001/{context.user_data["id"]}/surveys', headers=headers, json=json)
+    requests.post(url=f'http://localhost:3001/users/{context.user_data["id"]}/surveys', headers=headers, json=json)
