@@ -15,7 +15,8 @@ async def run_tests(client: Client):
     )
     await signup_test(controller, client) # Testa o cadastro
     await logout_test(controller, client) # Testa o logout (Inicio fresco para outros testes)
-    await login_test(controller, client) # Testa o login
+    await login_test(controller, client)  # Testa o login
+    await tips_test(controller, client)   # Testa as dicas
 
 async def signup_test(controller: BotController, client: Client):
     async with controller.collect(count=2) as response:
@@ -153,5 +154,71 @@ async def login_test(controller: BotController, client: Client):
     assert resp.messages[1].photo
     print('Login concluído')
     
+async def tips_test(controller: BotController, client: Client):
+    async with controller.collect(count=2) as menu:
+        await controller.send_command('start') # envia /start
+    assert menu.num_messages == 2
+
+    menu = await menu.reply_keyboard.click('Dicas')  # clica em Dicas 
+    assert menu.num_messages == 1
+    assert 'as informações que reuni' in menu.messages[0].text
+    print('Dicas iniciado')
+   
+    print('(O que é) apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('O que é')  # clica em O que é
+    assert response.num_messages == 2
+    assert 'Em dezembro de 2019 foi' in response.messages[0].text
+
+    print('Prevenção apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Prevenção')  # clica em Prevenção
+    assert response.num_messages == 2
+    assert 'Higiene ambiental:' in response.messages[0].text
+
+    print('Sintomas apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Sintomas')  # clica em Sintomas
+    assert response.num_messages == 2
+    assert 'Distúrbios gastrintestinais' in response.messages[0].text
+
+    print('Transmissão apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Transmissão')  # clica em Transmissão
+    assert response.num_messages == 2
+    assert 'A transmissão pode ocorrer de uma' in response.messages[0].text
+
+    print('Suspeita apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Suspeita')  # clica em Suspeita
+    assert response.num_messages == 2
+    assert 'postos de triagem nas Unidades Básicas' in response.messages[0].text
+
+    print('(Fake news) apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Fake news')  # clica em Fake news
+    assert response.num_messages == 2
+    assert 'Science Translational Medicine' in response.messages[0].text
+    
+    print('Telefones apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Telefones')  # clica em Telefones
+    assert response.num_messages == 2
+    assert 'Defesa Civil' in response.messages[0].text
+
+    print('Fontes apertado')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Fontes')  # clica em Fontes
+    assert response.num_messages == 2
+    assert '- BBC News' in response.messages[0].text
+
+    print('Voltando ao menu inicial')
+    async with controller.collect(count=2) as response:
+        await menu.reply_keyboard.click('Voltar')  # clica em Voltar
+    assert response.num_messages == 2
+    assert 'Cancelando' in response.messages[0].text
+
+    print('Dicas testado com sucesso')
+
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(run_tests(create_client()))

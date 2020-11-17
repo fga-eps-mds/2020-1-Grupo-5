@@ -14,12 +14,12 @@ def start(update, context):
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Meu perfil'],
                           ['Sobre','Logout'],
-                          ['Ajuda']]
+                          ['Ajuda','Dicas']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-                      ['Ajuda', 'Dicas']]
+                      ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -42,12 +42,12 @@ def menu(update, context):
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Editar perfil'],
                           ['Sobre','Logout'],
-						  ['Ajuda']]
+						  ['Ajuda','Dicas']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-						 ['Ajuda', 'Dicas']]
+						 ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
