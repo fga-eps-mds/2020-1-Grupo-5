@@ -105,7 +105,7 @@ Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saú
 Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral.png" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral%20(1).png" />
 </p>
 
 Imagem 8 - Diagrama de pacotes geral dos Microsserviços.
