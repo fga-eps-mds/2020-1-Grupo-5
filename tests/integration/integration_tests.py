@@ -15,6 +15,7 @@ async def run_tests(client: Client):
     )
     await signup_test(controller, client) # Testa o cadastro
     await logout_test(controller, client) # Testa o logout (Inicio fresco para outros testes)
+    await login_test(controller, client) # Testa o login
 
 async def signup_test(controller: BotController, client: Client):
     async with controller.collect(count=2) as response:
@@ -99,6 +100,7 @@ async def signup_test(controller: BotController, client: Client):
         inline_keyboard = (await inline_keyboard.click('1998')).inline_keyboards[0]
         inline_keyboard = (await inline_keyboard.click('Abril')).inline_keyboards[0]
         await inline_keyboard.click('10')
+    print('Data de nascimento selecionada')
 
     assert response.num_messages == 9
     assert 'você foi cadastrado com sucesso' in response.messages[5].text
@@ -111,9 +113,45 @@ async def logout_test(controller: BotController, client: Client):
     assert response.messages[1].photo # segunda mensagem é uma foto
     print('Logout iniciado')
 
-    response = await response.reply_keyboard.click('Logout')
-    assert 'Até a próxima' in response.messages[0].text
+    async with controller.collect(count = 2) as resp:
+        await response.reply_keyboard.click('Logout')
+    assert 'Até a próxima' in resp.messages[0].text
     print('Logout concluído')
+
+async def login_test(controller: BotController, client: Client):
+    async with controller.collect(count=2) as response:
+        await controller.send_command('start') # envia /start
+    assert response.num_messages == 2 # 2 mensagens recebidas
+    assert response.messages[1].photo
+
+    response = await response.reply_keyboard.click('Login')
+    assert response.num_messages == 1
+    print('Iniciando login')
+
+    response = await response.reply_keyboard.click('Email')
+    assert response.num_messages == 1
+    print('Inserindo email')
+
+    async with controller.collect(count=1) as response:
+        await client.send_message(controller.peer_id, 'emailteste@teste.com')
+    assert response.num_messages == 1
+    print('Email inserido')
+
+    response = await response.reply_keyboard.click('Senha')
+    assert response.num_messages == 1
+    print('Inserindo senha')
+
+    async with controller.collect(count=1) as response:
+        await client.send_message(controller.peer_id, 'Senha12345')
+    assert response.num_messages == 1
+    print('Senha inserida')
+
+    async with controller.collect(count=3) as resp:
+        await response.reply_keyboard.click('Done')
+    assert resp.num_messages == 3
+    assert 'seja bem vindo' in resp.messages[0].text
+    assert resp.messages[1].photo
+    print('Login concluído')
     
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(run_tests(create_client()))
