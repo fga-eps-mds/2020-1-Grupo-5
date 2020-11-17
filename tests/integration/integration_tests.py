@@ -1,10 +1,15 @@
-import asyncio, pathlib
+import asyncio, pathlib, string, random
 from pyrogram import Client
 from tgintegration import BotController, Response
 
 def create_client():
     client = Client('my_account')
     return client
+
+def generate_random_str(size):
+    characters = string.ascii_lowercase
+    random_str = ''.join(random.choice(characters) for _ in range (size))
+    return random_str
 
 async def run_tests(client: Client):
     current_path = pathlib.Path(__file__).parent.absolute()
@@ -33,8 +38,10 @@ async def signup_test(controller: BotController, client: Client):
     assert response.num_messages == 1
     print('Inserindo username')
 
+    random_str = generate_random_str(10)
+
     async with controller.collect(count=1) as response:
-        await client.send_message(controller.peer_id, 'Usuario Teste') # envia uma mensagem contendo o nome de usuário
+        await client.send_message(controller.peer_id, random_str) # envia uma mensagem contendo o nome de usuário
     assert response.num_messages == 1
     print('Username inserido')
 
@@ -43,7 +50,7 @@ async def signup_test(controller: BotController, client: Client):
     print('Inserindo email')
 
     async with controller.collect(count=1) as response:
-        await client.send_message(controller.peer_id, 'emailteste@teste.com')
+        await client.send_message(controller.peer_id, random_str + '@email.com')
     assert response.num_messages == 1
     print('Email inserido')
 
