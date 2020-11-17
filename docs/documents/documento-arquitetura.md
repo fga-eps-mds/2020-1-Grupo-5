@@ -99,10 +99,10 @@ Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
 Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saúde.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Python.png" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20AWS.png" />
 </p>
 
-Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
+Imagem 7 - Diagrama de pacotes do Microsserviço Conexão com AWS.
 
 <p align="center">
   <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral%20(1).png" />
