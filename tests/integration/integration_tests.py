@@ -22,10 +22,23 @@ async def run_tests(client: Client):
         client=client,
     )
     await controller.clear_chat() # limpa o histórico
+    await help_test(controller, client) # Testa ajuda
     await signup_test(controller, client) # Testa o cadastro
     await logout_test(controller, client) # Testa o logout (Inicio fresco para outros testes)
     await login_test(controller, client)  # Testa o login
+    await help_test(controller, client)   # Testa ajuda após login
     await tips_test(controller, client)   # Testa as dicas
+
+async def help_test(controller: BotController, client: Client):
+    response = await start_conv_test(controller, client)
+
+    async with controller.collect(count=3) as response:
+        await client.send_message(controller.peer_id, 'Ajuda')
+    assert response.num_messages == 3
+    assert 'possui as seguintes funcionalidades' in response.messages[0].text
+    assert 'Informações gerais' in response.messages[1].text
+    assert 'Para informações mais detalhadas' in response.messages[2].text
+    print('Ajuda testada\n')
 
 async def start_conv_test(controller: BotController, client: Client):
     async with controller.collect(count=2) as response:
