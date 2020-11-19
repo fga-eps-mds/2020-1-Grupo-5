@@ -52,6 +52,15 @@ def cancel(update, context):
     handlers.menu(update, context)
     return ConversationHandler.END
 
+def back(update, context):
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Retornando ao menu!"
+    )
+    handlers.menu(update, context)
+    return ConversationHandler.END
+
 
 def bad_entry(update, context):
 
@@ -72,6 +81,13 @@ def bad_entry_edit(update, context):
     )
     
     perfil.start(update, context)
+
+def bad_entry_tips(update, context):
+	context.bot.send_message(
+        chat_id=update.effective_chat.id,
+       	text="Opção inválida, tente utilizar os botões!"
+    )
+	tips.start(update, context)
 
 def validaNome(nome):
 

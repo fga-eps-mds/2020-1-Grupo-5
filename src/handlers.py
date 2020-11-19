@@ -240,8 +240,8 @@ def tips_handler():
         states={
             tips.CHOOSING: [MessageHandler(Filters.regex(tips.ENTRY_REGEX), tips.regular_choice)]
         },
-        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
-                    MessageHandler(Filters.all, utils.bad_entry)]
+        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.back),
+                    MessageHandler(Filters.all, utils.bad_entry_tips)]
     )
     
 def finalizar(update, context):

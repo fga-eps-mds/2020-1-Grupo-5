@@ -24,11 +24,12 @@ async def run_tests(client: Client):
     await controller.clear_chat() # limpa o histórico
     await help_test(controller, client) # Testa ajuda
     await signup_test(controller, client) # Testa o cadastro
-    await logout_test(controller, client) # Testa o logout (Inicio fresco para outros testes)
+    await logout_test(controller, client) # Testa o logout
     await login_test(controller, client)  # Testa o login
     await help_test(controller, client)   # Testa ajuda após login
     await info_edit_test(controller, client) # Testa a edição de informações pessoais
     await tips_test(controller, client)   # Testa as dicas
+    await logout_test(controller, client) # Logout novamente (Inicio fresco)
     
 
 async def help_test(controller: BotController, client: Client):
