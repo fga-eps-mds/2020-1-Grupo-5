@@ -171,7 +171,7 @@ def bad_report_handler():
             bad_report.CHOOSING: [MessageHandler(Filters.text & ~(Filters.regex("^Done$")), bad_report.regular_choice)
             ]
         },
-        fallbacks=[MessageHandler(Filters.regex('^Done'), bad_report.done)]
+        fallbacks=[MessageHandler(Filters.location, bad_report.done)]
     )
 
 #Login de usuario

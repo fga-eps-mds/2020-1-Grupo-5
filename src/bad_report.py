@@ -1,4 +1,4 @@
-from telegram import ReplyKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, KeyboardButton
 import requests
 import json
 from src import getters, utils, handlers
@@ -7,9 +7,11 @@ CHOOSING = 0
 
 sintomas = ["Dor de Cabeça", "Febre", "Tosse", "Falta de Ar"]
 
+location_button = KeyboardButton('Done', request_location=True)
+
 markup = ReplyKeyboardMarkup([ ['Dor de Cabeça', 'Febre'],
                                ['Falta de Ar', 'Tosse'],
-                               ['Done']],
+                               [location_button]],
         resize_keyboard=True,
         one_time_keyboard=True)
 
@@ -49,12 +51,13 @@ def regular_choice(update, context):
 
 def done(update, context):
 
-
     headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
 
     json_entry = {
         "survey" : {
-                "symptom": context.user_data['Symptoms']
+                "symptom": context.user_data['Symptoms'],
+                "latitude": update.message.location.latitude,
+                "longitude": update.message.location.longitude,
         }
     }
 
