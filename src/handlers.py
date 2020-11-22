@@ -3,10 +3,11 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Conv
 import requests
 from src import signup, login, Bot, utils, perfil, tips, bad_report
 from src.CustomCalendar import CustomCalendar
-from datetime import date
+from datetime import date, datetime, timedelta
 import time
 
 
+daily_messages = list()
 
 #Envia o menu para o usuario
 def start(update, context):
@@ -270,12 +271,28 @@ def daily_report(update, context):
             text="Ativado notificações diárias")
         
         day_in_sec = 60 * 60 * 24# Dia em segundos
-        
-        context.job_queue.run_repeating(notify_assignees, day_in_sec, context=update.effective_chat.id)
-    
+
+        today = date.today()
+        exclude_time = datetime(today.year, today.month, today.day, 23, 59, 59)
+
+        context.job_queue.run_repeating(notify_assignees, interval=day_in_sec, context=update.effective_chat.id)
+
+        context.job_queue.run_repeating(delete_daily,interval=day_in_sec, first=exclude_time, context=update.effective_chat.id)
+
     else:
         unknown(update, context)
 
+
+def delete_daily(context):
+    for message in daily_messages:
+        try:
+            context.bot.delete_message(chat_id=context.job.context ,message_id=message)
+            daily_messages.remove(message)
+            return
+
+        except:
+
+            pass
 
 def cancel_daily(update, context):
     if utils.is_logged(context.user_data):
@@ -296,13 +313,16 @@ def notify_assignees(context):
     chat_id=context.job.context
 
     # Mensagem teste
-    context.bot.send_message(
+    message = context.bot.send_message(
         chat_id=chat_id,
         text="Sentiu sintomas hoje?",
         reply_markup=InlineKeyboardMarkup([[sim, nao]], 
                                         resize_keyboard=True)
     )
     
+    daily_messages.append(message['message_id'])
+
+
 def good_report(update, context):
     
     update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")
