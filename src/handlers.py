@@ -273,9 +273,11 @@ def daily_report(update, context):
         day_in_sec = 60 * 60 * 24# Dia em segundos
 
         today = date.today()
-        exclude_time = datetime(today.year, today.month, today.day, 23, 59, 59)
 
-        context.job_queue.run_repeating(notify_assignees, interval=day_in_sec, context=update.effective_chat.id)
+        exclude_time = datetime(today.year, today.month, today.day, 23, 59, 59)
+        daily_time = datetime(today.year, today.month, today.day, 12, 0, 0)
+
+        context.job_queue.run_repeating(notify_assignees, interval=day_in_sec, first=daily_time, context=update.effective_chat.id)
 
         context.job_queue.run_repeating(delete_daily,interval=day_in_sec, first=exclude_time, context=update.effective_chat.id)
 
