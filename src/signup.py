@@ -131,7 +131,7 @@ def done(update, context):
     # Estrutura necessária para não permitir a finalização incorreta de um cadastro
     # Caso o usuário tenha adicionado todas as infos, ele aceita a entrada
     # 7, pois devem existir 6 informações do usuário + teclado
-    if len(context.user_data) == 10:
+    if len(context.user_data) == 11:
         
         # Reinicia o teclado removendo a opção de Done
         context.user_data['Keyboard'].remove(['Done'])

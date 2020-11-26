@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode, InlineKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils, perfil, tips, bad_report
+from src import signup, login, Bot, utils, perfil, tips, bad_report, diario, good_report
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
@@ -12,9 +12,9 @@ import time
 def start(update, context):
 
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Meu perfil'],
-                          ['Sobre','Logout'],
-                          ['Ajuda']]
+        reply_keyboard = [['Estatisticas','Editar perfil'],
+                        ['Sobre','Logout'],
+                        ['Enviar notificações','Ajuda']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
@@ -39,24 +39,64 @@ def start(update, context):
 
 
 def menu(update, context):
+
+    if not utils.is_logged(context.user_data):
+        
+        context.user_data['Global'] = None
+
+
+
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Editar perfil'],
-                          ['Sobre','Logout'],
-						  ['Ajuda']]
+
+        if context.user_data['Global']:
+            
+            context.user_data['Global'] = False
+
+            # ConversationHandler.END
+            diario.start(update, context)
+        else:
+            reply_keyboard = [['Estatisticas','Editar perfil'],
+                            ['Sobre','Logout'],
+                            ['Enviar notificações','Ajuda']]
+
+            markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
+            resposta = "Selecione a opção desejada!"
+
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=resposta,
+                reply_markup=markup
+            )
     
     else:
+
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
 						 ['Ajuda', 'Dicas']]
 
-    markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
-    resposta = "Selecione a opção desejada!"
+        markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
+        resposta = "Selecione a opção desejada!"
 
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=resposta,
-        reply_markup=markup
-    )
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=resposta,
+            reply_markup=markup
+        )
+
+
+
+    # if context.user_data['Global']:
+
+    #     context.user_data['Global'] = False
+
+    #     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
+    #     resposta = "Selecione a opção desejada!"
+
+    #     context.bot.send_message(
+    #         chat_id=update.effective_chat.id,
+    #         text=resposta,
+    #         reply_markup=markup
+    #     )
 
 
 
@@ -112,9 +152,15 @@ def birthDayCallBack(update, context):
     elif result:
         
         context.user_data['Nascimento'] = result
+        context.user_data.update({'birthdate' : str(result)})
         update.callback_query.edit_message_text(f'Selecionado: {result}')
-        
-        signup.requestSignup(update, context)
+
+        if utils.is_logged(context.user_data):
+            context.user_data['resp_item'] = str(result)
+            perfil.requestEdit(update, context)
+            None
+        else:
+            signup.requestSignup(update, context)
 
 
 def logout(update, context):
@@ -132,7 +178,7 @@ def logout(update, context):
 
         menu(update,context)
 
-        cancel_daily(update, context)
+        # diario.cancel_daily(update, context)
 
     else:
         #Caso não esteja logado, não entra na função de logout
@@ -156,6 +202,22 @@ def login_handler():
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
             )
 
+
+
+# def diario_handler():
+
+#     return ConversationHandler(
+#             entry_points=[MessageHandler(Filters.text("Enviar notificações"), diario.start)],
+#             states={
+#                 diario.CHOOSING: [MessageHandler(Filters.regex(Bot.DIARIO_REGEX),
+#                                         diario.regular_choice)
+#                         ],
+#             },
+#             fallbacks=[
+#             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
+#             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
+#             )
+
 def return_regex(sintomas):
     reg = str()
     for sintoma in sintomas:
@@ -165,12 +227,20 @@ def return_regex(sintomas):
 
 def bad_report_handler():
     return ConversationHandler(
-        entry_points=[CallbackQueryHandler(bad_report.start, pattern='^bad_report$')],
+        # entry_points=[CallbackQueryHandler(bad_report.start, pattern='^bad_report$')],
+        entry_points=[MessageHandler(Filters.text("Não, não estou bem."), bad_report.start)],
         states={
-            bad_report.CHOOSING: [MessageHandler(Filters.regex('^Dor de Cabeça$') | Filters.location, bad_report.regular_choice)]
+            bad_report.CHOOSING:    [
+                MessageHandler(Filters.regex(Bot.DIARIO_SINTOMAS_REGEX) | Filters.location,
+                bad_report.regular_choice)
+                            ],
+            bad_report.TYPING_REPLY: [
+                MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
+                bad_report.received_information)],
+     
         },
         fallbacks=[MessageHandler(Filters.regex('^Done'), bad_report.done),
-        MessageHandler(Filters.regex('^Voltar$'), bad_report.cancel),
+        MessageHandler(Filters.regex('^Voltar$'), bad_report.back),
         MessageHandler(Filters.all & ~ Filters.regex('^Voltar|Done$'), bad_report.bad_entry)]
     )
 
@@ -185,10 +255,13 @@ def perfil_handler():
                 perfil.TYPING_REPLY: [
                     MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                                 perfil.received_information)],
+                #  signup.TYPING_REPLY: [
+                #     MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
+                #                 perfil.received_information)], 
             },
             fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
             MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry)]
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry_edit)]
             )
 
 #Envia informaçoes sobre o bot
@@ -252,7 +325,6 @@ def finalizar(update, context):
         text=resposta
     )
 
-
 #Mensagens não reconhecidas
 def unknown(update, context):
     resposta = "Não entendi. Tem certeza de que digitou corretamente?\n\nRetornando ao menu."
@@ -261,49 +333,3 @@ def unknown(update, context):
         text=resposta,
     )
     menu(update, context)
-
-
-def daily_report(update, context):
-    if utils.is_logged(context.user_data):
-        
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Ativado notificações diárias")
-        
-        day_in_sec = 30# Dia em segundos
-        
-        context.job_queue.run_repeating(notify_assignees, day_in_sec, context=update.message.chat_id)
-    
-    else:
-        unknown(update, context)
-
-
-def cancel_daily(update, context):
-    if utils.is_logged(context.user_data):
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Notificações diárias desativadas"
-        )
-
-        context.job_queue.stop()
-    else:
-        unknown(update, context)
-
-def notify_assignees(context):
-
-    sim = InlineKeyboardButton(text="Sim",callback_data='bad_report')
-    nao = InlineKeyboardButton(text="Não", callback_data='good_report')
-
-    chat_id=context.job.context
-
-    # Mensagem teste
-    context.bot.send_message(
-        chat_id=chat_id,
-        text="Sentiu sintomas hoje?",
-        reply_markup=InlineKeyboardMarkup([[sim, nao]], 
-                                        resize_keyboard=True)
-    )
-    
-def good_report(update, context):
-    
-    update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")

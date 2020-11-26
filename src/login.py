@@ -1,7 +1,8 @@
 import requests, json
 from telegram import ReplyKeyboardMarkup, KeyboardButton, Update, Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, Dispatcher
-from src import utils, handlers, getters, bad_report
+from src import utils, handlers, getters, bad_report, diario, news
+import _thread as thread
 
 
 # Estados
@@ -12,6 +13,8 @@ required_data = set()
 
 # Inicia o login
 def start(update, context):
+    #Limpa a sessão do usuário
+    context.user_data.clear()
     user_data = context.user_data
     user_data['Keyboard'] = [['Email', 'Senha'],
                             ['Cancelar']]
@@ -152,7 +155,9 @@ def request_login(update, context):
         )
 
         #Habilita NOtificações diárias
-        handlers.daily_report(update, context)
+        # handlers.daily_report(update, context)
+        # diario.daily_report(update, context)
+        # diario.start(update, context)
 
         arq = "assets/doc_arquitetura/GuardioesLogo.png"
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(arq, 'rb'))
@@ -162,6 +167,17 @@ def request_login(update, context):
             chat_id=update.effective_chat.id,
             text="Seu login falhou!\n\nTem certeza que digitou os dados corretamente?"
         )
+
+
+# ____________________________
+
+    # a = news.Th(1)
+    # a.run(update, context) 
+
+    context.user_data['Global'] = None
+    thread.start_new_thread(news.run, (update, context))
+# ____________________________
+
 
     # Chama o menu novamente
     handlers.menu(update, context)

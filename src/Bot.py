@@ -1,6 +1,6 @@
 from telegram import Bot,Update
 from telegram.ext import CommandHandler, CallbackContext, Dispatcher, Filters, CallbackQueryHandler,MessageHandler, Updater, ConversationHandler
-from src import handlers, signup
+from src import handlers, signup, diario, getSaude, good_report, diario
 import pathlib
 import re
 import time
@@ -8,6 +8,9 @@ import time
 SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
 PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|Trabalho|Mostrar informações|Voltar)$'
+DIARIO_REGEX = '^(Sim, estou bem.|Não, não estou bem.)$'
+DIARIO_SINTOMAS_REGEX = '^(Dor de cabeça|Bolhas na Pele|Mal-estar|Bolhas na Pele|Congestão Nasal|Náuseas|Diarréia|Dificuldade de respirar|Olhos vermelhos|Dor nas Articulações|Febre|Tosse|Dor no Estômago|Dor nos Músculos|Sangramentos|Dor nos Olhos|Calafrios|Vômito|Pele e olhos avermelhados|Manchas vermelhas no corpo|Dor de cabeça✅|Bolhas na Pele✅|Mal-estar✅|Bolhas na Pele✅|Congestão Nasal✅|Náuseas✅|Diarréia✅|Dificuldade de respirar✅|Olhos vermelhos✅|Dor nas Articulações✅|Febre✅|Tosse✅|Dor no Estômago✅|Dor nos Músculos✅|Sangramentos✅|Dor nos Olhos✅|Calafrios✅|Vômito✅|Pele e olhos avermelhados✅|Manchas vermelhas no corpo✅|Localização)$'
+
 
 class Bot:
 
@@ -35,7 +38,8 @@ class Bot:
             dispatcher.add_handler(MessageHandler(Filters.text("Finalizar"), handlers.finalizar )) # Finalizar conversa
 
             # Handler para mostrar informações do usuário
-            dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
+            dispatcher.add_handler(MessageHandler(Filters.text("Estatisticas"), getSaude.start)) 
+            # dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
             # dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
 
             # Handler para mostrar informações do usuário
@@ -53,6 +57,18 @@ class Bot:
             # Estrutura para mostrar o perfil/editar perfil
             dispatcher.add_handler(handlers.perfil_handler())
 
+            # Estrutura para mostrar o diario
+            # dispatcher.add_handler(handlers.diario_handler())
+
+            # Estrutura para bad report
+            dispatcher.add_handler(handlers.bad_report_handler())
+
+            # Função de diario
+            dispatcher.add_handler(MessageHandler(Filters.text("Enviar notificações"), diario.start))
+
+            # Estrutura para good report
+            dispatcher.add_handler(MessageHandler(Filters.text("Sim, estou bem."), good_report.good_report))
+
             # Função de logout
             dispatcher.add_handler(MessageHandler(Filters.text("Logout"), handlers.logout))
 
@@ -60,16 +76,18 @@ class Bot:
             dispatcher.add_handler(MessageHandler(Filters.text("Ajuda"), handlers.ajuda))
 
             # Notificações diárias
-            dispatcher.add_handler(MessageHandler(Filters.text('Habilitar Notificações'), handlers.daily_report, pass_job_queue=True))
-            dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), handlers.cancel_daily, pass_job_queue=True))
+            # dispatcher.add_handler(MessageHandler(Filters.text('Habilitar Notificações'), diario.daily_report, pass_job_queue=True))
+            # dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), diario.cancel_daily, pass_job_queue=True))
 
             # Feedback diario
-            dispatcher.add_handler(CallbackQueryHandler(handlers.good_report, pattern='^good_report$'))
-            dispatcher.add_handler(handlers.bad_report_handler())
+            # dispatcher.add_handler(CallbackQueryHandler(diario.good_report, pattern='^good_report$'))
+            # dispatcher.add_handler(MessageHandler(Filters.text("Não, não estou bem."), handlers.bad_report_handler))
 
             # Callback query do calendário
-            dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack, pattern='^((?!good_report|bad_report).)*$'))
-
+            # dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack, pattern='^((?!good_report|bad_report).)*$'))
+            # Callback query do calendário
+            dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack))
+            
             # Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
             dispatcher.add_handler(MessageHandler(Filters.all , handlers.unknown)) 
            

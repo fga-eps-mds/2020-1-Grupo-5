@@ -1,9 +1,15 @@
 import json, requests
 from validate_email import validate_email
-from src import handlers
+from src import handlers, perfil
 from telegram.ext import ConversationHandler
 from telegram import ReplyKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
+
+def hour_routine():
+    
+    hour_define = r"[1][0]:[4][3]:[1][0]"
+
+    return hour_define
 
 def is_logged(user_data):
 
@@ -60,6 +66,15 @@ def bad_entry(update, context):
     return ConversationHandler.END
 
 
+def bad_entry_edit(update, context):
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Opção inválida, tente utilizar os botões!\nRetornando ao menu de edição."
+    )
+    
+    perfil.start(update, context)
+
 def validaNome(nome):
 
     if len(nome) >= 8:
@@ -107,6 +122,12 @@ def validaTrabalho(trabalho):
 
     return False
 
+def validaRisco(risco):
+
+    if str(risco).lower() in ['sim', 'não', 'nao']:
+        return True
+
+    return False
 
 def validations_login(user_data):
 
@@ -149,6 +170,27 @@ def validations_signup(user_data):
 
     return True
 
+def validations_edition(user_data):
+
+    if "user_name" in user_data and not validaNome(user_data['user_name']):
+        return False
+
+    if "gender" in user_data and not validaGenero(user_data['gender']):
+        return False
+
+    if "race" in user_data and not validaRaca(user_data['race']):
+        return False
+    
+    if "is_professional" in user_data and not validaTrabalho(user_data['is_professional']):
+        return False
+
+    if "risk_group" in user_data and not validaRisco(user_data['risk_group']):
+        return False
+
+    # if "birthdate" in user_data and not validaNascimento(user_data['birthdate']):
+    #     return False
+
+    return True
 
 def image(entradaTexto):
 
@@ -224,13 +266,26 @@ def update_check_mark(keyboard, category, validation):
                     keyboard[i][j] = item[:-1]
                     return
 
+def update_check_mark_report(keyboard, category, validation):
+    for i, items in enumerate(keyboard):
+        for j, item in enumerate(items):
+            if category in item:
+                if validation and '✅' not in item:
+                    keyboard[i][j] = item + '✅'
+                    return
+                elif validation and '✅' in item:
+                    print("Entrou aqui item: ", item)
+                    keyboard[i][j] = item[:-1]
+                    return
+                elif not validation and '✅' in item:
+                    keyboard[i][j] = item[:-1]
+                    return
 
 # Atualiza as informações que ainda faltam ser inseridas
 def update_required_data(received_data, required_data):
     for key in received_data:
         if key in required_data:
             required_data.remove(key)
-
 
 # Função que adiciona done ao terminar de adicionar todas as informações
 def form_filled(keyboard):

@@ -94,6 +94,16 @@ def get_birthday(update, context):
                             
     return CHOOSING
 
+#Funcao que recebe o dia de nascimento
+def get_birthday_edit(update, context):
+
+    update.message.reply_text('Preencha com a data de nascimento correta.')
+    calendar, step = CustomCalendar(locale='br', max_date=date.today()).build()
+    update.message.reply_text(  f"Selecione o {CustomCalendar.LSTEP[step]}",
+                                reply_markup=calendar)
+
+    return CHOOSING
+    
 #Funcao que recebe se o usario trabalha ou não
 def get_professional(update, context):
     text = update.message.text
@@ -112,6 +122,7 @@ def get_location(update, context):
         chat_id=update.effective_chat.id,
         text='Clique no botão para enviar sua localização', 
         reply_markup=location_markup
+        # request_location=True
     )
     return CHOOSING
     
