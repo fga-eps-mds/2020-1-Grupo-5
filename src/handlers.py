@@ -6,8 +6,6 @@ from src.CustomCalendar import CustomCalendar
 from datetime import date
 import time
 
-
-
 #Envia o menu para o usuario
 def start(update, context):
 
@@ -34,17 +32,11 @@ def start(update, context):
     # context.bot.send_photo(chat_id=chat_id, photo=open('tests/test.png', 'rb'))
     context.bot.send_photo(chat_id=update.effective_chat.id, photo=link)
 
-
-
-
-
 def menu(update, context):
 
     if not utils.is_logged(context.user_data):
         
         context.user_data['Global'] = None
-
-
 
     if utils.is_logged(context.user_data):
 
@@ -83,23 +75,6 @@ def menu(update, context):
             reply_markup=markup
         )
 
-
-
-    # if context.user_data['Global']:
-
-    #     context.user_data['Global'] = False
-
-    #     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
-    #     resposta = "Selecione a opção desejada!"
-
-    #     context.bot.send_message(
-    #         chat_id=update.effective_chat.id,
-    #         text=resposta,
-    #         reply_markup=markup
-    #     )
-
-
-
 #Retorna as informações dos usuarios
 def get_user_info(update, context):
 
@@ -111,19 +86,13 @@ def get_user_info(update, context):
     else:
         unknown(update, context)
 
-
 def edit_user_info(update, context):
     if utils.is_logged(context.user_data):
         resposta = context.user_data
         perfil.requestEdit(update, resposta)        
 
-
     else:
         unknown(update, context)
-
-
-
-
 
 #Cadastra novo user
 def signup_handler():
@@ -162,7 +131,6 @@ def birthDayCallBack(update, context):
         else:
             signup.requestSignup(update, context)
 
-
 def logout(update, context):
     
     if utils.is_logged(context.user_data):
@@ -177,8 +145,6 @@ def logout(update, context):
         )
 
         menu(update,context)
-
-        # diario.cancel_daily(update, context)
 
     else:
         #Caso não esteja logado, não entra na função de logout
@@ -201,22 +167,6 @@ def login_handler():
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
             )
-
-
-
-# def diario_handler():
-
-#     return ConversationHandler(
-#             entry_points=[MessageHandler(Filters.text("Enviar notificações"), diario.start)],
-#             states={
-#                 diario.CHOOSING: [MessageHandler(Filters.regex(Bot.DIARIO_REGEX),
-#                                         diario.regular_choice)
-#                         ],
-#             },
-#             fallbacks=[
-#             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
-#             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
-#             )
 
 def return_regex(sintomas):
     reg = str()
@@ -255,9 +205,6 @@ def perfil_handler():
                 perfil.TYPING_REPLY: [
                     MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                                 perfil.received_information)],
-                #  signup.TYPING_REPLY: [
-                #     MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
-                #                 perfil.received_information)], 
             },
             fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
             MessageHandler(Filters.regex('^Voltar$'), utils.cancel),

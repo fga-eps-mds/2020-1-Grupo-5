@@ -171,9 +171,6 @@ def request_login(update, context):
 
 # ____________________________
 
-    # a = news.Th(1)
-    # a.run(update, context) 
-
     context.user_data['Global'] = None
     thread.start_new_thread(news.run, (update, context))
 # ____________________________

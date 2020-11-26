@@ -129,7 +129,6 @@ def form_filled(context):
 #Termina cadastro e envia ao servidor da API do guardiões
 def done(update, context):
 
-
     #Estrutura necessária para não permitir a finalização incorreta de um cadastro
     #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
     #7, pois devem existir 6 informações do usuário + teclado
@@ -150,8 +149,6 @@ def done(update, context):
 
 
     return ConversationHandler.END
-
-
 
 #Funcao que cadastra o usuario
 def requestEdit(update, context):
@@ -208,13 +205,12 @@ def requestEdit(update, context):
     r = requests.patch("http://127.0.0.1:3001/users/" + str(user_data.get('id')) , json=json_entry, headers=headers)
 
     if r.status_code == 200: # Sucesso
-        # update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
+
         context.bot.send_message(   chat_id=update.effective_chat.id,
                                 text= "Você alterou a informação com sucesso, retornando ao menu de edição\n")
         print("request perfil acept")
 
     else: #Falha
-        # update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")  
         
         context.bot.send_message(   chat_id=update.effective_chat.id,
                                 text= "Algo deu errado com a edição, retornando ao menu de edição\n")

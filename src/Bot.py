@@ -39,11 +39,6 @@ class Bot:
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Estatisticas"), getSaude.start)) 
-            # dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
-            # dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
-
-            # Handler para mostrar informações do usuário
-            # dispatcher.add_handler(MessageHandler(Filters.text("Editar informações"), handlers.edit_user_info)) 
             
             # Estrutura para registros
             dispatcher.add_handler(handlers.signup_handler())
@@ -56,9 +51,6 @@ class Bot:
             
             # Estrutura para mostrar o perfil/editar perfil
             dispatcher.add_handler(handlers.perfil_handler())
-
-            # Estrutura para mostrar o diario
-            # dispatcher.add_handler(handlers.diario_handler())
 
             # Estrutura para bad report
             dispatcher.add_handler(handlers.bad_report_handler())
@@ -75,16 +67,6 @@ class Bot:
             # Função tutorial
             dispatcher.add_handler(MessageHandler(Filters.text("Ajuda"), handlers.ajuda))
 
-            # Notificações diárias
-            # dispatcher.add_handler(MessageHandler(Filters.text('Habilitar Notificações'), diario.daily_report, pass_job_queue=True))
-            # dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), diario.cancel_daily, pass_job_queue=True))
-
-            # Feedback diario
-            # dispatcher.add_handler(CallbackQueryHandler(diario.good_report, pattern='^good_report$'))
-            # dispatcher.add_handler(MessageHandler(Filters.text("Não, não estou bem."), handlers.bad_report_handler))
-
-            # Callback query do calendário
-            # dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack, pattern='^((?!good_report|bad_report).)*$'))
             # Callback query do calendário
             dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack))
             
@@ -96,7 +78,6 @@ class Bot:
             print("Token não encontrado, alguns motivos:\n"
                   "1 - Executou na pasta raiz?\n"
                   "2 - Realmente tem um arquivo token.txt na pasta config?")
-
 
     def run(self):
         #Mantem o bot rodando localmente enquanto o programa estiver sendo executado

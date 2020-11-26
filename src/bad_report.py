@@ -6,7 +6,6 @@ from src import utils, handlers, getters, bad_report, diario, location, news
 
 # Estados
 CHOOSING, TYPING_REPLY = range(2)
-# sintomas = diario.sintomas
 
 required_data = set()
 
@@ -14,8 +13,6 @@ required_data = set()
 # Inicia o login
 def start(update, context):
     
-    print("\nBad report start context: ", context.user_data)
-
     context.user_data['Symptoms'] = list()
     user_data = context.user_data
 
@@ -47,11 +44,7 @@ def regular_choice(update, context):
     # Adiciona uma chave com o valor de 'Email' ou 'Senha' de acordo com a escolha do user
     text = update.message.text
 
-
     context.user_data['choice'] = text
-
-    print("Regular choice: ", context.user_data)
-    print("Regular choice text: ", text)
 
     # De acordo com a escolha chama uma função
 
@@ -66,7 +59,6 @@ def regular_choice(update, context):
         elif text in context.user_data['Symptoms']:
             context.user_data['Symptoms'].remove(text)
 
-        print("Entrou no if do regu")
         category = update_received_information(context, update)
         head = validation_management(context.user_data, category)
         update_missing_info(context.user_data)
@@ -102,13 +94,10 @@ def update_received_information(context, update):
     del context.user_data['choice']
 
     if 'Localização' in category or 'Prosseguir' in category:
+
         context.user_data['longitude'] = update.message.location.longitude
         context.user_data['latitude'] = update.message.location.latitude
-
-        print("Update in localization: ", category)
         location.reverseGeo(update.message.location, context)
-    # else:
-    #     context.user_data[category] = update.message.text
 
     return category
 
@@ -137,10 +126,8 @@ def update_missing_info(user_data):
         utils.undone_keyboard(user_data['Keyboard'])
     
 def done(update, context):
+
     keyboard = context.user_data['Keyboard']
-
-    print("Keyboard:", keyboard[7])
-
     markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
     if not 'Localização✅' in keyboard[7]:
@@ -163,8 +150,9 @@ def done(update, context):
         return CHOOSING  
     
     else:
+
+
         headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
-        print("Bad report context surveys: ", context.user_data)
 
         json_entry = {
             "survey" : {
@@ -187,22 +175,15 @@ def done(update, context):
 
         context.user_data.pop('Symptoms', None)
 
-        # news.run(update, context)
         handlers.menu(update, context)
 
         return -1 # END
 
 def get_loc(update, context):
-    print("\nGet loc context: ", context.user_data)
+
     getters.get_location(update, context.user_data)
-    # print("\nGet loc context: ", )
+
     return CHOOSING
-
-
-# def bad_entry(update, context):
-#     print('Bad_entry')
-    
-#     return -1 # END
 
 def bad_entry(update, context):
 
@@ -210,90 +191,11 @@ def bad_entry(update, context):
         chat_id=update.effective_chat.id,
         text="Opção inválida, tente utilizar os botões!"
     )
-    # context.user_data.clear()
-
-    # handlers.menu(update, context)
 
     return CHOOSING
 
-
-
-
 def back(update, context):
-    print("Voltar")
+
     diario.start(update, context)
+
     return -1 # END
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def done(update, context):
-
-
-#     headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
-
-#     print("Bad report context surveys: ", context.user_data)
-
-
-#     json_entry = {
-#         "survey" : {
-#                 "latitute" : context.user_data['latitude'],
-#                 "longitude": context.user_data['longitude'],
-#                 "symptom": context.user_data['Symptoms']
-#         }
-#     }
-
-#     url = f"http://localhost:3001/users/{context.user_data['id']}/surveys"
-
-#     req = requests.post(headers=headers, json=json_entry, url=url)
-
-#     print("Bad report surveys: ", req)
-
-#     if req.status_code == 200:
-#         print('Bad report feito')
-
-#     else:
-#         print(req)
-
-#     return -1 # END
-
-
-
-
-
-
-
-# def get_symptoms(update, context):
-
-#     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
-
-#     r = requests.get(url="http://localhost:3001/symptoms", headers=headers)
-
-#     symptoms = json.loads(r.content)['symptoms']
-
-#     print("\nBad report symptoms context: ", context.user_data)
-
-#     print("Get symptoms: ", symptoms)
-
-#     for symptom in symptoms:
-#         sintomas.append(symptom)
-
-
-
-
-# def update_received_information(user_data, text):
-#     # Adiciona a informação enviada pelo user à sua respectiva chave
-#     category = user_data['choice']
-#     del user_data['choice']
-#     # user_data[category] = text
-
-#     return category

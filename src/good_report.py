@@ -12,9 +12,6 @@ import time
 
 def good_report(update, context):
     
-    print("Good report!")
-
-    # update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")
     update.message.reply_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")
 
     headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
@@ -27,7 +24,6 @@ def good_report(update, context):
 
     requests.post(url=f'http://localhost:3001/users/{context.user_data["id"]}/surveys', headers=headers, json=json)
 
-    # news.run(update, context)
     handlers.menu(update, context)
 
     return -1 # END

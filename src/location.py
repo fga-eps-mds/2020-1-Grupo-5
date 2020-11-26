@@ -13,8 +13,6 @@ locator = Nominatim(user_agent="myGeocoder")
 
 def reverseGeo(location, context):
 
-    print("reverseGeo Init: ", context.user_data)
-
     longitude = location.longitude
 
     latitude = location.latitude
@@ -38,5 +36,3 @@ def reverseGeo(location, context):
             context.user_data['Cidade'] = "Cidade não identificada."
 
     context.user_data['País'] = user_location['address']['country']
-
-    print("reverseGeo End: ", context.user_data)

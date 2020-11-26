@@ -18,7 +18,6 @@ def is_logged(user_data):
 
     return False
 
-
 # Função que retorna uma string de um SET
 def set_to_str(data):
 
@@ -28,7 +27,6 @@ def set_to_str(data):
         remain_data.append('{}.'.format(value))
 
     return "\n".join(remain_data).join(['\n', '\n'])    
-
 
 # Passa dict para string
 def dict_to_str(user_data):
@@ -41,7 +39,6 @@ def dict_to_str(user_data):
 
     return "\n".join(lst).join(['\n', '\n'])
     
-
 def cancel(update, context):
 
     context.bot.send_message(
@@ -51,7 +48,6 @@ def cancel(update, context):
     context.user_data.clear()
     handlers.menu(update, context)
     return ConversationHandler.END
-
 
 def bad_entry(update, context):
 
@@ -274,7 +270,6 @@ def update_check_mark_report(keyboard, category, validation):
                     keyboard[i][j] = item + '✅'
                     return
                 elif validation and '✅' in item:
-                    print("Entrou aqui item: ", item)
                     keyboard[i][j] = item[:-1]
                     return
                 elif not validation and '✅' in item:
