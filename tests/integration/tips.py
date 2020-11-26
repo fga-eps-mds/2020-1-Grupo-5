@@ -3,11 +3,11 @@ from tgintegration import BotController
 import simple_messages
 
 async def tips_test(controller: BotController, client: Client):
-    response = await simple_messages.start_conv_test(controller, client)
+    response = await simple_messages.start_conv_test(controller)
 
-    response = await response.reply_keyboard.click('Dicas')  # clica em Dicas 
-    assert response.num_messages == 1
-    assert 'as informações que reuni' in response.messages[0].text
+    resp = await response.reply_keyboard.click('Dicas')  # clica em Dicas 
+    assert resp.num_messages == 1
+    assert 'as informações que reuni' in resp.messages[0].text
     print('Dicas iniciado')
    
     print('(O que é) apertado')
@@ -57,6 +57,13 @@ async def tips_test(controller: BotController, client: Client):
         await client.send_message(controller.peer_id, 'Fontes')  # clica em Fontes
     assert response.num_messages == 2
     assert '- BBC News' in response.messages[0].text
+
+    print('Locais apertado')
+    async with controller.collect(count=2) as response:
+        await client.send_message(controller.peer_id, 'Locais')  # clica em Fontes
+    assert response.num_messages == 2
+    assert 'Google Maps' in response.messages[0].text
+    assert response.inline_keyboards
 
     print('Voltando ao menu inicial')
     async with controller.collect(count=2) as response:

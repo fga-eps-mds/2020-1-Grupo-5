@@ -1,6 +1,6 @@
 import json, requests
 from validate_email import validate_email
-from src import handlers, perfil
+from src import handlers, perfil, tips
 from telegram.ext import ConversationHandler
 from telegram import ReplyKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont

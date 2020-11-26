@@ -14,176 +14,176 @@ user_email = user_name + '@email.com'
 
 async def run_tests(controller: BotController, client: Client):
     await signup_test(controller, client)
-    await logout_test(controller, client)
+    await logout_test(controller)
     await login_test(controller, client)
 
 async def test_username(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Username')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Username')
+    assert resp.num_messages == 1
     print('Inserindo username')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, user_name)
-    assert response.num_messages == 1
-    assert user_name in response.full_text
+    assert resp.num_messages == 1
+    assert user_name in resp.full_text
     print('Username validado')
 
-    return response
+    return resp
 
 async def test_invalid_username(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Username')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Username')
+    assert resp.num_messages == 1
     print('Inserindo username inválido')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, 'wrong')
-    assert response.num_messages == 1
-    assert 'wrong' not in response.full_text
+    assert resp.num_messages == 1
+    assert 'wrong' not in resp.full_text
     print('Username invalidado')
 
-    return response
+    return resp
 
 async def test_email(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Email')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Email')
+    assert resp.num_messages == 1
     print('Inserindo email')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, user_email)
-    assert response.num_messages == 1
-    assert user_email in response.full_text
+    assert resp.num_messages == 1
+    assert user_email in resp.full_text
     print('Email validado')
 
-    return response
+    return resp
 
 async def test_invalid_email(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Email')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Email')
+    assert resp.num_messages == 1
     print('Inserindo email inválido')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, 'emailinvalido')
-    assert response.num_messages == 1
-    assert 'emailinvalido' not in response.full_text
+    assert resp.num_messages == 1
+    assert 'emailinvalido' not in resp.full_text
     print('Email invalidado')
 
-    return response
+    return resp
 
 async def test_password(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Senha')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Senha')
+    assert resp.num_messages == 1
     print('Inserindo senha')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, 'Senha12345')
-    assert response.num_messages == 1
-    assert 'Senha12345' in response.full_text
+    assert resp.num_messages == 1
+    assert 'Senha12345' in resp.full_text
     print('Senha validada')
 
-    return response
+    return resp
 
 async def test_invalid_password(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Senha')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Senha')
+    assert resp.num_messages == 1
     print('Inserindo senha inválida')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, 'pass12')
-    assert response.num_messages == 1
-    assert 'pass12' not in response.full_text
+    assert resp.num_messages == 1
+    assert 'pass12' not in resp.full_text
     print('Senha invalidada')
 
-    return response
+    return resp
 
-async def test_race(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Raça')
-    assert response.num_messages == 1
+async def test_race(response: Response):
+    resp = await response.reply_keyboard.click('Raça')
+    assert resp.num_messages == 1
     print('Escolhendo raça')
 
-    response = await response.reply_keyboard.click('Branco')
-    assert response.num_messages == 1
-    assert 'Branco' in response.full_text
+    resp_1 = await resp.reply_keyboard.click('Branco')
+    assert resp_1.num_messages == 1
+    assert 'Branco' in resp_1.full_text
     print('Raça validada')
 
-    return response
+    return resp_1
 
 async def test_invalid_race(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Raça')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Raça')
+    assert resp.num_messages == 1
     print('Escolhendo raça inválida')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, 'invalid')
-    assert response.num_messages == 1
-    assert 'invalid' not in response.full_text
+    assert resp.num_messages == 1
+    assert 'invalid' not in resp.full_text
     print('Raça invalidada')
 
-    return response
+    return resp
 
-async def test_job(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Trabalho')
-    assert response.num_messages == 1
+async def test_job(response: Response):
+    resp = await response.reply_keyboard.click('Trabalho')
+    assert resp.num_messages == 1
     print('Escolhendo trabalho')
 
-    response = await response.reply_keyboard.click('Sim')
-    assert response.num_messages == 1
-    assert 'Sim' in response.full_text
+    resp_1 = await resp.reply_keyboard.click('Sim')
+    assert resp_1.num_messages == 1
+    assert 'Sim' in resp_1.full_text
     print('Trabalho validado')
 
-    return response
+    return resp_1
 
 async def test_invalid_job(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Trabalho')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Trabalho')
+    assert resp.num_messages == 1
     print('Escolhendo trabalho inválido')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, 'invalid')
-    assert response.num_messages == 1
-    assert 'invalid' not in response.full_text
+    assert resp.num_messages == 1
+    assert 'invalid' not in resp.full_text
     print('Trabalho invalidado')
 
-    return response
+    return resp
 
-async def test_gender(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Genero sexual')
-    assert response.num_messages == 1
+async def test_gender(response: Response):
+    resp = await response.reply_keyboard.click('Genero sexual')
+    assert resp.num_messages == 1
     print('Escolhendo gênero')
 
-    response = await response.reply_keyboard.click('Homem Cis')
-    assert response.num_messages == 1
-    assert 'Homem Cis' in response.full_text
+    resp_1 = await resp.reply_keyboard.click('Homem Cis')
+    assert resp_1.num_messages == 1
+    assert 'Homem Cis' in resp_1.full_text
     print('Gênero validado')
 
-    return response
+    return resp_1
 
 async def test_invalid_gender(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Genero sexual')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Genero sexual')
+    assert resp.num_messages == 1
     print('Escolhendo gênero inválido')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_message(controller.peer_id, 'invalid')
-    assert response.num_messages == 1
-    assert 'invalid' not in response.full_text
+    assert resp.num_messages == 1
+    assert 'invalid' not in resp.full_text
     print('Gênero invalidado')
 
-    return response
+    return resp
 
 async def test_location(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Localização')
-    assert response.num_messages == 1
+    resp = await response.reply_keyboard.click('Localização')
+    assert resp.num_messages == 1
     print('Enviando localização')
 
-    async with controller.collect(count=1) as response:
+    async with controller.collect(count=1) as resp:
         await client.send_location(controller.peer_id, 51.500729, -0.124583)
-    assert response.num_messages == 1
-    assert 'England' in response.full_text
-    assert 'City of Westminster' in response.full_text
-    assert 'United Kingdom' in response.full_text
+    assert resp.num_messages == 1
+    assert 'England' in resp.full_text
+    assert 'City of Westminster' in resp.full_text
+    assert 'United Kingdom' in resp.full_text
     print('Localização enviada')
 
-    return response
+    return resp
 
 async def click_signup_done(controller: BotController, client: Client, response: Response):
     async with controller.collect(count=2) as resp:
@@ -210,70 +210,70 @@ async def select_birthdate(controller: BotController, client: Client, resp: Resp
 
     return response
 
-async def click_signup(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Registrar')
-    assert response.num_messages == 1
+async def click_signup(response: Response):
+    resp = await response.reply_keyboard.click('Registrar')
+    assert resp.num_messages == 1
     print('Registro iniciado')
 
-    return response
+    return resp
 
 async def signup_test(controller: BotController, client: Client):
-    response = await start_conv_test(controller, client)
-    response = await click_signup(controller, client, response)
-    response = await test_invalid_username(controller, client, response)
-    response = await test_username(controller, client, response)
-    response = await test_invalid_email(controller, client, response)
-    response = await test_email(controller, client, response)
-    response = await test_invalid_password(controller, client, response)
-    response = await test_password(controller, client, response)
-    response = await test_invalid_race(controller, client, response)
-    response = await test_race(controller, client, response)
-    response = await test_invalid_job(controller, client, response)
-    response = await test_job(controller, client, response)
-    response = await test_location(controller, client, response)
-    response = await test_gender(controller, client, response)
-    response = await test_invalid_gender(controller, client, response)
-    response = await test_gender(controller, client, response)
-    resp = await click_signup_done(controller, client, response)
-    await select_birthdate(controller, client, resp)
+    response = await start_conv_test(controller)
+    resp = await click_signup(response)
+    response = await test_invalid_username(controller, client, resp)
+    resp = await test_username(controller, client, response)
+    response = await test_invalid_email(controller, client, resp)
+    resp = await test_email(controller, client, response)
+    response = await test_invalid_password(controller, client, resp)
+    resp = await test_password(controller, client, response)
+    response = await test_invalid_race(controller, client, resp)
+    resp = await test_race(response)
+    response = await test_invalid_job(controller, client, resp)
+    resp = await test_job(response)
+    response = await test_location(controller, client, resp)
+    resp = await test_gender(response)
+    response = await test_invalid_gender(controller, client, resp)
+    resp = await test_gender(response)
+    response = await click_signup_done(controller, client, resp)
+    await select_birthdate(controller, client, response)
     print('Registro concluído\n')
 
-async def click_login(controller: BotController, client: Client, response: Response):
-    response = await response.reply_keyboard.click('Login')
-    assert response.num_messages == 1
+async def click_login(response: Response):
+    resp = await response.reply_keyboard.click('Login')
+    assert resp.num_messages == 1
     print('Iniciando login')
 
-    return response
+    return resp
 
-async def click_login_done(controller: BotController, client: Client, response: Response):
+async def click_login_done(controller: BotController, response: Response):
     async with controller.collect(count=3) as resp:
         await response.reply_keyboard.click('Done')
     assert resp.num_messages == 3
     assert 'seja bem vindo' in resp.messages[0].text
     assert resp.messages[1].photo
 
-    return response
+    return resp
 
 async def login_test(controller: BotController, client: Client):
-    response = await start_conv_test(controller, client)
-    response = await click_login(controller, client, response)
-    response = await test_invalid_email(controller, client, response)
-    response = await test_email(controller, client, response)
-    response = await test_password(controller, client, response)
-    response = await test_invalid_password(controller, client, response)
-    response = await test_password(controller, client, response)
-    response = await click_login_done(controller, client, response)
+    response = await start_conv_test(controller)
+    resp = await click_login(response)
+    response = await test_invalid_email(controller, client, resp)
+    resp = await test_email(controller, client, response)
+    response = await test_password(controller, client, resp)
+    resp = await test_invalid_password(controller, client, response)
+    response = await test_password(controller, client, resp)
+    resp = await click_login_done(controller, response)
     print('Login concluído\n')
 
-async def click_logout(controller: BotController, client: Client, response: Response):
+async def click_logout(controller: BotController, response: Response):
     async with controller.collect(count=2) as resp:
         await response.reply_keyboard.click('Logout')
     assert 'Até a próxima' in resp.messages[0].text
     print('Logout clicado')
 
-async def logout_test(controller: BotController, client: Client):
-    response = await start_conv_test(controller, client)
-    await click_logout(controller, client, response)
+async def logout_test(controller: BotController):
+    response = await start_conv_test(controller)
+    await click_logout(controller, response)
     print('Logout concluído\n')
 
 if __name__ == '__main__':

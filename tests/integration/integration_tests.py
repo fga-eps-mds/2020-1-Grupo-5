@@ -5,17 +5,11 @@ import authentication, simple_messages, configs, tips, informations
 
 async def perform_full_run(controller: BotController, client: Client):
     await controller.clear_chat() # limpa o histórico
-    await simple_messages.help_test(controller, client) # Testa ajuda
-    await simple_messages.finish_test(controller, client) # Testa Finalizar
-    await simple_messages.unknown_test(controller, client) # Testa mensagem desconhecida
-    await simple_messages.about_test(controller, client) # Testa Sobre
+    await simple_messages.run_tests(controller, client) # Testa mensagem desconhecida, sobre, finalizar e ajuda
     await authentication.run_tests(controller, client) # Testa, respectivamente, cadastro, logout e login
     await informations.info_edit_test(controller, client) # Testa a edição de informações pessoais
     await tips.tips_test(controller, client)   # Testa as dicas
-    await authentication.logout_test(controller, client) # Logout novamente (Inicio fresco)
-    
-
-
+    await authentication.logout_test(controller) # Logout novamente (Inicio fresco)
 
 if __name__ == "__main__":
     client = configs.create_client()
