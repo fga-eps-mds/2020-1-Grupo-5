@@ -1,8 +1,11 @@
 # Ajuda
-## 1. Navegação
+## Navegação
 Para navegar nos menus utilize os botões de navegação, evite digitar a menos que seja necessário.
 Caso os teclado de sugestões desapareça clique no ícone ao lado do campo de digitação. Para retornar
-ao menu inicial diretamente digite **/start** ou **/menu**.
+ao menu inicial diretamente digite **/start** ou **/menu**. 
+As funcionalidades indicadas por 5, 6, 7, 8 aparecem exclusivamente para usuários logados.
+## 1. Ajuda
+Mostra uma versão mais resumida desta página. Essa versão possui um link para a versão completa (Esta) 
 ## 2. Registrar
 Crie uma nova conta de usuário, necessária para ter a experiência completa do DoctorS. Quando uma
 informação válida é inserida uma marca indicando a validação aparecerá ao lado do botão. Ao fim, 
@@ -36,6 +39,14 @@ Veja dicas e informações úteis para cuidar da saúde.
 - Telefones - Telefones úteis
 - Locais - Localização de farmácias e hospitais próximos
 - Fontes - Links para as fontes utilizadas
-## 7. Alterar informações pessoais
-Altere alguma informação da sua conta
-	
+## 7. Ver informações pessoais
+Veja suas informações pessoais (Imagem)
+## 8. Alterar informações pessoais
+Altere alguma informação da sua conta. Nessa opção também é possível **Ver suas informações pessoais**
+### Informações alteráveis:
+- Username
+- Raça
+- Trabalho 
+- Gênero sexual
+- Grupo de risco - O padrão é **Não**
+- Data de nascimento
