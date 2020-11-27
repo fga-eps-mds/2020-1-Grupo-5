@@ -1,8 +1,6 @@
-import asyncio, string, random
+import asyncio, string, random, pathlib
 from pyrogram import Client
 from tgintegration import BotController, Response
-from simple_messages import start_conv_test
-import configs
 
 def generate_random_str(size):
     characters = string.ascii_lowercase
@@ -12,7 +10,14 @@ def generate_random_str(size):
 user_name = generate_random_str(10)
 user_email = user_name + '@email.com'
 
-async def run_tests(controller: BotController, client: Client):
+async def run_tests(client: Client):
+    current_path = pathlib.Path(__file__).parent.absolute()
+    bot_name = open(str(current_path) + '/bot_name.txt', 'r').read()
+    controller = BotController(
+        peer=bot_name,
+        client=client,
+    )
+
     await signup_test(controller, client)
     await logout_test(controller)
     await login_test(controller, client)
@@ -218,7 +223,8 @@ async def click_signup(response: Response):
     return resp
 
 async def signup_test(controller: BotController, client: Client):
-    response = await start_conv_test(controller)
+    async with controller.collect(count=1) as response:
+        await controller.send_command('menu')
     resp = await click_signup(response)
     response = await test_invalid_username(controller, client, resp)
     resp = await test_username(controller, client, response)
@@ -255,7 +261,8 @@ async def click_login_done(controller: BotController, response: Response):
     return resp
 
 async def login_test(controller: BotController, client: Client):
-    response = await start_conv_test(controller)
+    async with controller.collect(count=1) as response:
+        await controller.send_command('menu')
     resp = await click_login(response)
     response = await test_invalid_email(controller, client, resp)
     resp = await test_email(controller, client, response)
@@ -272,11 +279,11 @@ async def click_logout(controller: BotController, response: Response):
     print('Logout clicado')
 
 async def logout_test(controller: BotController):
-    response = await start_conv_test(controller)
+    async with controller.collect(count=1) as response:
+        await controller.send_command('menu')
     await click_logout(controller, response)
     print('Logout concluído\n')
 
 if __name__ == '__main__':
-    client = configs.create_client()
-    controller = configs.create_controller(client)
-    asyncio.get_event_loop().run_until_complete(run_tests(controller, client))
+    client = Client('my_account')
+    asyncio.get_event_loop().run_until_complete(run_tests(client))
