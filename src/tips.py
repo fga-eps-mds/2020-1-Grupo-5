@@ -111,7 +111,7 @@ def fake_news(update, context):
 			'  <b>4.</b>Anvisa\n'
 			'  <b>5.</b>INCA\n'
 			'  <b>6.</b>Fiocruz\n'
-			'  <b>7.</b><i>Science Traslational Medicine</i>')
+			'  <b>7.</b><i>Science Translational Medicine</i>')
 	context.bot.send_message(
 		chat_id=update.effective_chat.id,
 		text = text,

@@ -12,14 +12,14 @@ import time
 def start(update, context):
 
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Meu perfil'],
+        reply_keyboard = [['Minhas informações','Editar perfil'],
                           ['Sobre','Logout'],
-                          ['Ajuda']]
+                          ['Ajuda','Dicas']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-                      ['Ajuda', 'Dicas']]
+                      ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -42,12 +42,12 @@ def menu(update, context):
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Editar perfil'],
                           ['Sobre','Logout'],
-						  ['Ajuda']]
+						  ['Ajuda','Dicas']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-						 ['Ajuda', 'Dicas']]
+						 ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
@@ -116,6 +116,7 @@ def signup_handler():
 def birthDayCallBack(update, context):
 
     result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(update.callback_query.data)
+    update.callback_query.answer()
     if not result and key:
         update.callback_query.edit_message_text(f"Selecione o {CustomCalendar.LSTEP[step]}",
                               reply_markup=key)
@@ -239,8 +240,8 @@ def tips_handler():
         states={
             tips.CHOOSING: [MessageHandler(Filters.regex(tips.ENTRY_REGEX), tips.regular_choice)]
         },
-        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
-                    MessageHandler(Filters.all, utils.bad_entry)]
+        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.back),
+                    MessageHandler(Filters.all, utils.bad_entry_tips)]
     )
     
 def finalizar(update, context):
