@@ -115,7 +115,7 @@ def update_missing_info(user_data):
 
     utils.unreceived_info(user_data, required_data, ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual"))
     
-    if len(required_data) == 0:
+    if len(required_data) == 0 and 'Cidade' in user_data:
         utils.form_filled(user_data['Keyboard'])
         return "\n\nAgora que adicionou todos os dados, pode editar os já inseridos ou clicar em Done para enviar o formulário!\n"
     
@@ -197,7 +197,7 @@ def requestSignup(update, context):
         login.request_login(update, context)        
 
     else: # Falha
-        
+
         print("Signup Failed!")
         
         context.bot.send_message(

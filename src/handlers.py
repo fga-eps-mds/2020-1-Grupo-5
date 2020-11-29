@@ -12,14 +12,14 @@ import time
 def start(update, context):
 
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Meu perfil'],
+        reply_keyboard = [['Minhas informações','Editar perfil'],
                           ['Sobre','Logout'],
-                          ['Ajuda']]
+                          ['Ajuda','Dicas']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-                      ['Ajuda', 'Dicas']]
+                      ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
@@ -42,12 +42,12 @@ def menu(update, context):
     if utils.is_logged(context.user_data):
         reply_keyboard = [['Minhas informações','Editar perfil'],
                           ['Sobre','Logout'],
-						  ['Ajuda']]
+						  ['Ajuda','Dicas']]
     
     else:
         reply_keyboard = [['Login','Registrar'],
                       ['Sobre','Finalizar'],
-						 ['Ajuda', 'Dicas']]
+						 ['Ajuda']]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
     resposta = "Selecione a opção desejada!"
@@ -95,10 +95,6 @@ def edit_user_info(update, context):
     else:
         unknown(update, context)
 
-
-
-
-
 #Cadastra novo user
 def signup_handler():
     return ConversationHandler(
@@ -120,15 +116,22 @@ def signup_handler():
 def birthDayCallBack(update, context):
 
     result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(update.callback_query.data)
+    update.callback_query.answer()
     if not result and key:
         update.callback_query.edit_message_text(f"Selecione o {CustomCalendar.LSTEP[step]}",
                               reply_markup=key)
     elif result:
         
         context.user_data['Nascimento'] = result
+        context.user_data.update({'birthdate' : str(result)})
         update.callback_query.edit_message_text(f'Selecionado: {result}')
-        
-        signup.requestSignup(update, context)
+
+        if utils.is_logged(context.user_data):
+            context.user_data['resp_item'] = str(result)
+            perfil.requestEdit(update, context)
+            None
+        else:
+            signup.requestSignup(update, context)
 
 
 def logout(update, context):
@@ -178,10 +181,13 @@ def perfil_handler():
                 perfil.TYPING_REPLY: [
                     MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                                 perfil.received_information)],
+                #  signup.TYPING_REPLY: [
+                #     MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
+                #                 perfil.received_information)], 
             },
             fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
             MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry)]
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry_edit)]
             )
 
 #Envia informaçoes sobre o bot
@@ -234,8 +240,8 @@ def tips_handler():
         states={
             tips.CHOOSING: [MessageHandler(Filters.regex(tips.ENTRY_REGEX), tips.regular_choice)]
         },
-        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
-                    MessageHandler(Filters.all, utils.bad_entry)]
+        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.back),
+                    MessageHandler(Filters.all, utils.bad_entry_tips)]
     )
     
 def finalizar(update, context):

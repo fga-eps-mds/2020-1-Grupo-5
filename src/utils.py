@@ -1,9 +1,15 @@
 import json, requests
 from validate_email import validate_email
-from src import handlers
+from src import handlers, perfil, tips
 from telegram.ext import ConversationHandler
 from telegram import ReplyKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
+from googlesearch import search
+# pip install google
+
+import re
+import time
+
 
 def is_logged(user_data):
 
@@ -46,6 +52,15 @@ def cancel(update, context):
     handlers.menu(update, context)
     return ConversationHandler.END
 
+def back(update, context):
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Retornando ao menu!"
+    )
+    handlers.menu(update, context)
+    return ConversationHandler.END
+
 
 def bad_entry(update, context):
 
@@ -56,9 +71,23 @@ def bad_entry(update, context):
     context.user_data.clear()
 
     handlers.menu(update, context)
-
     return ConversationHandler.END
 
+def bad_entry_edit(update, context):
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Opção inválida, tente utilizar os botões!\nRetornando ao menu de edição."
+    )
+    
+    perfil.start(update, context)
+
+def bad_entry_tips(update, context):
+	context.bot.send_message(
+        chat_id=update.effective_chat.id,
+       	text="Opção inválida, tente utilizar os botões!"
+    )
+	tips.start(update, context)
 
 def validaNome(nome):
 
@@ -107,6 +136,12 @@ def validaTrabalho(trabalho):
 
     return False
 
+def validaRisco(risco):
+
+    if str(risco).lower() in ['sim', 'não', 'nao']:
+        return True
+
+    return False
 
 def validations_login(user_data):
 
@@ -124,31 +159,52 @@ def validations_login(user_data):
 def validations_signup(user_data):
     
     if "Username" in user_data and not validaNome(user_data['Username']):
-            user_data.pop("Username")
-            return False
+        user_data.pop("Username")
+        return False
 
     if "Email" in user_data and not validaEmail(user_data['Email']):
-            user_data.pop("Email")
-            return False
+        user_data.pop("Email")
+        return False
     
     if "Senha" in user_data and not validaSenha(user_data['Senha']):
-            user_data.pop("Senha")
-            return False
+        user_data.pop("Senha")
+        return False
 
     if "Genero sexual" in user_data and not validaGenero(user_data['Genero sexual']):
-            user_data.pop('Genero sexual')
-            return False
+        user_data.pop('Genero sexual')
+        return False
 
     if "Raça" in user_data and not validaRaca(user_data['Raça']):
-            user_data.pop('Raça')
-            return False
-    
+        user_data.pop('Raça')
+        return False
+
     if "Trabalho" in user_data and not validaTrabalho(user_data['Trabalho']):
-            user_data.pop("Trabalho")
-            return False
+        user_data.pop("Trabalho")
+        return False
 
     return True
 
+def validations_edition(user_data):
+
+    if "user_name" in user_data and not validaNome(user_data['user_name']):
+        return False
+
+    if "gender" in user_data and not validaGenero(user_data['gender']):
+        return False
+
+    if "race" in user_data and not validaRaca(user_data['race']):
+        return False
+    
+    if "is_professional" in user_data and not validaTrabalho(user_data['is_professional']):
+        return False
+
+    if "risk_group" in user_data and not validaRisco(user_data['risk_group']):
+        return False
+
+    # if "birthdate" in user_data and not validaNascimento(user_data['birthdate']):
+    #     return False
+
+    return True
 
 def image(entradaTexto):
 
@@ -204,7 +260,6 @@ def geraString(text):
   
     return texto
 
-
 # Remove a check mark do final da palavra caso esteja presente
 def remove_check_mark(text):
     if '✅' == text[-1]:
@@ -255,3 +310,25 @@ def received_information_reply(update, context, feedback):
 
     # Envia o feedback ao user
     update.message.reply_text(feedback, reply_markup=markup)
+
+def sendNews(update, context):
+
+    regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
+    res = []
+
+    # for resultado in search('"noticias saúde" news', stop=10):
+    for resultado in search("saude plantão news", stop=10):
+        res.append(resultado)
+
+    resultadoPrint = ""
+
+    for resultado in res:
+
+        if not re.search(regex, resultado):
+            if len(resultado) > len(resultadoPrint):
+                resultadoPrint = resultado
+
+    context.bot.send_message(   chat_id=update.effective_chat.id,
+                                text= str(resultadoPrint))
+
+

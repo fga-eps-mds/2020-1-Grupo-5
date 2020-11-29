@@ -11,6 +11,7 @@
 |17/09|0.7|Revisão ortográfica|Lucas Rodrigues|
 |23/09|0.8|Corrigido subitens 2.1 e 2.2|João Alves|
 |12/11|0.9|Corrigido subitem 4.1|João Pedro|
+|17/11|1.0|Modificando subitem 4.1|João Pedro|
 ## 1. Introdução
 
 ### 1.1 Finalidade 
@@ -99,13 +100,13 @@ Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
 Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saúde.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Python.png" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20AWS.png" />
 </p>
 
-Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
+Imagem 7 - Diagrama de pacotes do Microsserviço Conexão com AWS.
 
 <p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral.png" />
+  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral%20(1).png" />
 </p>
 
 Imagem 8 - Diagrama de pacotes geral dos Microsserviços.
