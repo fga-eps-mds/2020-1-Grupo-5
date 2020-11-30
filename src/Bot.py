@@ -8,7 +8,6 @@ import time
 SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
 PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|Trabalho|Mostrar informações|Voltar)$'
-regex_time = r"[1][0]:[3][6]:[0][0]"
 
 class Bot:
 
@@ -60,8 +59,16 @@ class Bot:
             # Função tutorial
             dispatcher.add_handler(MessageHandler(Filters.text("Ajuda"), handlers.ajuda))
 
+            # Notificações diárias
+            dispatcher.add_handler(MessageHandler(Filters.text('Habilitar Notificações'), handlers.daily_report, pass_job_queue=True))
+            dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), handlers.cancel_daily, pass_job_queue=True))
+
+            # Feedback diario
+            dispatcher.add_handler(CallbackQueryHandler(handlers.good_report, pattern='^good_report$'))
+            dispatcher.add_handler(handlers.bad_report_handler())
+
             # Callback query do calendário
-            dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack))
+            dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack, pattern='^((?!good_report|bad_report).)*$'))
 
             # Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
             dispatcher.add_handler(MessageHandler(Filters.all , handlers.unknown)) 

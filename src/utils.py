@@ -19,6 +19,20 @@ def is_logged(user_data):
     return False
 
 
+def list_to_str(data):
+    string = str()
+
+    i = 0
+    for item in data:
+        i += 1
+        if i < len(data):
+            string = string + str(item) + ", "
+        else:
+            string = string + str(item) + "\n"
+
+    return string
+
+
 # Função que retorna uma string de um SET
 def set_to_str(data):
 
