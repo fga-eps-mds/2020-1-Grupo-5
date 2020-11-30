@@ -1,12 +1,13 @@
-from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode
+from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode, InlineKeyboardMarkup
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
 import requests
-from src import signup, login, Bot, utils, perfil, tips
+from src import signup, login, Bot, utils, perfil, tips, bad_report
 from src.CustomCalendar import CustomCalendar
-from datetime import date
+from datetime import date, datetime, timedelta
 import time
 
 
+daily_messages = list()
 
 #Envia o menu para o usuario
 def start(update, context):
@@ -68,26 +69,12 @@ def get_user_info(update, context):
         utils.image(resposta)
         path = 'general/images/robo_save.png'
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
-
-        # user_data = context.user_data
-        # resposta = (f"Username - {user_data['user_name']}\n"
-        # f"Email - {user_data['email']}\n"  
-        # f"País - {user_data['country']}\n"  
-        # f"Estado - {user_data['state']}\n"
-        # f"Cidade - {user_data['city']}\n"
-        # f"Gênero sexual - {user_data['gender']}\n"
-        # f"Raça - {user_data['race']}\n"
-        # f"Aniversário - {user_data['birthdate']}\n") 
-        # context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
-
     else:
         unknown(update, context)
 
 
 def edit_user_info(update, context):
     if utils.is_logged(context.user_data):
-        user_data = context.user_data
-
         resposta = context.user_data
         perfil.requestEdit(update, resposta)        
 
@@ -148,6 +135,9 @@ def logout(update, context):
         )
 
         menu(update,context)
+
+        cancel_daily(update, context)
+
     else:
         #Caso não esteja logado, não entra na função de logout
         unknown(update, context)
@@ -169,6 +159,23 @@ def login_handler():
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
             )
+
+def return_regex(sintomas):
+    reg = str()
+    for sintoma in sintomas:
+        reg = reg + sintoma
+
+    return reg
+
+def bad_report_handler():
+    return ConversationHandler(
+        entry_points=[CallbackQueryHandler(bad_report.start, pattern='^bad_report$')],
+        states={
+            bad_report.CHOOSING: [MessageHandler(Filters.text & ~(Filters.regex("^Done$")), bad_report.regular_choice)
+            ]
+        },
+        fallbacks=[MessageHandler(Filters.location, bad_report.done)]
+    )
 
 #Login de usuario
 def perfil_handler():
@@ -260,3 +267,80 @@ def unknown(update, context):
         text=resposta,
     )
     menu(update, context)
+
+
+def daily_report(update, context):
+    if utils.is_logged(context.user_data):
+        
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Ativado notificações diárias")
+        
+        day_in_sec = 60 * 60 * 24# Dia em segundos
+
+        today = date.today()
+
+        exclude_time = datetime(today.year, today.month, today.day, 23, 59, 59)
+        daily_time = datetime(today.year, today.month, today.day, 12, 0, 0)
+
+        context.job_queue.run_repeating(notify_assignees, interval=day_in_sec, first=daily_time, context=update.effective_chat.id)
+
+        context.job_queue.run_repeating(delete_daily,interval=day_in_sec, first=exclude_time, context=update.effective_chat.id)
+
+    else:
+        unknown(update, context)
+
+
+def delete_daily(context):
+    for message in daily_messages:
+        try:
+            context.bot.delete_message(chat_id=context.job.context ,message_id=message)
+            daily_messages.remove(message)
+            return
+
+        except:
+
+            pass
+
+def cancel_daily(update, context):
+    if utils.is_logged(context.user_data):
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Notificações diárias desativadas"
+        )
+
+        context.job_queue.stop()
+    else:
+        unknown(update, context)
+
+def notify_assignees(context):
+
+    sim = InlineKeyboardButton(text="Sim",callback_data='bad_report')
+    nao = InlineKeyboardButton(text="Não", callback_data='good_report')
+
+    chat_id=context.job.context
+
+    # Mensagem teste
+    message = context.bot.send_message(
+        chat_id=chat_id,
+        text="Sentiu sintomas hoje?",
+        reply_markup=InlineKeyboardMarkup([[sim, nao]], 
+                                        resize_keyboard=True)
+    )
+    
+    daily_messages.append(message['message_id'])
+
+
+def good_report(update, context):
+    
+    update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")
+
+    headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
+    
+    json = {
+        "survey" : {
+            "symptom" : []
+        }
+    }
+
+    requests.post(url=f'http://localhost:3001/users/{context.user_data["id"]}/surveys', headers=headers, json=json)
