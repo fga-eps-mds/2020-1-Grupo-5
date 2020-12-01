@@ -9,47 +9,18 @@ daily_messages = list()
 
 #Envia o menu para o usuario
 def start(update, context):
-
     if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Editar perfil'],
-                          ['Sobre','Logout'],
-                          ['Ajuda','Dicas']]
-    
+        reply_keyboard = [  ['Minhas informações','Editar perfil'],
+                            ['Sobre','Logout'],
+                            ['Ajuda','Dicas']   ]
     else:
-        reply_keyboard = [['Login','Registrar'],
-                      ['Sobre','Finalizar'],
-                      ['Ajuda']]
+        reply_keyboard = [  ['Login','Registrar'],
+                            ['Sobre','Finalizar'],
+                            ['Ajuda']   ]
 
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
-    resposta = ("Bem vindo ao DoctorS Bot, selecione a opção desejada.\n\n"
-                "Caso deseje voltar ao menu, digite /menu ou /start.\n")
-
-    context.bot.send_message(
-        chat_id=update.effective_chat.id, text=resposta, reply_markup=markup
-    )
-
-    link = "https://scontent-gig2-1.xx.fbcdn.net/v/t1.0-9/103274216_112293347182974_7934951402525681679_o.png?_nc_cat=101&ccb=2&_nc_sid=85a577&_nc_ohc=DfmCZ9ndG5cAX-Mq4qP&_nc_ht=scontent-gig2-1.xx&oh=0566da2b649761aa3348d1f8c89c640a&oe=5FBA8F35"
-    # context.bot.send_photo(chat_id=chat_id, photo=open('tests/test.png', 'rb'))
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo=link)
-
-
-
-
-
-def menu(update, context):
-    if utils.is_logged(context.user_data):
-        reply_keyboard = [['Minhas informações','Editar perfil'],
-                          ['Sobre','Logout'],
-						  ['Ajuda','Dicas']]
-    
-    else:
-        reply_keyboard = [['Login','Registrar'],
-                      ['Sobre','Finalizar'],
-						 ['Ajuda']]
-
-    markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
-    resposta = "Selecione a opção desejada!"
+    resposta = "Bem vindo ao DoctorS Bot, selecione a opção desejada.\n\nCaso deseje voltar ao menu, digite /menu ou /start.\n"
 
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -57,56 +28,69 @@ def menu(update, context):
         reply_markup=markup
     )
 
+    link = "https://scontent-gig2-1.xx.fbcdn.net/v/t1.0-9/103274216_112293347182974_7934951402525681679_o.png?_nc_cat=101&ccb=2&_nc_sid=85a577&_nc_ohc=DfmCZ9ndG5cAX-Mq4qP&_nc_ht=scontent-gig2-1.xx&oh=0566da2b649761aa3348d1f8c89c640a&oe=5FBA8F35"
+    context.bot.send_photo(
+        chat_id=update.effective_chat.id,
+        photo=link
+    )
 
+def menu(update, context):
+    if utils.is_logged(context.user_data):
+        reply_keyboard = [  ['Minhas informações','Editar perfil'],
+                            ['Sobre','Logout'],
+						    ['Ajuda','Dicas']   ]
+    else:
+        reply_keyboard = [  ['Login','Registrar'],
+                            ['Sobre','Finalizar'],
+						    ['Ajuda']   ]
+
+    markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
+    resposta = "Selecione a opção desejada!"
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=resposta,
+        reply_markup=markup
+    )
 
 #Retorna as informações dos usuarios
 def get_user_info(update, context):
-
     if utils.is_logged(context.user_data):
         resposta = context.user_data
         utils.image(resposta)
         path = 'general/images/robo_save.png'
-        context.bot.send_photo(chat_id=update.effective_chat.id, photo=open( path, 'rb'))
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(path, 'rb'))
     else:
         unknown(update, context)
-
 
 def edit_user_info(update, context):
     if utils.is_logged(context.user_data):
         resposta = context.user_data
-        perfil.requestEdit(update, resposta)        
-
-
+        perfil.requestEdit(update, resposta)
     else:
         unknown(update, context)
 
 #Cadastra novo user
 def signup_handler():
     return ConversationHandler(
-            entry_points=[MessageHandler(Filters.text("Registrar"), signup.start)],
-            states={
-                signup.CHOOSING: [MessageHandler(Filters.regex(Bot.SIGNUP_ENTRY_REGEX),
-                                        signup.regular_choice)
-                        ],
-                signup.TYPING_REPLY: [
-                    MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
-                                signup.received_information)],
-            },
-            fallbacks=[MessageHandler(Filters.regex('^Done$'), signup.done),
+        entry_points=[MessageHandler(Filters.text("Registrar"), signup.start)],
+        states={
+            signup.CHOOSING: [MessageHandler(Filters.regex(Bot.SIGNUP_ENTRY_REGEX), signup.regular_choice)],
+            signup.TYPING_REPLY: [MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')), signup.received_information)],
+        },
+        fallbacks=[
+            MessageHandler(Filters.regex('^Done$'), signup.done),
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
-            )
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)
+        ]
+    )
 
 #Função de callback do calendário
 def birthDayCallBack(update, context):
-
     result, key, step = CustomCalendar(locale='br', max_date=date.today()).process(update.callback_query.data)
     update.callback_query.answer()
     if not result and key:
-        update.callback_query.edit_message_text(f"Selecione o {CustomCalendar.LSTEP[step]}",
-                              reply_markup=key)
+        update.callback_query.edit_message_text(f"Selecione o {CustomCalendar.LSTEP[step]}", reply_markup=key)
     elif result:
-        
         context.user_data['Nascimento'] = result
         context.user_data.update({'birthdate' : str(result)})
         update.callback_query.edit_message_text(f'Selecionado: {result}')
@@ -118,45 +102,34 @@ def birthDayCallBack(update, context):
         else:
             signup.requestSignup(update, context)
 
-
 def logout(update, context):
-    
     if utils.is_logged(context.user_data):
         resposta = f"Já vai?\n\nAté a próxima {context.user_data['user_name']}!"
-        
+
         #Limpa a sessão do usuário
         context.user_data.clear()
 
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=resposta
-        )
-
+        context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
         menu(update,context)
-
         cancel_daily(update, context)
-
     else:
         #Caso não esteja logado, não entra na função de logout
         unknown(update, context)
 
 #Login de usuario
 def login_handler():
-
     return ConversationHandler(
-            entry_points=[MessageHandler(Filters.text("Login"), login.start)],
-            states={
-                login.CHOOSING: [MessageHandler(Filters.regex(Bot.LOGIN_ENTRY_REGEX),
-                                        login.regular_choice)
-                        ],
-                login.TYPING_REPLY: [
-                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
-                                login.received_information)],
-            },
-            fallbacks=[MessageHandler(Filters.regex('^Done$'), login.done),
+        entry_points=[MessageHandler(Filters.text("Login"), login.start)],
+        states={
+            login.CHOOSING: [MessageHandler(Filters.regex(Bot.LOGIN_ENTRY_REGEX), login.regular_choice)],
+            login.TYPING_REPLY: [MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')), login.received_information)],
+        },
+        fallbacks=[
+            MessageHandler(Filters.regex('^Done$'), login.done),
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)]
-            )
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)
+        ]
+    )
 
 def return_regex(sintomas):
     reg = str()
@@ -169,8 +142,7 @@ def bad_report_handler():
     return ConversationHandler(
         entry_points=[CallbackQueryHandler(bad_report.start, pattern='^bad_report$')],
         states={
-            bad_report.CHOOSING: [MessageHandler(Filters.text & ~(Filters.regex("^Done$")), bad_report.regular_choice)
-            ]
+            bad_report.CHOOSING: [MessageHandler(Filters.text & ~(Filters.regex("^Done$")), bad_report.regular_choice)]
         },
         fallbacks=[MessageHandler(Filters.location, bad_report.done)]
     )
@@ -178,28 +150,23 @@ def bad_report_handler():
 #Login de usuario
 def perfil_handler():
     return ConversationHandler(
-            entry_points=[MessageHandler(Filters.text("Editar perfil"), perfil.start)],
-            states={
-                perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER),
-                                        perfil.regular_choice)
-                        ],
-                perfil.TYPING_REPLY: [
-                    MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')),
-                                perfil.received_information)],
-                #  signup.TYPING_REPLY: [
-                #     MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')),
-                #                 perfil.received_information)], 
-            },
-            fallbacks=[MessageHandler(Filters.regex('^Done$'), perfil.done),
+        entry_points=[MessageHandler(Filters.text("Editar perfil"), perfil.start)],
+        states={
+            perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER), perfil.regular_choice)],
+            perfil.TYPING_REPLY: [MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')), perfil.received_information)],
+        },
+        fallbacks=[
+            MessageHandler(Filters.regex('^Done$'), perfil.done),
             MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry_edit)]
-            )
+            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry_edit)
+        ]
+    )
 
 #Envia informaçoes sobre o bot
 def sobre(update, context):
     resposta = 'O DoctorS é um Telegram Bot criado para ajudar a população no combate ao novo Corona Vírus(SARS-CoV-2).'
     context.bot.send_message(
-        chat_id=update.effective_chat.id, 
+        chat_id=update.effective_chat.id,
         text=resposta
     )
     
@@ -219,6 +186,7 @@ def ajuda(update, context):
         text=resposta,
 		parse_mode=ParseMode.HTML
     )
+
     resposta = ('<b>Informações gerais:</b>\n\n'
                 '- Para navegar nos menus clique em algum dos botões de navegação. Se o teclado de sugestões desaparecer clique no ícone de teclado ao lado do campo de digitação.\n\n'
                 '- Nos menus de cadastro e <i>login</i>, quando uma informação válida for inserida, aparecerá no botão correspondente uma marca indicando que ela foi validada.\n\n'
@@ -230,6 +198,7 @@ def ajuda(update, context):
         text=resposta,
         parse_mode=ParseMode.HTML
     )
+
 	#Mais informações
     resposta = 'Para informações mais detalhadas <a href="https://fga-eps-mds.github.io/2020-1-DoctorS-Bot/#/docs/Ajuda"> clique aqui</a>'
     context.bot.send_message(
@@ -245,8 +214,10 @@ def tips_handler():
         states={
             tips.CHOOSING: [MessageHandler(Filters.regex(tips.ENTRY_REGEX), tips.regular_choice)]
         },
-        fallbacks=[MessageHandler(Filters.regex('^Voltar$'), utils.back),
-                    MessageHandler(Filters.all, utils.bad_entry_tips)]
+        fallbacks=[
+            MessageHandler(Filters.regex('^Voltar$'), utils.back),
+            MessageHandler(Filters.all, utils.bad_entry_tips)
+        ]
     )
     
 def finalizar(update, context):
@@ -256,38 +227,31 @@ def finalizar(update, context):
         text=resposta
     )
 
-
 #Mensagens não reconhecidas
 def unknown(update, context):
     resposta = "Não entendi. Tem certeza de que digitou corretamente?\n\nRetornando ao menu."
     context.bot.send_message(
-        chat_id=update.effective_chat.id, 
-        text=resposta,
+        chat_id=update.effective_chat.id,
+        text=resposta
     )
     menu(update, context)
 
-
 def daily_report(update, context):
     if utils.is_logged(context.user_data):
-        
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Ativado notificações diárias")
+            text="Ativado notificações diárias"
+        )
         
         day_in_sec = 60 * 60 * 24# Dia em segundos
-
         today = date.today()
-
         exclude_time = datetime(today.year, today.month, today.day, 23, 59, 59)
         daily_time = datetime(today.year, today.month, today.day, 12, 0, 0)
 
         context.job_queue.run_repeating(notify_assignees, interval=day_in_sec, first=daily_time, context=update.effective_chat.id)
-
         context.job_queue.run_repeating(delete_daily,interval=day_in_sec, first=exclude_time, context=update.effective_chat.id)
-
     else:
         unknown(update, context)
-
 
 def delete_daily(context):
     for message in daily_messages:
@@ -295,9 +259,7 @@ def delete_daily(context):
             context.bot.delete_message(chat_id=context.job.context ,message_id=message)
             daily_messages.remove(message)
             return
-
         except:
-
             pass
 
 def cancel_daily(update, context):
@@ -306,13 +268,11 @@ def cancel_daily(update, context):
             chat_id=update.effective_chat.id,
             text="Notificações diárias desativadas"
         )
-
         context.job_queue.stop()
     else:
         unknown(update, context)
 
 def notify_assignees(context):
-
     sim = InlineKeyboardButton(text="Sim",callback_data='bad_report')
     nao = InlineKeyboardButton(text="Não", callback_data='good_report')
 
@@ -322,23 +282,18 @@ def notify_assignees(context):
     message = context.bot.send_message(
         chat_id=chat_id,
         text="Sentiu sintomas hoje?",
-        reply_markup=InlineKeyboardMarkup([[sim, nao]], 
-                                        resize_keyboard=True)
+        reply_markup=InlineKeyboardMarkup([[sim, nao]], resize_keyboard=True)
     )
     
     daily_messages.append(message['message_id'])
 
-
 def good_report(update, context):
-    
     update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")
 
-    headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}
-    
+    headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}   
     json = {
         "survey" : {
             "symptom" : []
         }
     }
-
     post(url=f'http://localhost:3001/users/{context.user_data["id"]}/surveys', headers=headers, json=json)

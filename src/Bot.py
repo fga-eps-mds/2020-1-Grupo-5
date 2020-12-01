@@ -8,7 +8,6 @@ PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|T
 
 class Bot:
 
-
     def __init__(self):
 
         try:
@@ -27,7 +26,6 @@ class Bot:
             # Mensagens reconhecidas
             dispatcher.add_handler(CommandHandler("start", handlers.start)) # Menu inicial
             dispatcher.add_handler(CommandHandler("menu", handlers.start)) # Menu inicial
-
             dispatcher.add_handler(MessageHandler(Filters.text("Sobre"), handlers.sobre)) # Sobre o bot
             dispatcher.add_handler(MessageHandler(Filters.text("Finalizar"), handlers.finalizar )) # Finalizar conversa
 
@@ -75,7 +73,6 @@ class Bot:
             print("Token não encontrado, alguns motivos:\n"
                   "1 - Executou na pasta raiz?\n"
                   "2 - Realmente tem um arquivo token.txt na pasta config?")
-
 
     def run(self):
         #Mantem o bot rodando localmente enquanto o programa estiver sendo executado

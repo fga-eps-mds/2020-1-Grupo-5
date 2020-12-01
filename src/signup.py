@@ -7,14 +7,13 @@ CHOOSING, TYPING_REPLY = range(2)
 
 required_data = set()
 
-
 # Inicia o cadastro
 def start(update, context):
     user_data = context.user_data
-    user_data['Keyboard'] = [['Username', 'Email'],
-                            ['Senha', 'Raça'],
-                            ['Trabalho', 'Genero sexual'],
-                            ['Localização', 'Cancelar']]
+    user_data['Keyboard'] = [   ['Username', 'Email'],
+                                ['Senha', 'Raça'],
+                                ['Trabalho', 'Genero sexual'],
+                                ['Localização', 'Cancelar'] ]
 
     if utils.is_logged(user_data):
         handlers.unknown(context, update)
@@ -34,39 +33,30 @@ def start(update, context):
 
 # Opções de entrada de informação do menu de cadastro
 def regular_choice(update, context):
-
     update.message.text = utils.remove_check_mark(update.message.text)
 
     text = update.message.text
     context.user_data['choice'] = text
 
     if  "Username" in text:
-        getters.get_User(update,context)
-        
+        getters.get_User(update,context)     
     elif "Email" in text:
         getters.get_Email(update, context)
-
     elif "Senha" in text:
         getters.get_Pass(update, context)
-
     elif "Raça" in text:
         getters.get_Race(update, context)
-
     elif "Genero sexual" in text:
         getters.get_Gender(update, context)
-
     elif "Trabalho" in text:
         getters.get_professional(update, context)
-
     elif "Localização" in text:
         getters.get_location(update, context)
-        
-    return TYPING_REPLY
 
+    return TYPING_REPLY
 
 # Envia as informações atualmente recebidas do usuário
 def received_information(update, context):
-    
     category = update_received_information(context, update)
     head = validation_management(context.user_data, category)
     footer = update_missing_info(context.user_data)
@@ -81,7 +71,6 @@ def received_information(update, context):
 
     return CHOOSING
 
-
 def update_received_information(context, update):
     # Adiciona a informação enviada pelo user à sua respectiva chave
     category = context.user_data['choice']
@@ -94,7 +83,6 @@ def update_received_information(context, update):
 
     return category
 
-
 def validation_management(user_data, category):
     # Validação de dados
     validation = utils.validations_signup(user_data)
@@ -106,7 +94,6 @@ def validation_management(user_data, category):
         return "Perfeito, já temos esses dados:\n"
     else:
         return "Entrada inválida. Tem certeza que seguiu o formato necessário?\n"
-
 
 def update_missing_info(user_data):
     # Estrutura que mostra as informações que ainda faltam ser inseridas
@@ -123,21 +110,16 @@ def update_missing_info(user_data):
 
     return "\n\nVocê pode me dizer os outros dados ou alterar os já inseridos.\n\n"
 
-
 # Termina o cadastro e envia ao servidor da API do guardiões
 def done(update, context):
-
     # Estrutura necessária para não permitir a finalização incorreta de um cadastro
     # Caso o usuário tenha adicionado todas as infos, ele aceita a entrada
     # 7, pois devem existir 6 informações do usuário + teclado
     if len(context.user_data) == 10:
-        
         # Reinicia o teclado removendo a opção de Done
         context.user_data['Keyboard'].remove(['Done'])
-
         getters.get_birthday(update, context)   # Recebe o aniversário e envia a request a API para registrar
 
-    
     # Caso contrário, ele manda uma mensagem de falha no cadastro
     else:   
         context.bot.send_message(
@@ -146,7 +128,6 @@ def done(update, context):
         )
 
     return ConversationHandler.END
-
 
 # Função que cadastra o usuário
 def requestSignup(update, context):
@@ -176,32 +157,23 @@ def requestSignup(update, context):
             "is_god": "false"
         }
     }
-
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
-
 
     # Faz a tentativa de cadastro utilizando o json e os headers inseridos
     r = post("http://127.0.0.1:3001/user/signup", json=json_entry, headers=headers)
     
-
     # Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
-        print("Successfull signup:")
-        
+        print("Successfull signup:")    
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=f"{user_data.get('Username')}, você foi cadastrado com sucesso!"
         )
-
         login.request_login(update, context)        
-
     else: # Falha
-
         print("Signup Failed!")
-        
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=f"{user_data.get('Username')}, seu cadastro falhou!"
         )
-
     print(r.content)    

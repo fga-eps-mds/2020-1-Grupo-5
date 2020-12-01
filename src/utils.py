@@ -7,16 +7,13 @@ from googlesearch import search
 import re
 
 def is_logged(user_data):
-
     if user_data.get('AUTH_TOKEN'):
         return True
 
     return False
 
-
 def list_to_str(data):
     string = str()
-
     i = 0
     for item in data:
         i += 1
@@ -27,10 +24,8 @@ def list_to_str(data):
 
     return string
 
-
 # Função que retorna uma string de um SET
 def set_to_str(data):
-
     remain_data = list()
     
     for value in data:
@@ -38,21 +33,17 @@ def set_to_str(data):
 
     return "\n".join(remain_data).join(['\n', '\n'])    
 
-
 # Passa dict para string
-def dict_to_str(user_data):
-    
+def dict_to_str(user_data): 
     lst = list()
 
     for key, value in user_data.items():
         if key != 'Keyboard':
             lst.append('{} - {}'.format(key, value))
 
-    return "\n".join(lst).join(['\n', '\n'])
-    
+    return "\n".join(lst).join(['\n', '\n'])  
 
 def cancel(update, context):
-
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Cancelando!\nRetornando automaticamente ao menu!"
@@ -62,7 +53,6 @@ def cancel(update, context):
     return ConversationHandler.END
 
 def back(update, context):
-
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Retornando ao menu!"
@@ -72,23 +62,19 @@ def back(update, context):
 
 
 def bad_entry(update, context):
-
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Opção inválida, tente utilizar os botões!\nRetornando ao menu."
     )
     context.user_data.clear()
-
     handlers.menu(update, context)
     return ConversationHandler.END
 
 def bad_entry_edit(update, context):
-
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Opção inválida, tente utilizar os botões!\nRetornando ao menu de edição."
-    )
-    
+    ) 
     perfil.start(update, context)
 
 def bad_entry_tips(update, context):
@@ -99,61 +85,42 @@ def bad_entry_tips(update, context):
 	tips.start(update, context)
 
 def validaNome(nome):
-
     if len(nome) >= 8:
         return True
-
     return False
 
 
 def validaSenha(senha):
-
     if len(senha) >= 8:
         return True
-
     return False
-
 
 def validaEmail(email):
-
     if validate_email(email):
         return True
-
     return False
-
 
 def validaGenero(genero):
-
     if str(genero).lower() in ['homem cis', 'homem homossexual', 'mulher cis', 'mulher homossexual', 'outro']:
         return True
-
     return False
-
 
 def validaRaca(raca):
-
     if str(raca).lower() in ['branco', 'negro', 'pardo', 'indigena', 'amarelo', 'outro']:
         return True
-
     return False
 
-
 def validaTrabalho(trabalho):
-
     if str(trabalho).lower() in ['sim', 'não', 'nao']:
         return True
-
     return False
 
 def validaRisco(risco):
-
     if str(risco).lower() in ['sim', 'não', 'nao']:
         return True
-
     return False
 
 def validations_login(user_data):
-
     if "Email" in user_data and not validaEmail(user_data['Email']):
             user_data.pop("Email")
             return False
@@ -164,9 +131,7 @@ def validations_login(user_data):
     
     return True
 
-
-def validations_signup(user_data):
-    
+def validations_signup(user_data):  
     if "Username" in user_data and not validaNome(user_data['Username']):
         user_data.pop("Username")
         return False
@@ -194,7 +159,6 @@ def validations_signup(user_data):
     return True
 
 def validations_edition(user_data):
-
     if "user_name" in user_data and not validaNome(user_data['user_name']):
         return False
 
@@ -216,7 +180,6 @@ def validations_edition(user_data):
     return True
 
 def image(entradaTexto):
-
     # get an image
     base = Image.open('general/images/robo.jpg').convert('RGBA')
 
@@ -239,7 +202,6 @@ def image(entradaTexto):
     # out.show()
 
 def geraString(text):
-
     texto = "Atualmente essas são as suas informações: " + "\n"
 
     # De acordo com a escolha chama uma função
@@ -275,7 +237,6 @@ def remove_check_mark(text):
         text = text[:-1]
     return text
 
-
 # Insere ou remove a check mark do botão da categoria do teclado conforme sua validação
 def update_check_mark(keyboard, category, validation):
     for i, items in enumerate(keyboard):
@@ -288,31 +249,26 @@ def update_check_mark(keyboard, category, validation):
                     keyboard[i][j] = item[:-1]
                     return
 
-
 # Atualiza as informações que ainda faltam ser inseridas
 def update_required_data(received_data, required_data):
     for key in received_data:
         if key in required_data:
             required_data.remove(key)
 
-
 # Função que adiciona done ao terminar de adicionar todas as informações
 def form_filled(keyboard):
     if not ['Done'] in keyboard:
         keyboard.append(['Done'])
 
-
 # Caso a pessoa tenha adicionado todas as informações e depois adicionou uma inválida novamente, ele retira o botão de done
 def undone_keyboard(keyboard):
     keyboard.remove(['Done'])
-
 
 # Atualiza as informações que estão faltando
 def unreceived_info(received_data, required_data, all_items):
     for item in all_items:
         if not item in received_data:
             required_data.add(item)
-
 
 def received_information_reply(update, context, feedback):
     markup = ReplyKeyboardMarkup(context.user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
@@ -321,7 +277,6 @@ def received_information_reply(update, context, feedback):
     update.message.reply_text(feedback, reply_markup=markup)
 
 def sendNews(update, context):
-
     regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
     res = []
 
@@ -332,12 +287,11 @@ def sendNews(update, context):
     resultadoPrint = ""
 
     for resultado in res:
-
         if not re.search(regex, resultado):
             if len(resultado) > len(resultadoPrint):
                 resultadoPrint = resultado
 
-    context.bot.send_message(   chat_id=update.effective_chat.id,
-                                text= str(resultadoPrint))
-
-
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text= str(resultadoPrint)
+    )

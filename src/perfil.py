@@ -10,24 +10,22 @@ required_data = set()
 #Inicia o cadastro
 def start(update, context):
     user_data = context.user_data
-    
     context = context.user_data
-
-    user_data['Keyboard'] = [['Username', 'Raça'],
-                            ['Genero sexual', 'Nascimento'],
-                            ['Trabalho', 'Grupo de Risco'],
-                            ['Mostrar informações', 'Voltar']]
+    user_data['Keyboard'] = [   ['Username', 'Raça'],
+                                ['Genero sexual', 'Nascimento'],
+                                ['Trabalho', 'Grupo de Risco'],
+                                ['Mostrar informações', 'Voltar']   ]
     markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
 
     update.message.reply_text(
         "Escolha qual informação deseja alterar!",
-        reply_markup=markup)
+        reply_markup=markup
+    )
 
     return CHOOSING
 
 #Opçoes de entrada de informação do menu de login
 def regular_choice(update, context):
-
     user_data = context.user_data
 
     #Adciona uma chave com o valor de 'Email' ou 'Senha' de acordo com a escolha do user
@@ -61,7 +59,6 @@ def regular_choice(update, context):
         getters.get_professional(update, context)
 
     if "Mostrar informações" in text:
-
         user_data['edit_item'] = 'none'
         user_data['edit_item'] = 'none'
         user_data['choice'] = 'none'
@@ -91,12 +88,12 @@ def received_information(update, context):
     validation = utils.validations_edition(dictEdit)
 
     if not validation:
-
         head = "Entrada inválida. Tem certeza que seguiu o formato necessário? Retornando ao menu de edição. \n"
-        context.bot.send_message(   chat_id=update.effective_chat.id,
-                                    text= str(head))
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text= str(head)
+        )
     else:
-
         head = "Perfeito, ja temos esses dados:\n"
         requestEdit(update, context)
 
@@ -108,7 +105,8 @@ def received_information(update, context):
     markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
     update.message.reply_text(
         "Escolha qual informação deseja alterar!",
-        reply_markup=markup)
+        reply_markup=markup
+    )
 
     return CHOOSING
 
@@ -126,8 +124,6 @@ def form_filled(context):
     
 #Termina cadastro e envia ao servidor da API do guardiões
 def done(update, context):
-
-
     #Estrutura necessária para não permitir a finalização incorreta de um cadastro
     #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
     #7, pois devem existir 6 informações do usuário + teclado
@@ -146,14 +142,10 @@ def done(update, context):
             text="Falha ao registrar, não adcionou todos dados necessários!"
         )
 
-
     return ConversationHandler.END
-
-
 
 #Funcao que cadastra o usuario
 def requestEdit(update, context):
-
     user_data = context.user_data
 
     edit_item = user_data['edit_item']
@@ -199,24 +191,21 @@ def requestEdit(update, context):
             "state": user_data.get('state'),
             "city": user_data.get('city')
     }
-
-
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(user_data['AUTH_TOKEN'])}
-
     r = requests.patch("http://127.0.0.1:3001/users/" + str(user_data.get('id')) , json=json_entry, headers=headers)
 
     if r.status_code == 200: # Sucesso
         # update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
-        context.bot.send_message(   chat_id=update.effective_chat.id,
-                                text= "Você alterou a informação com sucesso, retornando ao menu de edição\n")
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text= "Você alterou a informação com sucesso, retornando ao menu de edição\n"
+        )
         print("request perfil acept")
 
     else: #Falha
-        # update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")  
-        
-        context.bot.send_message(   chat_id=update.effective_chat.id,
-                                text= "Algo deu errado com a edição, retornando ao menu de edição\n")
-
+        # update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")   
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text= "Algo deu errado com a edição, retornando ao menu de edição\n"
+        )
         print("request perfil fail")
-
-         
