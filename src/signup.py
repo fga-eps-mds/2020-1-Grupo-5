@@ -1,8 +1,7 @@
-import requests
-from telegram import ReplyKeyboardMarkup, KeyboardButton
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
+from telegram import ReplyKeyboardMarkup
+from requests import post
+from telegram.ext import ConversationHandler
 from src import login, utils, handlers, getters, location
-
 
 CHOOSING, TYPING_REPLY = range(2)
 
@@ -182,7 +181,7 @@ def requestSignup(update, context):
 
 
     # Faz a tentativa de cadastro utilizando o json e os headers inseridos
-    r = requests.post("http://127.0.0.1:3001/user/signup", json=json_entry, headers=headers)
+    r = post("http://127.0.0.1:3001/user/signup", json=json_entry, headers=headers)
     
 
     # Log de sucesso ou falha no cadastro

@@ -1,7 +1,6 @@
 import requests, json
-from telegram import ReplyKeyboardMarkup, KeyboardButton, Update, Bot
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          ConversationHandler, CallbackQueryHandler, Dispatcher)
+from telegram import ReplyKeyboardMarkup
+from telegram.ext import ConversationHandler
 from src import utils, handlers, getters, news
 import _thread as thread
 

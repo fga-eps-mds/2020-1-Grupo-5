@@ -1,9 +1,6 @@
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 from telegram import ReplyKeyboardMarkup, KeyboardButton
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          ConversationHandler, CallbackQueryHandler)
-
 
 CHOOSING, TYPING_REPLY = range(2)
 

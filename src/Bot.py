@@ -1,9 +1,6 @@
-from telegram import Bot,Update
-from telegram.ext import CommandHandler, CallbackContext, Dispatcher, Filters, CallbackQueryHandler,MessageHandler, Updater, ConversationHandler
-from src import handlers, signup
-import pathlib
-import re
-import time
+from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, MessageHandler, Updater
+from src import handlers
+from pathlib import Path
 
 SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
 LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
@@ -16,7 +13,7 @@ class Bot:
 
         try:
             # Le o token no arquivo 'token.txt' e passa para a variavel
-            current_path = pathlib.Path(__file__).parent.absolute()
+            current_path = Path(__file__).parent.absolute()
             f = open(str(current_path) + "/../config/token.txt", "r")
             TELEGRAM_TOKEN = f.read()
 

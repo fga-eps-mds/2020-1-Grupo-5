@@ -1,7 +1,6 @@
 from telegram import ReplyKeyboardMarkup, KeyboardButton
-import requests
-import json
-from src import getters, utils, handlers
+from requests import post
+from src import utils, handlers
 
 CHOOSING = 0
 
@@ -63,7 +62,7 @@ def done(update, context):
 
     url = f"http://localhost:3001/users/{context.user_data['id']}/surveys"
 
-    requests.post(headers=headers, json=json_entry, url=url)
+    post(headers=headers, json=json_entry, url=url)
 
     resposta = "Obrigado por nos informar o seu estado de saúde.\n\nEsperamos que tudo fique bem, mantenha-se sempre hidratado e isolado.\n\nImportante lembrar que caso precise de alguma ajuda, temos o botão de ajuda no menu abaixo."
     

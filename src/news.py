@@ -1,5 +1,4 @@
-from threading import Thread
-from src import login, utils, handlers, getters
+from src import utils
 from googlesearch import search
 import re
 import time
@@ -25,7 +24,6 @@ def run(update, context):
 
 def sendNews(update, context):
     regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
-    data = time.ctime().split()
 
     res = []
     # for resultado in search('"noticias saúde" news', stop=10):

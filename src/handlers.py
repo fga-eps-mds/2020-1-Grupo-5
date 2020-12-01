@@ -1,11 +1,9 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode, InlineKeyboardMarkup
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler)
-import requests
+from telegram.ext import MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
+from requests import post
 from src import signup, login, Bot, utils, perfil, tips, bad_report
 from src.CustomCalendar import CustomCalendar
-from datetime import date, datetime, timedelta
-import time
-
+from datetime import date, datetime
 
 daily_messages = list()
 
@@ -343,4 +341,4 @@ def good_report(update, context):
         }
     }
 
-    requests.post(url=f'http://localhost:3001/users/{context.user_data["id"]}/surveys', headers=headers, json=json)
+    post(url=f'http://localhost:3001/users/{context.user_data["id"]}/surveys', headers=headers, json=json)

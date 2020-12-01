@@ -1,15 +1,10 @@
-import json, requests
 from validate_email import validate_email
 from src import handlers, perfil, tips
 from telegram.ext import ConversationHandler
 from telegram import ReplyKeyboardMarkup
 from PIL import Image, ImageDraw, ImageFont
 from googlesearch import search
-# pip install google
-
 import re
-import time
-
 
 def is_logged(user_data):
 

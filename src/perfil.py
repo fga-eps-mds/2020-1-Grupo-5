@@ -1,8 +1,7 @@
 import requests
-from telegram import ReplyKeyboardMarkup, KeyboardButton
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          ConversationHandler, CallbackQueryHandler)
-from src import login, utils, handlers, getters
+from telegram import ReplyKeyboardMarkup
+from telegram.ext import ConversationHandler
+from src import utils, handlers, getters
 
 CHOOSING, TYPING_REPLY = range(2)
 
@@ -12,7 +11,6 @@ required_data = set()
 def start(update, context):
     user_data = context.user_data
     
-    resposta = context.user_data
     context = context.user_data
 
     user_data['Keyboard'] = [['Username', 'Raça'],

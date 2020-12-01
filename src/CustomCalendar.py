@@ -1,7 +1,5 @@
 from telegram_bot_calendar import DetailedTelegramCalendar
 
-
-
 class CustomCalendar(DetailedTelegramCalendar):
     LSTEP = {'y': 'ano', 'm': 'mês', 'd': 'dia'}
     def __init__(self, **kwargs):
