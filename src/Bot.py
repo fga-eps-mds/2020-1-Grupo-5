@@ -31,10 +31,6 @@ class Bot:
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
-            # dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
-
-            # Handler para mostrar informações do usuário
-            # dispatcher.add_handler(MessageHandler(Filters.text("Editar informações"), handlers.edit_user_info)) 
             
             # Estrutura para registros
             dispatcher.add_handler(handlers.signup_handler())

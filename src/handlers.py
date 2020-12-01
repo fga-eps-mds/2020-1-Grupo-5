@@ -58,14 +58,10 @@ def get_user_info(update, context):
         resposta = context.user_data
         utils.image(resposta)
         path = 'general/images/robo_save.png'
-        context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(path, 'rb'))
-    else:
-        unknown(update, context)
-
-def edit_user_info(update, context):
-    if utils.is_logged(context.user_data):
-        resposta = context.user_data
-        perfil.requestEdit(update, resposta)
+        context.bot.send_photo(
+            chat_id=update.effective_chat.id,
+            photo=open(path, 'rb')
+        )
     else:
         unknown(update, context)
 
@@ -156,7 +152,6 @@ def perfil_handler():
             perfil.TYPING_REPLY: [MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')), perfil.received_information)],
         },
         fallbacks=[
-            MessageHandler(Filters.regex('^Done$'), perfil.done),
             MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
             MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry_edit)
         ]

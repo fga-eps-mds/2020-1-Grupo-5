@@ -110,40 +110,6 @@ def received_information(update, context):
 
     return CHOOSING
 
-#Caso a pessoa tenha adcionado todas as informações e 
-#Depois adcionou uma inválida novamente, ele retira o
-#Botão de done
-def undone_keyboard(context):
-    context.user_data['Keyboard'].remove(['Done'])
-
-#Função que adciona done ao terminar de adcionar todas informações
-def form_filled(context):
-    user_data = context.user_data
-    if not ['Done'] in user_data['Keyboard']:
-        user_data['Keyboard'].append(['Done'])
-    
-#Termina cadastro e envia ao servidor da API do guardiões
-def done(update, context):
-    #Estrutura necessária para não permitir a finalização incorreta de um cadastro
-    #Caso o usario tenha adcionado todas as infos, ele aceita a entrada
-    #7, pois devem existir 6 informações do usuário + teclado
-    if len(context.user_data) == 7:
-        
-        #Reinicia o teclado removendo a opção de Done
-        context.user_data['Keyboard'].remove(['Done'])
-
-        getters.get_birthday(update, context)   #Recebe o aniversário e envia a request a API
-                                        #Para registrar
-    
-    #Caso não, ele manda uma mensagem de falha no cadastro
-    else:   
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Falha ao registrar, não adcionou todos dados necessários!"
-        )
-
-    return ConversationHandler.END
-
 #Funcao que cadastra o usuario
 def requestEdit(update, context):
     user_data = context.user_data

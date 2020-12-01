@@ -89,7 +89,6 @@ def validaNome(nome):
         return True
     return False
 
-
 def validaSenha(senha):
     if len(senha) >= 8:
         return True
@@ -173,9 +172,6 @@ def validations_edition(user_data):
 
     if "risk_group" in user_data and not validaRisco(user_data['risk_group']):
         return False
-
-    # if "birthdate" in user_data and not validaNascimento(user_data['birthdate']):
-    #     return False
 
     return True
 
@@ -275,23 +271,3 @@ def received_information_reply(update, context, feedback):
 
     # Envia o feedback ao user
     update.message.reply_text(feedback, reply_markup=markup)
-
-def sendNews(update, context):
-    regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
-    res = []
-
-    # for resultado in search('"noticias saúde" news', stop=10):
-    for resultado in search("saude plantão news", stop=10):
-        res.append(resultado)
-
-    resultadoPrint = ""
-
-    for resultado in res:
-        if not re.search(regex, resultado):
-            if len(resultado) > len(resultadoPrint):
-                resultadoPrint = resultado
-
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text= str(resultadoPrint)
-    )
