@@ -3,6 +3,8 @@ from requests import post
 from telegram.ext import ConversationHandler
 from src import login, utils, handlers, getters, location
 
+ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
+
 CHOOSING, TYPING_REPLY = range(2)
 
 required_data = set()

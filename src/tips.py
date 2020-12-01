@@ -182,3 +182,10 @@ def sources(update, context):
 		parse_mode=ParseMode.HTML,
 		disable_web_page_preview=True
 	)
+
+def bad_entry(update, context):
+	context.bot.send_message(
+        chat_id=update.effective_chat.id,
+       	text="Opção inválida, tente utilizar os botões!"
+    )
+	start(update, context)

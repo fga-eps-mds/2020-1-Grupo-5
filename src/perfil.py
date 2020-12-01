@@ -3,6 +3,8 @@ from telegram import ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
 from src import utils, handlers, getters
 
+ENTRY_REGEX = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|Trabalho|Mostrar informações|Voltar)$'
+
 CHOOSING, TYPING_REPLY = range(2)
 
 required_data = set()
@@ -175,3 +177,10 @@ def requestEdit(update, context):
             text= "Algo deu errado com a edição, retornando ao menu de edição\n"
         )
         print("request perfil fail")
+
+def bad_entry(update, context):
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Opção inválida, tente utilizar os botões!\nRetornando ao menu de edição."
+    ) 
+    start(update, context)

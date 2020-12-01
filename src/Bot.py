@@ -2,10 +2,6 @@ from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, MessageH
 from src import handlers
 from pathlib import Path
 
-SIGNUP_ENTRY_REGEX = '^(Username|Username✅|Email|Email✅|Senha|Senha✅|Genero sexual|Genero sexual✅|Raça|Raça✅|Trabalho|Trabalho✅|Localização|Localização✅)$'
-LOGIN_ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
-PERFIL_ENTRY_REGER = '^(Username|Raça|Genero sexual|Nascimento|Grupo de Risco|Trabalho|Mostrar informações|Voltar)$'
-
 class Bot:
 
     def __init__(self):
@@ -15,6 +11,7 @@ class Bot:
             current_path = Path(__file__).parent.absolute()
             f = open(str(current_path) + "/../config/token.txt", "r")
             TELEGRAM_TOKEN = f.read()
+            f.close()
 
             # Estrutura responsavel por verificar todas novas mensagens
             self.updater = Updater(token=TELEGRAM_TOKEN, use_context=True)

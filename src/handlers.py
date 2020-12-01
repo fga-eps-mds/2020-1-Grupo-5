@@ -9,23 +9,11 @@ daily_messages = list()
 
 #Envia o menu para o usuario
 def start(update, context):
-    if utils.is_logged(context.user_data):
-        reply_keyboard = [  ['Minhas informações','Editar perfil'],
-                            ['Sobre','Logout'],
-                            ['Ajuda','Dicas']   ]
-    else:
-        reply_keyboard = [  ['Login','Registrar'],
-                            ['Sobre','Finalizar'],
-                            ['Ajuda']   ]
-
-    markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
-
     resposta = "Bem vindo ao DoctorS Bot, selecione a opção desejada.\n\nCaso deseje voltar ao menu, digite /menu ou /start.\n"
-
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=resposta,
-        reply_markup=markup
+        reply_markup=get_reply_markup(context.user_data)
     )
 
     link = "https://scontent-gig2-1.xx.fbcdn.net/v/t1.0-9/103274216_112293347182974_7934951402525681679_o.png?_nc_cat=101&ccb=2&_nc_sid=85a577&_nc_ohc=DfmCZ9ndG5cAX-Mq4qP&_nc_ht=scontent-gig2-1.xx&oh=0566da2b649761aa3348d1f8c89c640a&oe=5FBA8F35"
@@ -35,7 +23,15 @@ def start(update, context):
     )
 
 def menu(update, context):
-    if utils.is_logged(context.user_data):
+    resposta = "Selecione a opção desejada!"
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=resposta,
+        reply_markup=get_reply_markup(context.user_data)
+    )
+
+def get_reply_markup(user_data):
+    if utils.is_logged(user_data):
         reply_keyboard = [  ['Minhas informações','Editar perfil'],
                             ['Sobre','Logout'],
 						    ['Ajuda','Dicas']   ]
@@ -43,14 +39,9 @@ def menu(update, context):
         reply_keyboard = [  ['Login','Registrar'],
                             ['Sobre','Finalizar'],
 						    ['Ajuda']   ]
-
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
-    resposta = "Selecione a opção desejada!"
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=resposta,
-        reply_markup=markup
-    )
+
+    return markup
 
 #Retorna as informações dos usuarios
 def get_user_info(update, context):
@@ -70,13 +61,13 @@ def signup_handler():
     return ConversationHandler(
         entry_points=[MessageHandler(Filters.text("Registrar"), signup.start)],
         states={
-            signup.CHOOSING: [MessageHandler(Filters.regex(Bot.SIGNUP_ENTRY_REGEX), signup.regular_choice)],
+            signup.CHOOSING: [MessageHandler(Filters.regex(signup.ENTRY_REGEX), signup.regular_choice)],
             signup.TYPING_REPLY: [MessageHandler((Filters.text | Filters.location) & ~(Filters.command | Filters.regex('^Done$')), signup.received_information)],
         },
         fallbacks=[
             MessageHandler(Filters.regex('^Done$'), signup.done),
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)
+            MessageHandler(Filters.all, utils.bad_entry)
         ]
     )
 
@@ -105,7 +96,10 @@ def logout(update, context):
         #Limpa a sessão do usuário
         context.user_data.clear()
 
-        context.bot.send_message(chat_id=update.effective_chat.id, text=resposta)
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=resposta
+        )
         menu(update,context)
         cancel_daily(update, context)
     else:
@@ -117,13 +111,13 @@ def login_handler():
     return ConversationHandler(
         entry_points=[MessageHandler(Filters.text("Login"), login.start)],
         states={
-            login.CHOOSING: [MessageHandler(Filters.regex(Bot.LOGIN_ENTRY_REGEX), login.regular_choice)],
+            login.CHOOSING: [MessageHandler(Filters.regex(login.ENTRY_REGEX), login.regular_choice)],
             login.TYPING_REPLY: [MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')), login.received_information)],
         },
         fallbacks=[
             MessageHandler(Filters.regex('^Done$'), login.done),
             MessageHandler(Filters.regex('^Cancelar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Cancelar$'), utils.bad_entry)
+            MessageHandler(Filters.all, utils.bad_entry)
         ]
     )
 
@@ -148,12 +142,12 @@ def perfil_handler():
     return ConversationHandler(
         entry_points=[MessageHandler(Filters.text("Editar perfil"), perfil.start)],
         states={
-            perfil.CHOOSING: [MessageHandler(Filters.regex(Bot.PERFIL_ENTRY_REGER), perfil.regular_choice)],
-            perfil.TYPING_REPLY: [MessageHandler(Filters.text & ~(Filters.command | Filters.regex('^Done$')), perfil.received_information)],
+            perfil.CHOOSING: [MessageHandler(Filters.regex(perfil.ENTRY_REGEX), perfil.regular_choice)],
+            perfil.TYPING_REPLY: [MessageHandler(Filters.text & ~Filters.command, perfil.received_information)],
         },
         fallbacks=[
             MessageHandler(Filters.regex('^Voltar$'), utils.cancel),
-            MessageHandler(Filters.all & ~ Filters.regex('^Done|Voltar$'), utils.bad_entry_edit)
+            MessageHandler(Filters.all, perfil.bad_entry)
         ]
     )
 
@@ -211,7 +205,7 @@ def tips_handler():
         },
         fallbacks=[
             MessageHandler(Filters.regex('^Voltar$'), utils.back),
-            MessageHandler(Filters.all, utils.bad_entry_tips)
+            MessageHandler(Filters.all, tips.bad_entry)
         ]
     )
     

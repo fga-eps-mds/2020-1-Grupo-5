@@ -1,8 +1,11 @@
-import requests, json
+from json import loads
+from requests import post
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
 from src import utils, handlers, getters, news
 import _thread as thread
+
+ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
 
 # Estados
 CHOOSING, TYPING_REPLY = range(2)
@@ -117,11 +120,11 @@ def request_login(update, context):
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
     
     # Faz a tentativa de cadastro utilizando o json e os headers inseridos
-    r = requests.post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
+    r = post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
     
     # Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
-        user = json.loads(r.content)['user'] # Pega os dados do usuário logado
+        user = loads(r.content)['user'] # Pega os dados do usuário logado
 
         context.user_data.clear()
         context.user_data.update(user)

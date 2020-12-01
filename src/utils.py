@@ -60,7 +60,6 @@ def back(update, context):
     handlers.menu(update, context)
     return ConversationHandler.END
 
-
 def bad_entry(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -69,20 +68,6 @@ def bad_entry(update, context):
     context.user_data.clear()
     handlers.menu(update, context)
     return ConversationHandler.END
-
-def bad_entry_edit(update, context):
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="Opção inválida, tente utilizar os botões!\nRetornando ao menu de edição."
-    ) 
-    perfil.start(update, context)
-
-def bad_entry_tips(update, context):
-	context.bot.send_message(
-        chat_id=update.effective_chat.id,
-       	text="Opção inválida, tente utilizar os botões!"
-    )
-	tips.start(update, context)
 
 def validaNome(nome):
     if len(nome) >= 8:
