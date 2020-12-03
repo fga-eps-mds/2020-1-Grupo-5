@@ -25,9 +25,9 @@ R04|Baixa produtividade da equipe|Individual|Falta de motivação|Atraso em conc
 R05|Falta de integração da equipe|Interno|Erros/falhas de comunicação entre membros|Membros insatisfeitos e membros desmotivados|Alto|Alta|
 R06|Erros durante o planejamento das atividades|Interno|Scrum master não se antecipar das próximas etapas do projeto|Atraso na entrega do projeto/mal funcionamento do produto|Alto|Media|
 R07|Falha na execução do projeto devido à falta de experiencia|Tecnico|Produto com muitos bugs por falta de experiencia dos membros da equipe com projetos ou com a tecnologia usada|Mal funcionamento do produro|Alto|Media|
-R08|Contrair Covid-19|Individual|Devido à Pandemia, os membros do grupo estão sujeitos a contaminação|Atraso na entrega|Alto|Baixa|
+R08|Contrair Covid-19|Individual|Devido à Pandemia, os membros do grupo estão sujeitos a contaminação|Atraso na entrega|Alto|Alta|
 R09|Internet não colaborar|Externo|Por ser um semestre EAD, os membros da equipe podem ter problemas com a internet de casa|Atraso na sprint|Medio|Media|
-R10|Diferença entre horários da equipe|Interno|Horários de aulas diferentes de cada integrante|Sobrecarga do integrante ao longo do projeto|Medio|Baixo|
+R10|Diferença entre horários da equipe|Interno|Horários de aulas diferentes de cada integrante|Sobrecarga do integrante ao longo do projeto|Medio|Baixa|
 R11|Greve na UnB|Externo|Semestre ser interrompido devido a uma greve|Cancelamento do projeto|Alto|Baixa|
 
 ## Ações preventivas
