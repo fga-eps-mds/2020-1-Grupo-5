@@ -3,16 +3,15 @@ from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMa
 ENTRY_REGEX = '^(O que é|Prevenção|Sintomas|Transmissão|Suspeita|Fake news|Telefones|Locais|Fontes)$'
 CHOOSING = 0
 
-reply_keyboard = [['O que é', 'Prevenção'],
+reply_keyboard = [	['O que é', 'Prevenção'],
                     ['Sintomas', 'Transmissão'],
                     ['Suspeita', 'Fake news'],
                     ['Telefones', 'Locais'],
-					['Fontes', 'Voltar']]
+					['Fontes', 'Voltar']	]
 
 def start(update, context):
     defaultReply(update, context)
     return CHOOSING
-
 
 def defaultReply(update, context):
 	markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -45,7 +44,6 @@ def regular_choice(update, context):
 
 	defaultReply(update, context)
 
-
 def about(update, context):
     text = ('Os coronavírus são uma família de vírus comuns em várias espécies de animais. Esses vírus que infectam animais podem raramente infectar pessoas, como é o caso do <b>SARS-CoV</b>. '
             'Em dezembro de 2019 foi identificado em <b>Wuhan, na China</b>, a transmissão de um novo coronavírus (<b>SARS-CoV-2</b>), causador da <b>COVID-19</b>. Em seguida a doença foi transmitida de pessoa para pessoa.\n\n'
@@ -57,7 +55,6 @@ def about(update, context):
 		parse_mode=ParseMode.HTML
     )
 
-
 def symptoms(update, context):
     text = ('Os sintomas vão desde um resfriado ou uma síndrome gripal até uma pneumonia severa.\n\n<b>Os sintomas mais comuns são:</b>\n'
             '- Tosse\n- Febre\n- Coriza\n- Dor de garganta\n- Dificuldade para respirar\n- Perda de olfato\n- Alteração do paladar\n- Distúrbios gastrintestinais\n'
@@ -67,7 +64,6 @@ def symptoms(update, context):
         text=text,
 		parse_mode=ParseMode.HTML
     )
-
 
 def prevention(update, context):
 	text = ('Aqui você encontra informações sobre prevenção de agravos, diagnósticos, tratamentos, reabilitação e a manutenção da saúde. O Ministério da Saúde aconselha a população a tomar medidas preventivas de eficácia comprovada:\n\n'
@@ -186,3 +182,10 @@ def sources(update, context):
 		parse_mode=ParseMode.HTML,
 		disable_web_page_preview=True
 	)
+
+def bad_entry(update, context):
+	context.bot.send_message(
+        chat_id=update.effective_chat.id,
+       	text="Opção inválida, tente utilizar os botões!"
+    )
+	start(update, context)

@@ -1,21 +1,22 @@
-import requests, json
-from telegram import ReplyKeyboardMarkup, KeyboardButton, Update, Bot
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          ConversationHandler, CallbackQueryHandler, Dispatcher)
+from json import loads
+from requests import post
+from telegram import ReplyKeyboardMarkup
+from telegram.ext import ConversationHandler
 from src import utils, handlers, getters, news
 import _thread as thread
+
+ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
 
 # Estados
 CHOOSING, TYPING_REPLY = range(2)
 
 required_data = set()
 
-
 # Inicia o login
 def start(update, context):
     user_data = context.user_data
-    user_data['Keyboard'] = [['Email', 'Senha'],
-                            ['Cancelar']]
+    user_data['Keyboard'] = [   ['Email', 'Senha'],
+                                ['Cancelar']    ]
 
     if utils.is_logged(user_data):
         handlers.unknown(update, context)
@@ -33,7 +34,6 @@ def start(update, context):
 
 # Opções de entrada de informação do menu de login
 def regular_choice(update, context):
-
     update.message.text = utils.remove_check_mark(update.message.text)
 
     # Adiciona uma chave com o valor de 'Email' ou 'Senha' de acordo com a escolha do user
@@ -43,16 +43,13 @@ def regular_choice(update, context):
     # De acordo com a escolha chama uma função
     if "Email" in text:
         getters.get_Email(update, context)
-
     elif "Senha" in text:
         getters.get_Pass(update, context)        
 
     return TYPING_REPLY
 
-
 # Envia as informações atualmente recebidas do usuário
 def received_information(update, context):
-
     category = update_received_information(context.user_data, update.message.text)
     head = validation_management(context.user_data, category)
     update_missing_info(context.user_data)
@@ -73,7 +70,6 @@ def update_received_information(user_data, text):
 
     return category
 
-
 def validation_management(user_data, category):
     # Validação de dados
     validation = utils.validations_login(user_data)
@@ -84,7 +80,6 @@ def validation_management(user_data, category):
         return "Perfeito, entrada aceita\n"
     else:
         return "Entrada inválida. Tem certeza que digitou corretamente?\n"
-
 
 def update_missing_info(user_data):
     # Estrutura que mostra as informações que ainda faltam ser inseridas
@@ -100,47 +95,38 @@ def update_missing_info(user_data):
 
 #Termina o login e envia ao servidor da API do guardiões
 def done(update, context):
-
     # Estrutura necessária para não permitir a finalização incorreta de um login
     # Caso o usuário tenha adicionado todas as infos, ele aceita a entrada
     # 3, pois devem existir 2 informações do usuário + teclado
     if len(context.user_data) == 3: # Login + Email enviados
-        context.user_data['Keyboard'].remove(['Done'])
-             
+        context.user_data['Keyboard'].remove(['Done'])      
         request_login(update, context)
-
     else:   
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="Falha ao fazer login, não adicionou todos os dados necessários!"
         )
-    
-    return ConversationHandler.END
 
+    return ConversationHandler.END
     
 # Função que executa a request de login
 def request_login(update, context):
-
     json_entry = {
         "user" : {
             "email" : context.user_data.get('Email'),
             "password" : context.user_data.get('Senha')
         }
     }
-
     headers = {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json'}
-
     
     # Faz a tentativa de cadastro utilizando o json e os headers inseridos
-    r = requests.post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
+    r = post("http://127.0.0.1:3001/user/login", json=json_entry, headers=headers)
     
-
     # Log de sucesso ou falha no cadastro
     if r.status_code == 200: # Sucesso
-        user = json.loads(r.content)['user'] # Pega os dados do usuário logado
+        user = loads(r.content)['user'] # Pega os dados do usuário logado
 
         context.user_data.clear()
-
         context.user_data.update(user)
         
         del context.user_data['app']
@@ -164,13 +150,9 @@ def request_login(update, context):
             text="Seu login falhou!\n\nTem certeza que digitou os dados corretamente?"
         )
 
-
-
     # a = news.Th(1)
     # a.run(update, context) 
     thread.start_new_thread(news.run, (update, context))
-
-
 
     #Chama o menu novamente
     handlers.menu(update, context)
