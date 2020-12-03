@@ -3,7 +3,7 @@ import json
 
 locator = Nominatim(user_agent="myGeocoder")
 
-def reverseGeo(location, context):
+def reverseGeo(location, user_data):
     longitude = location.longitude
     latitude = location.latitude
 
@@ -12,14 +12,14 @@ def reverseGeo(location, context):
     rev_location = locator.reverse(coordinates)    
     user_location = json.loads(json.dumps(rev_location.raw, indent=4))
     
-    context.user_data['Estado'] = user_location['address']['state']
+    user_data['Estado'] = user_location['address']['state']
 
     try:
-        context.user_data['Cidade'] = user_location['address']['town']
+        user_data['Cidade'] = user_location['address']['town']
     except:
         try:
-            context.user_data['Cidade'] = user_location['address']['city']
+            user_data['Cidade'] = user_location['address']['city']
         except:
-            context.user_data['Cidade'] = "Cidade não identificada."
+            user_data['Cidade'] = "Cidade não identificada."
 
-    context.user_data['País'] = user_location['address']['country']
+    user_data['País'] = user_location['address']['country']
