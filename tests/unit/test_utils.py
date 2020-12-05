@@ -10,6 +10,11 @@ class UtilsTests(unittest.TestCase):
 		user_data = {'AUTH_TOKEN': 'GENERIC'}
 		self.assertTrue(utils.is_logged(user_data))
 
+	def test_list_to_str(self):
+		data = ['Username', 'Senha', 'Raça']
+		expected_data = 'Username, Senha, Raça\n'
+		self.assertEqual(utils.list_to_str(data), expected_data)
+
 	def test_set_to_str(self):
 		required_data = set(['Username', 'Senha', 'Raça', 'Trabalho'])
 		result = utils.set_to_str(required_data)
