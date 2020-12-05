@@ -169,6 +169,7 @@ def ajuda(update, context):
 				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
 				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos\n\n' 
  				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
+                '- <b>Notícias</b>: O bot envia de forma automática uma notícia relacionada à pandemia por dia. A notícia também pode ser acessada enviando ao bot o comando /noticia'
 	)
     context.bot.send_message(
         chat_id=update.effective_chat.id, 

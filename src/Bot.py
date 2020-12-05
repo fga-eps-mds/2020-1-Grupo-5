@@ -1,5 +1,5 @@
 from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, MessageHandler, Updater
-from src import handlers
+from src import handlers, news
 from pathlib import Path
 
 class Bot:
@@ -25,6 +25,7 @@ class Bot:
             dispatcher.add_handler(CommandHandler("menu", handlers.start)) # Menu inicial
             dispatcher.add_handler(MessageHandler(Filters.text("Sobre"), handlers.sobre)) # Sobre o bot
             dispatcher.add_handler(MessageHandler(Filters.text("Finalizar"), handlers.finalizar )) # Finalizar conversa
+            dispatcher.add_handler(CommandHandler('noticia', news.sendNews))
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
