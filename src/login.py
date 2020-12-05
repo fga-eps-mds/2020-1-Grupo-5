@@ -2,7 +2,7 @@ from json import loads
 from requests import post
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
-from src import utils, handlers, getters, news
+from src import utils, handlers, getters, news, daily_report
 import _thread as thread
 
 ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
@@ -139,7 +139,7 @@ def request_login(update, context):
         )
 
         #Habilita NOtificações diárias
-        handlers.daily_report(update, context)
+        daily_report.daily_report(update, context)
 
         arq = "assets/doc_arquitetura/GuardioesLogo.png"
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(arq, 'rb'))

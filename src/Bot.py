@@ -1,5 +1,5 @@
 from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, MessageHandler, Updater
-from src import handlers, news
+from src import handlers, news, daily_report
 from pathlib import Path
 
 class Bot:
@@ -50,10 +50,10 @@ class Bot:
 
             # Notificações diárias
             dispatcher.add_handler(MessageHandler(Filters.text('Habilitar Notificações'), handlers.daily_report, pass_job_queue=True))
-            dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), handlers.cancel_daily, pass_job_queue=True))
+            dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), daily_report.cancel_daily, pass_job_queue=True))
 
             # Feedback diario
-            dispatcher.add_handler(CallbackQueryHandler(handlers.good_report, pattern='^good_report$'))
+            dispatcher.add_handler(CallbackQueryHandler(daily_report.good_report, pattern='^good_report$'))
             dispatcher.add_handler(handlers.bad_report_handler())
 
             # Callback query do calendário
