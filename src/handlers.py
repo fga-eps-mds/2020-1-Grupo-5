@@ -90,16 +90,16 @@ def birthDayCallBack(update, context):
 def logout(update, context):
     if utils.is_logged(context.user_data):
         resposta = f"Já vai?\n\nAté a próxima {context.user_data['user_name']}!"
-
-        #Limpa a sessão do usuário
-        context.user_data.clear()
-
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=resposta
         )
-        menu(update,context)
+
         daily_report.cancel_daily(update, context)
+        #Limpa a sessão do usuário
+        context.user_data.clear()
+
+        menu(update,context)
     else:
         #Caso não esteja logado, não entra na função de logout
         unknown(update, context)
@@ -173,6 +173,7 @@ def ajuda(update, context):
                 '- Nos menus de cadastro e <i>login</i>, quando uma informação válida for inserida, aparecerá no botão correspondente uma marca indicando que ela foi validada.\n\n'
                 '- Quando todas as informações forem inseridas aparecerá um botão <i>"Done"</i>. Clique nele para prosseguir com o cadastro ou <i>login</i>.\n\n'
                 '- Para apagar os dados inseridos e retornar ao menu anterior utilize o botão cancelar caso esteja disponível.\n\n'
+                '- Uma vez por dia será enviada uma mensagem perguntando sobre o seu estado de saúde. Você também pode recebê-la enviando o comando /report ao bot.'
     )
     context.bot.send_message(
         chat_id=update.effective_chat.id,

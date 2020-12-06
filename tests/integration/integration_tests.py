@@ -1,6 +1,6 @@
 import asyncio
 from pyrogram import Client
-import authentication, simple_messages, tips, informations
+import authentication, simple_messages, tips, informations, health_report
 
 async def perform_full_run():
     client = Client('my_account')
@@ -8,6 +8,7 @@ async def perform_full_run():
     await authentication.run_tests(client)
     await informations.run_tests(client)
     await tips.run_tests(client)
+    await health_report.run_tests(client)
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(perform_full_run())

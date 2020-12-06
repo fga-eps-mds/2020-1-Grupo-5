@@ -26,6 +26,7 @@ class Bot:
             dispatcher.add_handler(MessageHandler(Filters.text("Sobre"), handlers.sobre)) # Sobre o bot
             dispatcher.add_handler(MessageHandler(Filters.text("Finalizar"), handlers.finalizar )) # Finalizar conversa
             dispatcher.add_handler(CommandHandler('noticia', news.sendNews))
+            dispatcher.add_handler(CommandHandler('report', daily_report.report_requested))
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
