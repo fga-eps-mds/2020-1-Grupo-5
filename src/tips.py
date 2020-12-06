@@ -1,4 +1,5 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from src import utils
 
 ENTRY_REGEX = '^(O que é|Prevenção|Sintomas|Transmissão|Suspeita|Fake news|Telefones|Locais|Fontes)$'
 CHOOSING = 0
@@ -10,8 +11,11 @@ reply_keyboard = [	['O que é', 'Prevenção'],
 					['Fontes', 'Voltar']	]
 
 def start(update, context):
-    defaultReply(update, context)
-    return CHOOSING
+	if not utils.is_logged(context.user_data):
+		return -1
+
+	defaultReply(update, context)
+	return CHOOSING
 
 def defaultReply(update, context):
 	markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -116,13 +120,13 @@ def fake_news(update, context):
 
 def phone_numbers(update, context):
 	text = ('Lista de telefones úteis:\n\n'
-			'- Disque Saúde do Ministério da Saúde:\n<b>(136)</b>\n'
-			'- Corpo de Bombeiros:\n<b>(193)</b>\n'
-			'- SAMU:\n<b>(192)</b>\n'
-			'- Polícia Militar:\n<b>(190)</b>\n'			
-			'- Polícia Rodoviária Federal:\n<b>(191)</b>\n'
-			'- Polícia Rodoviária Estadual:\n<b>(198)</b>\n'
-			'- Defesa Civil:\n<b>(199)</b>')
+			'- Disque Saúde do Ministério da Saúde: <b>(136)</b>\n'
+			'- Corpo de Bombeiros: <b>(193)</b>\n'
+			'- SAMU: <b>(192)</b>\n'
+			'- Polícia Militar: <b>(190)</b>\n'			
+			'- Polícia Rodoviária Federal: <b>(191)</b>\n'
+			'- Polícia Rodoviária Estadual: <b>(198)</b>\n'
+			'- Defesa Civil: <b>(199)</b>')
 	context.bot.send_message(
 		chat_id=update.effective_chat.id,
 		text = text,

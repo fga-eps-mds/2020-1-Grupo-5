@@ -29,11 +29,11 @@ def get_User(update, context):
 
 #Funcao que recebe a senha do user
 def get_Pass(update, context):
-    update.message.reply_text('Digite uma senha valida, com pelo menos 8 caracteres!')
+    update.message.reply_text('Digite uma senha válida, com pelo menos 8 caracteres!')
 
 #Funcao que recebe a senha do user
 def get_Email(update, context):
-    update.message.reply_text('Digite um email valido!')
+    update.message.reply_text('Digite um email válido!')
 
 #Funcao que recebe a Raça do usuario
 def get_Race(update, context):
@@ -45,7 +45,7 @@ def get_Race(update, context):
 #Funcao que recebe o genero do usuario
 def get_Gender(update, context):
     update.message.reply_text(
-        'Selecione seu genero.',
+        'Selecione seu gênero.',
         reply_markup=gender_markup
     )
     
@@ -77,7 +77,7 @@ def get_professional(update, context):
 def get_location(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text='Clique no botão para enviar sua localização', 
+        text='Clique no botão para enviar sua localização.', 
         reply_markup=location_markup
     )
     

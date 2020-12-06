@@ -7,7 +7,7 @@ from datetime import date
 
 #Envia o menu para o usuario
 def start(update, context):
-    resposta = "Bem vindo ao DoctorS Bot, selecione a opção desejada.\n\nCaso deseje voltar ao menu, digite /menu ou /start.\n"
+    resposta = "Bem vindo ao DoctorS Bot. Selecione a opção desejada.\n\nCaso deseje voltar ao menu, digite /menu ou /start.\n"
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=resposta,
@@ -144,7 +144,7 @@ def perfil_handler():
 
 #Envia informaçoes sobre o bot
 def sobre(update, context):
-    resposta = 'O DoctorS é um Telegram Bot criado para ajudar a população no combate ao novo Corona Vírus(SARS-CoV-2).'
+    resposta = 'O DoctorS é um Telegram Bot criado para ajudar a população no combate ao novo coronavírus (SARS-CoV-2).'
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=resposta
@@ -158,9 +158,9 @@ def ajuda(update, context):
 				'- <b><i>Login</i></b>: Entre em sua conta. Caso você ainda não possua uma, use a função de cadastro.\n\n'
 				'- <b><i>Logout</i></b>: Saia de sua conta. Você poderá entrar novamente quando quiser.\n\n'
 				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
-				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos\n\n' 
- 				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
-                '- <b>Notícias</b>: O bot envia de forma automática uma notícia relacionada à pandemia por dia. A notícia também pode ser acessada enviando ao bot o comando /noticia'
+				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos.\n\n' 
+ 				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.\n\n'
+                '- <b>Notícias</b>: O bot envia de forma automática uma notícia relacionada à pandemia por dia. A notícia também pode ser acessada enviando ao bot o comando /noticia.'
 	)
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
@@ -182,7 +182,7 @@ def ajuda(update, context):
     )
 
 	#Mais informações
-    resposta = 'Para informações mais detalhadas <a href="https://fga-eps-mds.github.io/2020-1-DoctorS-Bot/#/docs/Ajuda"> clique aqui</a>'
+    resposta = 'Para informações mais detalhadas <a href="https://fga-eps-mds.github.io/2020-1-DoctorS-Bot/#/docs/Ajuda">clique aqui</a>.'
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
         text=resposta,
@@ -203,11 +203,12 @@ def tips_handler():
     )
     
 def finalizar(update, context):
-    resposta = "Já vai? Tudo bem, sempre que quiser voltar, digite /menu ou /start e receberá o menu inicial.\n\nObrigado por usar o DoctorS!"
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=resposta
-    )
+    if not utils.is_logged(context.user_data):
+        resposta = "Já vai? Tudo bem. Sempre que quiser voltar digite /menu ou /start e receberá o menu inicial.\n\nObrigado por usar o DoctorS!"
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=resposta
+        )
 
 #Mensagens não reconhecidas
 def unknown(update, context):

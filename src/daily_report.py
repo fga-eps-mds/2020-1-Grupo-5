@@ -1,8 +1,8 @@
 from src import utils, handlers
-from datetime import time, date
+from datetime import time, datetime
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from requests import post
-import requests
+import requests, pytz
 
 daily_messages = list()
 reported_chat_ids = set()
@@ -13,11 +13,15 @@ def daily_report(update, context):
     if utils.is_logged(context.user_data):
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Ativado notificações diárias"
+            text="Ativando notificações diárias."
         )
+
+        current_datetime = datetime.now()
+        timezone = pytz.timezone('America/Sao_Paulo')
+        current_timezone = timezone.localize(current_datetime)
         
-        exclude_time = time(hour=18, minute=13, second=59) # 23:59:59
-        daily_time = time(hour=18, minute=12, second=0) # 12:00:00
+        exclude_time = time(hour=23, minute=59, second=59, tzinfo=current_timezone.tzinfo) # 23:59:59
+        daily_time = time(hour=12, minute=0, second=0, tzinfo=current_timezone.tzinfo) # 12:00:00
 
         context.job_queue.run_daily(callback=notify_assignees, time=daily_time, context=update.effective_chat.id)
         context.job_queue.run_daily(callback=delete_daily, time=exclude_time, context=update.effective_chat.id)
@@ -38,7 +42,7 @@ def cancel_daily(update, context):
     if utils.is_logged(context.user_data):
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Notificações diárias desativadas"
+            text="Notificações diárias desativadas."
         )
         context.job_queue.stop()
     else:
