@@ -79,7 +79,7 @@ def update_received_information(context, update):
     del context.user_data['choice']
 
     if 'Localização' in category:
-        location.reverseGeo(update.message.location, context)
+        location.reverseGeo(update.message.location, context.user_data)
     else:
         context.user_data[category] = update.message.text
 

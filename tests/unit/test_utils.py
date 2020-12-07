@@ -10,6 +10,11 @@ class UtilsTests(unittest.TestCase):
 		user_data = {'AUTH_TOKEN': 'GENERIC'}
 		self.assertTrue(utils.is_logged(user_data))
 
+	def test_list_to_str(self):
+		data = ['Username', 'Senha', 'Raça']
+		expected_data = 'Username, Senha, Raça\n'
+		self.assertEqual(utils.list_to_str(data), expected_data)
+
 	def test_set_to_str(self):
 		required_data = set(['Username', 'Senha', 'Raça', 'Trabalho'])
 		result = utils.set_to_str(required_data)
@@ -65,7 +70,6 @@ class UtilsTests(unittest.TestCase):
 		# Errado
 		raca = 'errado'
 		self.assertFalse(utils.validaRaca(raca))
-
 		
 	def test_validaTrabalho(self):
 		# Certo 
@@ -77,6 +81,13 @@ class UtilsTests(unittest.TestCase):
 		# Errado
 		trabalho = 'errado'
 		self.assertFalse(utils.validaTrabalho(trabalho))
+
+	def test_validate_risk(self):
+		risco = 'risk'
+		self.assertFalse(utils.validaRisco(risco))
+
+		risco = 'sim'
+		self.assertTrue(utils.validaRisco(risco))
 
 	def test_validations_login(self):
 		data = {"Email": "valido@gmail.com"}
@@ -136,10 +147,33 @@ class UtilsTests(unittest.TestCase):
 		self.assertNotEqual({"Username": "errado", "Email": "invalido", "Senha": "errada",
 				 "Genero sexual": "invalido", "Trabalho": "invalido", "Raça": "invalida"}, data)
 
+	def test_validations_edition(self):
+		user_data = {'user_name': 'User'}
+		self.assertFalse(utils.validations_edition(user_data))
+
+		user_data = {'user_name': 'Usuario teste', 'gender': 'genero'}
+		self.assertFalse(utils.validations_edition(user_data))
+
+		user_data = {'race': 'raça'}
+		self.assertFalse(utils.validations_edition(user_data))
+
+		user_data = {'race': 'Branco', 'is_professional': 'trabalho'}
+		self.assertFalse(utils.validations_edition(user_data))
+
+		user_data = {'risk_group': 'risco'}
+		self.assertFalse(utils.validations_edition(user_data))
+
+		user_data = {'user_name': 'usuario teste', 'race': 'Pardo', 'risk_group': 'Não'}
+		self.assertTrue(utils.validations_edition(user_data))
+
 	def test_image(self):
-		text = {'user_name': 'Usuario Teste', 'race': 'Pardo', 'risk_group': True}
-		expected_reply = 'Atualmente essas são as suas informações: \n\nUsername: Usuario Teste\nRaça: Pardo\nGrupo de Risco: Sim'
-		self.assertEqual(expected_reply, utils.geraString(text))
+		text = {'user_name': 'Usuario Teste', 'race': 'Pardo', 'risk_group': True, 'is_professional': True}
+		expected_reply = 'Atualmente essas são as suas informações: \n\nUsername: Usuario Teste\nRaça: Pardo\nGrupo de Risco: Sim\nTrabalho: Sim'
+		self.assertEqual(expected_reply, utils.image(text))
+
+		text = {'user_name': 'Usuario Teste', 'birthdate': '1998-10-15', 'risk_group': False, 'is_professional': False}
+		expected_reply = 'Atualmente essas são as suas informações: \n\nUsername: Usuario Teste\nNascimento: 1998-10-15\nGrupo de Risco: Não\nTrabalho: Não'
+		self.assertEqual(expected_reply, utils.image(text))
 
 	def test_geraString(self):
 		text = {"user_name" : 'User', "gender" : 'Gender'}
@@ -156,7 +190,6 @@ class UtilsTests(unittest.TestCase):
 		text = 'Senha✅'
 		self.assertEqual('Senha', utils.remove_check_mark(text))
 
-
 	def test_update_check_mark(self):
 		keyboard = [['Username✅', 'Email'],
                     ['Senha', 'Raça'],
@@ -172,20 +205,17 @@ class UtilsTests(unittest.TestCase):
 		utils.update_check_mark(keyboard, category, validation)
 		self.assertFalse(['Username✅', 'Email'] in keyboard)
 
-
 	def test_update_required_data(self):
 		received_data = set(['Username', 'Email', 'Senha', 'Trabalho'])
 		required_data = {'Email', 'Raça', 'Genero sexual', 'Localização'}
 		utils.update_required_data(received_data, required_data)
 		self.assertFalse('Email' in required_data)
 
-
 	def test_form_filled(self):
 		keyboard = [['Email', 'Senha'],
                     ['Cancelar']]
 		utils.form_filled(keyboard)
 		self.assertTrue(['Done'] in keyboard)
-
 
 	def test_undone_keyboard(self):
 		keyboard = [['Email', 'Senha'],
@@ -194,13 +224,11 @@ class UtilsTests(unittest.TestCase):
 		utils.undone_keyboard(keyboard)
 		self.assertFalse(['Done'] in keyboard)
 
-
 	def test_unreceived_info(self):
 		received_data = set(['Username', 'Email', 'Senha'])
 		required_data = {'Raça', 'Genero sexual'}
 		utils.unreceived_info(received_data, required_data, ("Username", "Email", "Senha","Raça", "Trabalho", "Genero sexual"))
 		self.assertTrue('Trabalho' in required_data)
-
 
 if __name__ == '__main__':
     unittest.main()
