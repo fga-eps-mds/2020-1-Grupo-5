@@ -18,7 +18,7 @@ async def run_tests(client: Client):
         await controller.send_command('report')
     assert response.num_messages == 1
     assert 'Sentiu sintomas' in response.full_text
-    print('Report solicitado\n')
+    print('Report solicitado')
 
     print('Enviando sim')
     async with controller.collect(count=2) as resp:
@@ -43,13 +43,13 @@ async def run_tests(client: Client):
         await client.send_location(controller.peer_id, 51.500729, -0.124583)
     assert resp.num_messages == 2
     assert 'Obrigado por nos informar' in response.full_text
-    print('Bad report testado')
+    print('Bad report testado\n')
 
     async with controller.collect(count=1) as response:
         await controller.send_command('report')
     assert response.num_messages == 1
     assert 'Sentiu sintomas' in response.full_text
-    print('Report solicitado\n')
+    print('Report solicitado')
 
     print('Enviando não')
     async with controller.collect(count=1) as resp:
@@ -72,7 +72,7 @@ async def run_tests(client: Client):
     assert 'Algo deu errado' in resp.full_text
     print('Report recusado')
 
-    print('Report de saúde testado')
+    print('Report de saúde testado\n')
 
 
 if __name__ == "__main__":
