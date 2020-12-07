@@ -60,9 +60,13 @@ class Bot:
             # Callback query do calendário
             dispatcher.add_handler(CallbackQueryHandler(handlers.birthDayCallBack, pattern='^((?!good_report|bad_report).)*$'))
 
+            dispatcher.add_handler(MessageHandler(Filters.text("Relatório de Saúde"), handlers.get_report_status))
+
             # Mensagens não reconhecidas, serão respondidas aqui por uma mensagem generica
             dispatcher.add_handler(MessageHandler(Filters.all , handlers.unknown)) 
            
+            
+
         except Exception as e:
             print(e)
             print("Token não encontrado, alguns motivos:\n"

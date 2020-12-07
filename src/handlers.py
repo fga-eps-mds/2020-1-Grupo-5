@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode, InlineKeyboardMarkup
 from telegram.ext import MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
 from requests import post
-from src import signup, login, Bot, utils, perfil, tips, bad_report, daily_report
+from src import signup, login, Bot, utils, perfil, tips, bad_report, report_status, daily_report
 from src.CustomCalendar import CustomCalendar
 from datetime import date
 
@@ -32,7 +32,8 @@ def get_reply_markup(user_data):
     if utils.is_logged(user_data):
         reply_keyboard = [  ['Minhas informações','Editar perfil'],
                             ['Sobre','Logout'],
-						    ['Ajuda','Dicas']   ]
+						    ['Ajuda','Dicas'],
+                            ['Relatório de Saúde']]
     else:
         reply_keyboard = [  ['Login','Registrar'],
                             ['Sobre','Finalizar'],
@@ -40,6 +41,14 @@ def get_reply_markup(user_data):
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
 
     return markup
+
+
+def get_report_status(update, context):
+    if utils.is_logged(context.user_data):
+        report_status.start(update, context)
+
+    else:
+        unknown(update, context)
 
 #Retorna as informações dos usuarios
 def get_user_info(update, context):
