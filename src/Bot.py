@@ -1,5 +1,5 @@
 from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, MessageHandler, Updater
-from src import handlers
+from src import handlers, news, daily_report
 from pathlib import Path
 
 class Bot:
@@ -25,6 +25,8 @@ class Bot:
             dispatcher.add_handler(CommandHandler("menu", handlers.start)) # Menu inicial
             dispatcher.add_handler(MessageHandler(Filters.text("Sobre"), handlers.sobre)) # Sobre o bot
             dispatcher.add_handler(MessageHandler(Filters.text("Finalizar"), handlers.finalizar )) # Finalizar conversa
+            dispatcher.add_handler(CommandHandler('noticia', news.sendNews))
+            dispatcher.add_handler(CommandHandler('report', daily_report.report_requested))
 
             # Handler para mostrar informações do usuário
             dispatcher.add_handler(MessageHandler(Filters.text("Minhas informações"), handlers.get_user_info)) 
@@ -49,10 +51,10 @@ class Bot:
 
             # Notificações diárias
             dispatcher.add_handler(MessageHandler(Filters.text('Habilitar Notificações'), handlers.daily_report, pass_job_queue=True))
-            dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), handlers.cancel_daily, pass_job_queue=True))
+            dispatcher.add_handler(MessageHandler(Filters.text('Cancelar Notificações'), daily_report.cancel_daily, pass_job_queue=True))
 
             # Feedback diario
-            dispatcher.add_handler(CallbackQueryHandler(handlers.good_report, pattern='^good_report$'))
+            dispatcher.add_handler(CallbackQueryHandler(daily_report.good_report, pattern='^good_report$'))
             dispatcher.add_handler(handlers.bad_report_handler())
 
             # Callback query do calendário

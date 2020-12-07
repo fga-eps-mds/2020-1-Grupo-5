@@ -210,7 +210,7 @@ async def select_birthdate(controller: BotController, client: Client, resp: Resp
 
     assert response.num_messages == 9
     assert '1998-04-10' in response.messages[4].text
-    assert 'você foi cadastrado com sucesso' in response.messages[5].text
+    assert 'você foi cadastrado(a) com sucesso' in response.messages[5].text
     print('Data de nascimento selecionada')
 
     return response
@@ -252,11 +252,11 @@ async def click_login(response: Response):
     return resp
 
 async def click_login_done(controller: BotController, response: Response):
-    async with controller.collect(count=3) as resp:
+    async with controller.collect(count=4) as resp:
         await response.reply_keyboard.click('Done')
-    assert resp.num_messages == 3
+    assert resp.num_messages == 4
     assert 'seja bem vindo' in resp.messages[0].text
-    assert resp.messages[1].photo
+    assert resp.messages[2].photo
 
     return resp
 
@@ -273,7 +273,7 @@ async def login_test(controller: BotController, client: Client):
     print('Login concluído\n')
 
 async def click_logout(controller: BotController, response: Response):
-    async with controller.collect(count=2) as resp:
+    async with controller.collect(count=3) as resp:
         await response.reply_keyboard.click('Logout')
     assert 'Até a próxima' in resp.messages[0].text
     print('Logout clicado')

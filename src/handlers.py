@@ -1,15 +1,13 @@
 from telegram import ReplyKeyboardMarkup, InlineKeyboardButton, ParseMode, InlineKeyboardMarkup
 from telegram.ext import MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
 from requests import post
-from src import signup, login, Bot, utils, perfil, tips, bad_report, report_status
+from src import signup, login, Bot, utils, perfil, tips, bad_report, report_status, daily_report
 from src.CustomCalendar import CustomCalendar
-from datetime import date, datetime
-
-daily_messages = list()
+from datetime import date
 
 #Envia o menu para o usuario
 def start(update, context):
-    resposta = "Bem vindo ao DoctorS Bot, selecione a opção desejada.\n\nCaso deseje voltar ao menu, digite /menu ou /start.\n"
+    resposta = "Bem vindo ao DoctorS Bot. Selecione a opção desejada.\n\nCaso deseje voltar ao menu, digite /menu ou /start.\n"
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=resposta,
@@ -101,16 +99,16 @@ def birthDayCallBack(update, context):
 def logout(update, context):
     if utils.is_logged(context.user_data):
         resposta = f"Já vai?\n\nAté a próxima {context.user_data['user_name']}!"
-
-        #Limpa a sessão do usuário
-        context.user_data.clear()
-
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=resposta
         )
+
+        daily_report.cancel_daily(update, context)
+        #Limpa a sessão do usuário
+        context.user_data.clear()
+
         menu(update,context)
-        cancel_daily(update, context)
     else:
         #Caso não esteja logado, não entra na função de logout
         unknown(update, context)
@@ -129,13 +127,6 @@ def login_handler():
             MessageHandler(Filters.all, utils.bad_entry)
         ]
     )
-
-def return_regex(sintomas):
-    reg = str()
-    for sintoma in sintomas:
-        reg = reg + sintoma
-
-    return reg
 
 def bad_report_handler():
     return ConversationHandler(
@@ -162,7 +153,7 @@ def perfil_handler():
 
 #Envia informaçoes sobre o bot
 def sobre(update, context):
-    resposta = 'O DoctorS é um Telegram Bot criado para ajudar a população no combate ao novo Corona Vírus(SARS-CoV-2).'
+    resposta = 'O DoctorS é um Telegram Bot criado para ajudar a população no combate ao novo coronavírus (SARS-CoV-2).'
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=resposta
@@ -176,8 +167,9 @@ def ajuda(update, context):
 				'- <b><i>Login</i></b>: Entre em sua conta. Caso você ainda não possua uma, use a função de cadastro.\n\n'
 				'- <b><i>Logout</i></b>: Saia de sua conta. Você poderá entrar novamente quando quiser.\n\n'
 				'- <b>Reportar estado físico</b>: Informe seu estado de saúde (recomendado uso diário).\n\n'
-				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos\n\n' 
- 				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.'
+				'- <b>Dicas</b>: Veja diversas dicas e informações para cuidar da saúde, separadas por tópicos.\n\n' 
+ 				'- <b>Alterar informações pessoais</b>: Altere algumas informações cadastradas na sua conta.\n\n'
+                '- <b>Notícias</b>: O bot envia de forma automática uma notícia relacionada à pandemia por dia. A notícia também pode ser acessada enviando ao bot o comando /noticia.'
 	)
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
@@ -190,6 +182,7 @@ def ajuda(update, context):
                 '- Nos menus de cadastro e <i>login</i>, quando uma informação válida for inserida, aparecerá no botão correspondente uma marca indicando que ela foi validada.\n\n'
                 '- Quando todas as informações forem inseridas aparecerá um botão <i>"Done"</i>. Clique nele para prosseguir com o cadastro ou <i>login</i>.\n\n'
                 '- Para apagar os dados inseridos e retornar ao menu anterior utilize o botão cancelar caso esteja disponível.\n\n'
+                '- Uma vez por dia será enviada uma mensagem perguntando sobre o seu estado de saúde. Você também pode recebê-la enviando o comando /report ao bot.'
     )
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -198,7 +191,7 @@ def ajuda(update, context):
     )
 
 	#Mais informações
-    resposta = 'Para informações mais detalhadas <a href="https://fga-eps-mds.github.io/2020-1-DoctorS-Bot/#/docs/Ajuda"> clique aqui</a>'
+    resposta = 'Para informações mais detalhadas <a href="https://fga-eps-mds.github.io/2020-1-DoctorS-Bot/#/docs/Ajuda">clique aqui</a>.'
     context.bot.send_message(
         chat_id=update.effective_chat.id, 
         text=resposta,
@@ -219,11 +212,12 @@ def tips_handler():
     )
     
 def finalizar(update, context):
-    resposta = "Já vai? Tudo bem, sempre que quiser voltar, digite /menu ou /start e receberá o menu inicial.\n\nObrigado por usar o DoctorS!"
-    context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=resposta
-    )
+    if not utils.is_logged(context.user_data):
+        resposta = "Já vai? Tudo bem. Sempre que quiser voltar digite /menu ou /start e receberá o menu inicial.\n\nObrigado por usar o DoctorS!"
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=resposta
+        )
 
 #Mensagens não reconhecidas
 def unknown(update, context):
@@ -233,65 +227,3 @@ def unknown(update, context):
         text=resposta
     )
     menu(update, context)
-
-def daily_report(update, context):
-    if utils.is_logged(context.user_data):
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Ativado notificações diárias"
-        )
-        
-        day_in_sec = 60 * 60 * 24# Dia em segundos
-        today = date.today()
-        exclude_time = datetime(today.year, today.month, today.day, 23, 59, 59)
-        daily_time = datetime(today.year, today.month, today.day, 12, 0, 0)
-
-        context.job_queue.run_repeating(notify_assignees, interval=day_in_sec, first=daily_time, context=update.effective_chat.id)
-        context.job_queue.run_repeating(delete_daily,interval=day_in_sec, first=exclude_time, context=update.effective_chat.id)
-    else:
-        unknown(update, context)
-
-def delete_daily(context):
-    for message in daily_messages:
-        try:
-            context.bot.delete_message(chat_id=context.job.context ,message_id=message)
-            daily_messages.remove(message)
-            return
-        except:
-            pass
-
-def cancel_daily(update, context):
-    if utils.is_logged(context.user_data):
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Notificações diárias desativadas"
-        )
-        context.job_queue.stop()
-    else:
-        unknown(update, context)
-
-def notify_assignees(context):
-    sim = InlineKeyboardButton(text="Sim",callback_data='bad_report')
-    nao = InlineKeyboardButton(text="Não", callback_data='good_report')
-
-    chat_id=context.job.context
-
-    # Mensagem teste
-    message = context.bot.send_message(
-        chat_id=chat_id,
-        text="Sentiu sintomas hoje?",
-        reply_markup=InlineKeyboardMarkup([[sim, nao]], resize_keyboard=True)
-    )
-    
-    daily_messages.append(message['message_id'])
-
-def good_report(update, context):
-    update.callback_query.edit_message_text("Obrigado por nos informar sobre seu estado de saúde.\n\nTenha um bom dia!")
-
-    headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(context.user_data['AUTH_TOKEN'])}   
-    json = {
-        "survey" : {
-            "symptom" : []
-        }
-    }
-    post(url=f'http://localhost:3001/users/{context.user_data["id"]}/surveys', headers=headers, json=json)

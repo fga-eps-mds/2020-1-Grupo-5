@@ -10,7 +10,6 @@ def run(update, context):
     while utils.is_logged(context.user_data):    
         hora = time.ctime().split()
         if re.search(regex_time, str(hora)):
-            # utils.sendNews(update, context)
             sendNews(update, context)
             print("Hora: :", hora[3])
 
@@ -19,27 +18,21 @@ def run(update, context):
 def sendNews(update, context):
     regex = r"[Ff]acebook|[Tt]witer|[Ii]nstagram|[Ll]inked[Ii]n|[Aa]rticle"
     res = []
-    # for resultado in search('"noticias saúde" news', stop=10):
-    for resultado in search("saude plantão news", stop=10):
+    for resultado in search("covid", stop=10):
         res.append(resultado)
-        # print(resultado)
-        # print(res)
-    resultadoPrint = ""
 
+    resultadoPrint = ""
     for resultado in res:
         if not re.search(regex, resultado):
-            # print("\n", resultado)
             if len(resultado) > len(resultadoPrint):
                 resultadoPrint = resultado
 
     print("Resul print: ", resultadoPrint)
-    
-    # sendNew = "Olá, espero que esteja se sentindo bem! Hoje é dia " + str(data[2]) + " de " + str(month(data[1])) + ", a noticia do dia é: \n" + str(resultadoPrint)
-
     sendNew = "Olá, espero que esteja se sentindo bem! Hoje é " + str(stringDate()) + ".\n\n" + "A noticia do dia é: \n" + str(resultadoPrint) + "\n"
-
-    context.bot.send_message(   chat_id=update.effective_chat.id,
-                                text= str(sendNew))
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=sendNew
+    )
 
 def stringDate():
     dateTotal = (time.strftime("%A, %d %B %Y", time.gmtime()))

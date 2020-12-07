@@ -11,6 +11,9 @@ required_data = set()
 
 #Inicia o cadastro
 def start(update, context):
+    if not utils.is_logged(context.user_data):
+        return -1
+
     user_data = context.user_data
     context = context.user_data
     user_data['Keyboard'] = [   ['Username', 'Raça'],
@@ -166,7 +169,7 @@ def requestEdit(update, context):
         # update.message.reply_text("Você alterou a informação com sucesso, retornando ao menu de edição\n")  
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text= "Você alterou a informação com sucesso, retornando ao menu de edição\n"
+            text= "Você alterou a informação com sucesso. Retornando ao menu de edição.\n"
         )
         print("request perfil acept")
 
@@ -174,7 +177,7 @@ def requestEdit(update, context):
         # update.message.reply_text("Algo deu errado com a edição, retornando ao menu de edição\n")   
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text= "Algo deu errado com a edição, retornando ao menu de edição\n"
+            text= "Algo deu errado com a edição. Retornando ao menu de edição\n"
         )
         print("request perfil fail")
 
