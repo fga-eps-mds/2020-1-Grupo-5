@@ -80,7 +80,7 @@ Os objetivos do DoctorS são :
 
 Os diagramas de pacotes mostram a interação entre as relações das pastas e seus arquivos.
 
-![](https://i.ibb.co/4P2W1R0/Diagrama-Telegram.png)
+![](https://i.ibb.co/ZzHbXxz/Diagrama-Telegram.png)
 
 Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
 
@@ -92,6 +92,6 @@ Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saú
 
 Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
 
-![](https://i.ibb.co/Vt8qpfG/Diagrama-Geral.png)
+![](https://i.ibb.co/wMLSnx6/Diagrama-Geral.png)
 
 Imagem 8 - Diagrama de pacotes geral dos Microsserviços.
