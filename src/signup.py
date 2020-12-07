@@ -178,4 +178,5 @@ def requestSignup(update, context):
             chat_id=update.effective_chat.id,
             text=f"{user_data.get('Username')}, seu cadastro falhou!"
         )
+        handlers.menu(update, context)
     print(r.content)    
