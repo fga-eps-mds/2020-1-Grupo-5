@@ -5,6 +5,7 @@ from datetime import datetime
 
 def start(update, context):
     data = get_survey(context.user_data)['surveys']
+
     if not data:
         context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -29,14 +30,21 @@ def get_total_days(data):
     tot_days = abs((d2 - d1).days + 1)
     good = 0
     bad = 0
+    repeated_days = 0
+    all_days = set()
 
     for survey in data:
+        if survey['created_at'].split("T")[0] in all_days:
+            repeated_days += 1
+        else:
+            all_days.add(survey['created_at'].split("T")[0])
+
         if survey['symptom']:
             bad += 1
         else:
             good += 1
 
-    return (good, bad, abs(tot_days - good - bad))
+    return (good, bad, abs(tot_days - good - bad + repeated_days))
 
 def get_survey(user_data):
     headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(user_data['AUTH_TOKEN'])}

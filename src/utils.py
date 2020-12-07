@@ -196,7 +196,7 @@ def geraString(text):
         texto =  texto  + "\n" + 'Genero sexual' + ": " + str(text['gender'])
 
     if "birthdate" in text:
-        texto =  texto  + "\n" + 'Nascimento' + ": " + str(text['birthdate'])
+        texto =  texto  + "\n" + 'Nascimento' + ": " + str(text['birthdate'].split('T')[0])
   
     if "risk_group" in text:
         if text['risk_group'] == 'true' or text['risk_group'] == True:
