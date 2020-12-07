@@ -21,4 +21,6 @@
     - [Sprint 8](docs/sprints/sprint8.md)
     - [Sprint 9](docs/sprints/sprint9.md)
     - [Sprint 10](docs/sprints/sprint10.md)
+    - [Sprint 11](docs/sprints/sprint11.md)
+    - [Sprint 12](docs/sprints/sprint12.md)
 - [Ajuda](docs/Ajuda.md)
