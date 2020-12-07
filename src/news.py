@@ -28,32 +28,32 @@ def sendNews(update, context):
                 resultadoPrint = resultado
 
     print("Resul print: ", resultadoPrint)
-    sendNew = "Olá, espero que esteja se sentindo bem! Hoje é " + str(stringDate()) + ".\n\n" + "A noticia do dia é: \n" + str(resultadoPrint) + "\n"
+    dateTotal = (time.strftime("%A, %d %B %Y", time.gmtime()))
+    sendNew = "Olá, espero que esteja se sentindo bem! Hoje é " + str(stringDate(dateTotal)) + ".\n\n" + "A noticia do dia é: \n" + str(resultadoPrint) + "\n"
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=sendNew
     )
 
-def stringDate():
-    dateTotal = (time.strftime("%A, %d %B %Y", time.gmtime()))
-    dateTotal = dateTotal.replace('January', 'de janeiro de ')
-    dateTotal = dateTotal.replace('February', 'de fevereiro de ')
-    dateTotal = dateTotal.replace('March', 'de março de ')
-    dateTotal = dateTotal.replace('April', 'de abril de ')
-    dateTotal = dateTotal.replace('May', 'de maio de ')
-    dateTotal = dateTotal.replace('June', 'de junho de ')
-    dateTotal = dateTotal.replace('July', 'de julho de ')
-    dateTotal = dateTotal.replace('August', 'agosto de ')
-    dateTotal = dateTotal.replace('September', 'de setembro de ')
-    dateTotal = dateTotal.replace('July', 'de julho de ')
-    dateTotal = dateTotal.replace('October', 'de outubro de ')
-    dateTotal = dateTotal.replace('November', 'de novembro de ')
-    dateTotal = dateTotal.replace('December', 'de dezembro de ')
+def stringDate(dateTotal):
+    dateTotal = dateTotal.replace('January', 'de janeiro de')
+    dateTotal = dateTotal.replace('February', 'de fevereiro de')
+    dateTotal = dateTotal.replace('March', 'de março de')
+    dateTotal = dateTotal.replace('April', 'de abril de')
+    dateTotal = dateTotal.replace('May', 'de maio de')
+    dateTotal = dateTotal.replace('June', 'de junho de')
+    dateTotal = dateTotal.replace('July', 'de julho de')
+    dateTotal = dateTotal.replace('August', 'agosto de')
+    dateTotal = dateTotal.replace('September', 'de setembro de')
+    dateTotal = dateTotal.replace('July', 'de julho de')
+    dateTotal = dateTotal.replace('October', 'de outubro de')
+    dateTotal = dateTotal.replace('November', 'de novembro de')
+    dateTotal = dateTotal.replace('December', 'de dezembro de')
     dateTotal = dateTotal.replace('Sunday', 'domingo')
-    dateTotal = dateTotal.replace('Monday', 'segunda-Feira')
-    dateTotal = dateTotal.replace('Tuesday', 'terça-Feira')
-    dateTotal = dateTotal.replace('Wednesday', 'quarta-Feira')
-    dateTotal = dateTotal.replace('Thursday', 'quinta-Feira')
-    dateTotal = dateTotal.replace('Friday', 'sexta-Feira')
+    dateTotal = dateTotal.replace('Monday', 'segunda-feira')
+    dateTotal = dateTotal.replace('Tuesday', 'terça-feira')
+    dateTotal = dateTotal.replace('Wednesday', 'quarta-feira')
+    dateTotal = dateTotal.replace('Thursday', 'quinta-feira')
+    dateTotal = dateTotal.replace('Friday', 'sexta-feira')
     dateTotal = dateTotal.replace('Saturday', 'sábado')
     return dateTotal
