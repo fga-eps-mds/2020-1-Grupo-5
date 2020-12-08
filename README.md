@@ -1,5 +1,5 @@
 # DoctorS Bot
-<p align = "center"> &emsp;&emsp; <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/master/assets/DoctorS.png" width="200" height="200"/> </p>
+![](https://i.ibb.co/KXy8s4z/DoctorS.png)
 
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/fga-eps-mds/2020-1-DoctorS-Bot.svg)](http://isitmaintained.com/project/fga-eps-mds/2020-1-DoctorS-Bot "Percentage of issues still open")
 
