@@ -1,5 +1,4 @@
 - [Home](README.md)
-- [Post Mortem](docs/documentos/postmortem.md)
 - [**Documentos**](#)
     - [Canvas](docs/documentos/canvas.md)
     - [Backlog](docs/documentos/backlog.md)
@@ -10,6 +9,7 @@
     - [Roadmap](docs/documentos/roadmap.md)
     - [Código de conduta](CODE_OF_CONDUCT.md)
     - [Contribuição](CONTRIBUTING.md)
+    - [Post Mortem](docs/documentos/postmortem.md)
 - [**Sprints**](#)
     - [Sprint 0](docs/sprints/sprint0.md)
     - [Sprint 1](docs/sprints/sprint1.md)
