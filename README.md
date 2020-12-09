@@ -11,6 +11,11 @@
 - Apresentação: https://youtu.be/RGD5kv_4Os0
 - Slides utilizados: https://docs.google.com/presentation/d/1Db5Fj-vUUeLpbQa2ymwLiOIqcltN1ZVqh7aEw6ncQ44/edit#slide=id.g1f87997393_0_782
 
+## Links R2
+
+- Apresentação: https://youtu.be/mgH-CXVySNU
+- Slides utilizados: https://docs.google.com/presentation/d/1XKIUHvqZNFerVvmGSPR6QmDFBMApbzzXzV6H7tIyAiA/edit?usp=sharing
+
 ## Apresentação
 
 O Projeto do DoctorS Bot busca ajudar toda a sociedade a combater o contágio do novo Coronavírus (Sars-CoV-2). O projeto trás uma integração com o aplicativo [Guardiões da Saúde](https://github.com/proepidesenvolvimento/guardioes-app) por meio de um Bot no Telegram (@DoctorS_bot) e busca trazer maior acessibilidade e facilidade no uso da aplicação.
