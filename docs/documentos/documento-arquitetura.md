@@ -88,9 +88,9 @@ Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
 
 Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saúde.
 
-![](https://i.ibb.co/r5GsBTD/Diagrama-Python.png)
+![](https://i.ibb.co/QKPK7mN/Diagrama-AWS.png)
 
-Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
+Imagem 7 - Diagrama de pacotes do Microsserviço Conexão com AWS.
 
 ![](https://i.ibb.co/wMLSnx6/Diagrama-Geral.png)
 
