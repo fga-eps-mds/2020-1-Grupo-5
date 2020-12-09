@@ -12,8 +12,8 @@
 
 ## Links R2
 
-- Apresentação:
-- Slides utilizados:
+- Apresentação: https://youtu.be/mgH-CXVySNU
+- Slides utilizados: https://docs.google.com/presentation/d/1XKIUHvqZNFerVvmGSPR6QmDFBMApbzzXzV6H7tIyAiA/edit?usp=sharing
 
 ## Apresentação
 
