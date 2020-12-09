@@ -34,7 +34,7 @@ Informe seu estado de saúde, utilizado para mapeamento de saúde. Você receber
 perguntando seu estado de saúde uma vez por dia automaticamente. Também é possível recebê-la
 enviando **/report**. 
 ## 6. Relatório de Saúde
-Veja as informações referentes aos seus *reports* anteriores. Para reportar veja **Reportar estado físico**
+Veja as informações referentes aos seus *reports* anteriores. Para reportar veja **Reportar estado físico**.
 ## 7. Dicas
 Veja dicas e informações úteis para cuidar da saúde.
 ### Tópicos:
@@ -49,7 +49,7 @@ Veja dicas e informações úteis para cuidar da saúde.
 - Fontes - Links para as fontes utilizadas
 ## 8. Ver informações pessoais
 ## 9. Alterar informações pessoais
-Altere alguma informação da sua conta. Nessa opção também é possível **Ver suas informações pessoais**
+Altere alguma informação da sua conta. Nessa opção também é possível **Ver suas informações pessoais**.
 ### Informações alteráveis:
 - Username
 - Raça
@@ -59,4 +59,4 @@ Altere alguma informação da sua conta. Nessa opção também é possível **Ve
 - Data de nascimento
 ## 10. Notícias
 Receba automaticamente uma notícia relacionada a pandemia por dia. Enviando **/noticia** é possível
-acessar a notícia em qualquer horário.
+acessar a notícia a qualquer momento.
