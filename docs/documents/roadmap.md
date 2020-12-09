@@ -67,3 +67,38 @@ Data|Versão|Descrição|Autor
 - [Contributing ](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/47)
 - [Template de pull request](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/48)
 - [US03 - Eu, como usuário, desejo fazer logout](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/53)
+
+## Sprint 7
+- Não teve nenhuma issue
+
+## Sprint 8
+- [US07 - Eu, como usuário, desejo saber as funcionalidades do ChatBot](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/56)
+
+## Sprint 9 
+- [US10 - Eu, como usuário, desejo editar meus dados pessoais](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/57)
+- [US06 - Eu, como usuário, desejo receber dicas para cuidar da saúde](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/62)
+
+## Sprint 10
+- [Refatoração do cadastro e login](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/64)
+- [Criar página no Github Pages](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/66)
+- [US12 - Eu, como usuário, desejo receber notícias relacionadas à saúde](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/67)
+- [Treinamento testes](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/68)
+
+## Sprint 11 
+- [Revisão pós R1](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/69)
+- [Implementação de teste unitários](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/70)
+- [Bug na edição de perfil](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/71)
+- [US09 - Eu, como usuário, desejo visualizar os relatórios de saúde produzidos pela plataforma](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/72)
+
+## Sprint 12 
+- [US04 - Eu, como usuário, desejo reportar meu estado de saúde](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/61)
+- [Testes de integração](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/74)
+
+## Sprint 13
+- Não teve issue 
+
+## Sprint 14 
+- [Bug de logout](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/79)
+- [Escrever mais testes unitários](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/80)
+- [Apresentação R2](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/81)
+- [Gh pages](https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/issues/82)
