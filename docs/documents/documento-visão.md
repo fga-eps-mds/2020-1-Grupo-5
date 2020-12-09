@@ -11,21 +11,22 @@ Data|Versão|Descrição|Autor
 08/09|0.1.6|Adição dos subitens do item 2| João Pedro|
 09/09|0.1.7|Adição dos subitens do item 1| Kevin Luis|
 10/09|0.1.8|Revisão ortográfica| Lucas Rodrigues|
+08/12|0.2.0|Revisão do documento|Lucas Rodrigues|
 
 ## **1. Introdução**
 
 ### 1.1 Propósito
 
-Este documento tem o objetivo de apresentar uma visão geral sobre o ChatBot DoctorS, mostrando suas características e seu objetivo.
+Este documento tem o objetivo de apresentar uma visão geral sobre o Chatbot DoctorS, mostrando suas características e seu objetivo. Dessa forma, pretende-se esclarecer ao leitor diversos aspectos e detalhes sobre o projeto.
 
 ### 1.2 Escopo
 
-O ChatBot DoctorS é um sistema desenvolvido para coletar informações do estado de saúde diariamente dos usuários.
+O Chatbot DoctorS é um sistema desenvolvido para coletar informações do estado de saúde diariamente dos usuários. Assim, serve como outra plataforma para o usuário do aplicativo Guardiões da Saúde informar esses dados. Além disso, podem ser encontradas outras funcionaliades também presentes no aplicativo, como uma seção de dicas e notícias de saúde e histórico de relatos de saúde.
 
 ### 1.3 Definições, acrônimos e abreviações
 
-- DoctorS: O nome do ChatBot
-- ChatBot: <i>Software</i> que através de inteligência artificial conduz uma conversa para automatizar os processos
+- DoctorS: O nome do Chatbot
+- Chatbot: <i>Software</i> que através de inteligência artificial conduz uma conversa para automatizar os processos
 - FGA: Faculdade do Gama
 - MDS: Equipe de Métodos de Desenvolvimento de <i>Software</i>
 - <i>Telegram</i>: Aplicativo de mensagens instantâneas 
@@ -39,32 +40,32 @@ O ChatBot DoctorS é um sistema desenvolvido para coletar informações do estad
 
 ### 1.5 Visão Geral
 
-Esse é um documento informativo sobre o ChatBot DoctorS em que estão descritos os detalhes do <i>software</i>.
+Esse é um documento informativo sobre o Chatbot DoctorS em que estão descritos os detalhes do <i>software</i>, explicando a razão de sua existência e descrevendo seus usuários.
 Ele está organizado no formato de tópicos e subtópicos sequenciais numerados. A ordem desses tópicos é: Introdução; Posicionamento; Descrições da Parte Interessada e do Usuário; Visão Geral do Produto; Recursos do Produto; Restrições; Outros Requisitos do Produto.
 
 ## **2. Posicionamento**
 
 ### 2.1 Oportunidade de Negócios
 
-O aplicativo Guardiões da Saúde é de extrema importância para obter informações de como está a saúde das pessoas em nossa comunidade neste tempo de pandemia. O nosso projeto pretende facilitar e expandir essa comunicação ao maior número de pessoas possível, utilizando uma rede social que é de comum uso entre os membros da nossa comunidade.
+O aplicativo Guardiões da Saúde é de extrema importância para a obtenção de informações sobre como está a saúde das pessoas nesse tempo de pandemia. O nosso projeto pretende facilitar e expandir essa comunicação já presente no aplicativo Guardiões da Saúde ao maior número de pessoas possível, utilizando o Telegram, uma rede social que é de comum uso também entre os membros da nossa comunidade. Além disso, expandindo suas funcionalidades para o *Telegram*, é possível reduzir a quantidade de dias que a pessoa esquece de fornecer seu relato de saúde e deixar a interação desse usuário com o serviço mais amigável.
 
 ### 2.2 Descrição do problema
 
-|**O problema é**|Pouco acesso ao aplicativo Guardiões da Saúde.|
+|**O problema é**|Falta de acesso ao aplicativo Guardiões da Saúde.|
 |:---:|:---:|
-|**afeta**|Órgãos que utilizam os dados obtidos pelo app.|
+|**afeta**|Instituições que utilizam os dados obtidos pelo app.|
 |**cujo impacto é**|Dificuldade, por meio das autoridades públicas, no planejamento do combate a pandemia.|
-|**uma boa solução seria**|O uso do ChatBot para facilitar a comunicação e obtenção de dados.|
+|**uma boa solução seria**|O uso do Chatbot para facilitar a comunicação e obtenção de dados.|
 
 ### 2.3 Instrução de Posição do Produto
 
 |**Para** |Usuários do app <i>Telegram</i>.|
 |:---:|:---:|
-|**Que** |Querem receber relatórios diários sobre seu estado de saúde|
-|**O DoctorS_bot é**| Um ChatBot integrado ao <i>Telegram</i>.|
-|**Que**| Obtém dados dos usuários.|
-|**Diferente de**|Precisar se deslocar a um médico, em qualquer sinal de sintoma da Covid-19.|
-|**Nosso produto**|Facilita a comunicação e informa ao usuário, caso esteja com algum sintoma da Covid-19, se necessário ir ao hospital.|
+|**Que** |Querem relatar e receber relatórios sobre saúde|
+|**O DoctorS_bot é**| Um Chatbot integrado ao <i>Telegram</i>.|
+|**Que**| Obtém relatos de saúde dos usuários.|
+|**Diferente de**|Precisar utilizar o aplicativo Guardiões da Saúde.|
+|**Nosso produto**|Utiliza o <i>Telegram</i> para que seja feito o relato de saúde do usuário.|
 
 ## **3. Descrições da Parte Interessada e do Usuário**
 
@@ -78,7 +79,7 @@ Nome|Descrição|Responsabilidade
 
 Nome|Descrição
 |:-:|:-:|
-| Monitorado | Usuário que está tendo a saúde monitorada continuamente. |
+| Monitorado | Usuário que quer relatar o seu estado de saúde para contribuir com os relatórios. |
 
 ### 3.2 Ambiente do Usuário
 
@@ -115,16 +116,16 @@ Representante|Monitorado
 
 Necessidade|Prioridade|Interesse|Solução Atual|Solução Proposta
 |:-:|:-:|:-:|:-:|:-:|
-|Auxiliar na manutenção da saúde do usuário.|Alta|Tornar a manutenção da saúde mais fácil e dinâmica.|Monitoramento contínuo.|Aplicação que, por meio de um mensageiro, fará o report diário da saúde do usuário.|
+|Auxiliar no relato da saúde do usuário.|Alta|Tornar a coleta de estado de saúde dos usuários mais fácil e dinâmica.|Monitoramento contínuo.|Aplicação que, por meio de um mensageiro, fará o report diário da saúde do usuário.|
 
 ### 3.6 Alternativas e Concorrência
 
-A proposta é justamente garantir as funcionalidades de um aplicativo que já se encontra no mercado, e é justificada por associar que os usuários em geral terão uma maior aceitação da ideia se este já estiver inserido no contexto dos mesmos, que no caso é o mensageiro <i>Telegram</i>.
+A proposta é garantir as funcionalidades de um aplicativo que já se encontra no mercado, e é justificada por associar que os usuários em geral terão uma maior aceitação da ideia se este já estiver inserido no contexto dos mesmos, que no caso é o mensageiro <i>Telegram</i>.
 
 ## **4. Visão Geral do Produto**
 
 ### 4.1 Perspectiva do Produto
-O produto tem como objetivo estender para o <i>Telegram</i> as funcionalidades do aplicativo <i>mobile</i> Guardiões da Saúde, utilizando um ChatBot. Os usuários cadastrados devem informar diariamente sobre o aparecimento ou não de sintomas relacionados ao COVID-19. Com as informações coletadas são gerados relatórios contendo estatísticas e dados relacionados a esse problema. Dessa forma, ele pode auxiliar no combate à doença.
+O produto tem como objetivo estender para o <i>Telegram</i> as funcionalidades do aplicativo <i>mobile</i> Guardiões da Saúde, utilizando um Chatbot. Os usuários cadastrados devem responder diariamente à uma pergunta sobre o aparecimento ou não de sintomas relacionados ao COVID-19. A integração com o aplicativo Guardiões da Saúde poderá ajudar na geração dos relatórios contendo estatísticas e dados relacionados a esse problema. Dessa forma, ele pode auxiliar no combate à doença e expandir o alcance e o acesso ao Guardiões da Saúde.
 
  ### 4.2 Resumo das Capacidades
  
@@ -132,49 +133,50 @@ O produto tem como objetivo estender para o <i>Telegram</i> as funcionalidades d
  |---------------------------------------------------------------|--------------------------------------------|
  | Acesso às próprias informações                                | Criação de usuário                         |
  | Capacidade de oferecer informações para o mapeamento de saúde | Informe de estado físico diário               |
- | Acesso a relatórios de saúde                                  | Envio de relatórios produzidos pelo ChatBot    |
+ | Acesso à notícias sobre saúde                                 | Informações sobre a pandemia |
  | Acesso à dicas para cuidar da saúde                           | Dicas e práticas saudáveis                 |
  
  ### 4.3 Suposições e Dependências
  - O usuário deve ter em alcance o aplicativo <i>Telegram</i>
- - O usuário deve estar conectado à Internet
+ - O usuário deve estar conectado à internet
 
 ## **5. Recursos do Produto**
 
-O produto possuirá o sistema de login, armazenando os usuários e informações únicas com o intuito de armazenar e gerar relatórios quanto aos infectados em cada região.
+O produto possuirá o sistema de cadastro e login, armazenando os usuários e aceitando os relatos de saúde dos usuários com o intuito de facilitar o acesso ao Guardiões da Saúde.
 
 ### 5.1 Recursos de usuário
  
- * Cadastrar usuário
- * Informe físico diário (quanto aos sintomas)
- * Armazenar informações
+ * Cadastro e login de usuário
+ * Informe de estado físico diário (quanto aos sintomas)
+ * Acesso ao histórico de relatos
+ * Acesso à dicas de saúde
+ * Acesso à notícias sobre a pandemia
 
 ### 5.2 Recursos de relatório
 
- * Armazenar relatórios de usuário
- * Fornecer relatórios ao usuário
+ * Coleta de relatórios de saúde do usuário
 
 ### 5.3 Recursos adicionais
 
- * Fornecer informações relevantes para o cuidado da saúde
+ * Fornecer informações relevantes para o cuidado da saúde por meio de dicas e notícias
  
 ## **6. Restrições**
 
 ### 6.1 Restrições de Implementação
 
-O ChatBot será desenvolvido utilizando a linguagem de programação Python e implementado com a API disponibilizada para o <i>Telegram</i>.
+O Chatbot será desenvolvido utilizando a linguagem de programação Python e implementado com a API disponibilizada para o <i>Telegram</i>.
  
 ### 6.2 Restrições de Design
 
-A interação com o ChatBot se dá de forma simples, espontânea e de fácil entendimento, dentro da interface do aplicativo ou site do <i>Telegram</i>.
+A interação com o Chatbot se dá de forma simples, espontânea e de fácil entendimento, dentro da interface do aplicativo ou site do <i>Telegram</i>.
  
 ### 6.3 Restrições de Uso
 
-Para interagir com o ChatBot se faz necessário utilizar um dispositivo que tenha conexão com a Internet, além de acesso ao <i>Telegram</i>
+Para interagir com o Chatbot se faz necessário utilizar um dispositivo que tenha conexão com a internet, além de acesso ao <i>Telegram</i>
  
 ### 6.4 Restrições Externas
 
-Falta de conhecimento e de experiência em relação à API de ChatBot do <i>Telegram</i> e possíveis complicações relacionadas ao trabalho em equipe.
+Falta de conhecimento e de experiência em relação à API de Chatbot do <i>Telegram</i> e possíveis complicações relacionadas ao trabalho em equipe.
  
 ### 6.5 Restrições de Confiabilidade
 

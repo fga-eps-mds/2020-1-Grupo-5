@@ -43,7 +43,13 @@ async def run_tests(client: Client):
     async with controller.collect(count=1) as response:
         await client.send_message(controller.peer_id, 'Finalizar')
     assert 'Já vai?' in response.full_text
-    print('Finalizar testado\n')
+    print('Finalizar testado')
+
+    async with controller.collect(count=1) as response:
+        await controller.send_command('noticia')
+    assert response.num_messages == 1
+    assert 'espero que esteja se sentindo bem' in response.full_text
+    print('Notícia testada\n')
 
 if __name__ == "__main__":
     asyncio.get_event_loop().run_until_complete(run_tests(create_client()))

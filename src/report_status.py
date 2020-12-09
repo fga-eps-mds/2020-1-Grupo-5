@@ -1,0 +1,85 @@
+import requests
+#libraries
+import numpy as np
+from datetime import datetime
+
+def start(update, context):
+    data = get_survey(context.user_data)['surveys']
+
+    if not data:
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text='Parece que você ainda não reportou nenhuma vez. Envie /report e comece a reportar.'
+        )
+        return
+
+    good, bad, notResp = get_total_days(data)
+    
+    textSendLegend = imageRel(context.user_data, good, bad, notResp)
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=str(textSendLegend)
+    )
+
+def get_total_days(data):
+    # Data inicial
+    day_init = (str(data[0]['created_at']).split("T"))[0]
+    d1 = datetime.strptime(str(day_init), '%Y-%m-%d')
+    d2 = datetime.today()
+    tot_days = abs((d2 - d1).days + 1)
+    good = 0
+    bad = 0
+    repeated_days = 0
+    all_days = set()
+
+    for survey in data:
+        if survey['created_at'].split("T")[0] in all_days:
+            repeated_days += 1
+        else:
+            all_days.add(survey['created_at'].split("T")[0])
+
+        if survey['symptom']:
+            bad += 1
+        else:
+            good += 1
+
+    return (good, bad, abs(tot_days - good - bad + repeated_days))
+
+def get_survey(user_data):
+    headers =  {'Accept' : 'application/vnd.api+json', 'Content-Type' : 'application/json', 'Authorization' : str(user_data['AUTH_TOKEN'])}
+    url = f"http://localhost:3001/users/{user_data['id']}/surveys"
+    r = requests.get(url=url, headers=headers)
+    surveys = r.json()
+
+    # Log de sucesso ou falha no cadastro
+    if r.status_code == 200: # Sucesso
+        print("Sucess request get survey")
+        return surveys
+    else:
+        print("Failed to get survey")
+
+def get_percentage(value, allvals):
+    absolute = ((value/np.sum(allvals))*100)
+    # fazendo legenda do gráfico com % e kg
+    return "{:d} dias, {:.1f}%.".format(value, absolute)
+
+def imageRel(user_data, sim, nao, notResp):
+    data = [sim, nao, notResp]
+    my_values = []
+    legendaText = []
+    recipe = ['😃 - Você esteve bem ', '🤧 - Você esteve mal ', '\n😞 - Infelizmente você se esqueceu de nós em ']
+
+    cont = 0
+    for n in data:
+        if not(n == 0):
+            legendaText.append(recipe[cont] + get_percentage(n, data))
+            my_values.append(data[cont])
+        cont += 1
+
+    textSendLegend = 'Olá, ' + user_data['user_name'] + '! Lembre-se sempre de cuidar de sua saúde.\n\n'
+
+    for text in legendaText:
+        textSendLegend = textSendLegend + text + '\n'
+
+    return textSendLegend

@@ -12,15 +12,15 @@ required_data = set()
 # Inicia o cadastro
 def start(update, context):
     user_data = context.user_data
-    user_data['Keyboard'] = [   ['Username', 'Email'],
-                                ['Senha', 'Raça'],
-                                ['Trabalho', 'Genero sexual'],
-                                ['Localização', 'Cancelar'] ]
-
     if utils.is_logged(user_data):
-        handlers.unknown(context, update)
+        handlers.unknown(update, context)
         return ConversationHandler.END
     else:
+        user_data.clear()
+        user_data['Keyboard'] = [   ['Username', 'Email'],
+                                    ['Senha', 'Raça'],
+                                    ['Trabalho', 'Genero sexual'],
+                                    ['Localização', 'Cancelar'] ]
         # Mensagem de início de cadastro
         markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
         update.message.reply_text(
@@ -79,7 +79,7 @@ def update_received_information(context, update):
     del context.user_data['choice']
 
     if 'Localização' in category:
-        location.reverseGeo(update.message.location, context)
+        location.reverseGeo(update.message.location, context.user_data)
     else:
         context.user_data[category] = update.message.text
 
@@ -169,7 +169,7 @@ def requestSignup(update, context):
         print("Successfull signup:")    
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"{user_data.get('Username')}, você foi cadastrado com sucesso!"
+            text=f"{user_data.get('Username')}, você foi cadastrado(a) com sucesso!"
         )
         login.request_login(update, context)        
     else: # Falha
@@ -178,4 +178,5 @@ def requestSignup(update, context):
             chat_id=update.effective_chat.id,
             text=f"{user_data.get('Username')}, seu cadastro falhou!"
         )
+        handlers.menu(update, context)
     print(r.content)    

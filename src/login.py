@@ -2,7 +2,7 @@ from json import loads
 from requests import post
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
-from src import utils, handlers, getters, news
+from src import utils, handlers, getters, news, daily_report
 import _thread as thread
 
 ENTRY_REGEX = '^(Email|Email✅|Senha|Senha✅)$'
@@ -15,13 +15,13 @@ required_data = set()
 # Inicia o login
 def start(update, context):
     user_data = context.user_data
-    user_data['Keyboard'] = [   ['Email', 'Senha'],
-                                ['Cancelar']    ]
-
     if utils.is_logged(user_data):
         handlers.unknown(update, context)
         return ConversationHandler.END
     else:
+        user_data.clear()
+        user_data['Keyboard'] = [   ['Email', 'Senha'],
+                                    ['Cancelar']    ]
         # Mensagem de início do login
         markup = ReplyKeyboardMarkup(user_data['Keyboard'], one_time_keyboard=True, resize_keyboard=True)
         update.message.reply_text(
@@ -77,7 +77,7 @@ def validation_management(user_data, category):
     utils.update_check_mark(user_data['Keyboard'], category, validation)
 
     if validation:
-        return "Perfeito, entrada aceita\n"
+        return "Perfeito, entrada aceita.\n"
     else:
         return "Entrada inválida. Tem certeza que digitou corretamente?\n"
 
@@ -135,11 +135,11 @@ def request_login(update, context):
      
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"{context.user_data['user_name']} seja bem vindo(a) ao DoctorS Bot, o chatbot integrado ao Guardiões da Saúde."
+            text=f"{context.user_data['user_name']}, seja bem vindo(a) ao DoctorS Bot, o chatbot integrado ao Guardiões da Saúde."
         )
 
         #Habilita NOtificações diárias
-        handlers.daily_report(update, context)
+        daily_report.daily_report(update, context)
 
         arq = "assets/doc_arquitetura/GuardioesLogo.png"
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(arq, 'rb'))
