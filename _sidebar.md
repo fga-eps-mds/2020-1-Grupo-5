@@ -24,4 +24,6 @@
     - [Sprint 10](docs/sprints/sprint10.md)
     - [Sprint 11](docs/sprints/sprint11.md)
     - [Sprint 12](docs/sprints/sprint12.md)
+    - [Sprint 13](docs/sprints/sprint13.md)
+    - [Sprint 14](docs/sprints/sprint14.md)
 - [Ajuda](docs/Ajuda.md)
