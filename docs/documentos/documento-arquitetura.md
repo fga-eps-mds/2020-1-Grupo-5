@@ -10,8 +10,8 @@
 |16/09|0.6|Adicionando subitem 4.1 |João Pedro|
 |17/09|0.7|Revisão ortográfica|Lucas Rodrigues|
 |23/09|0.8|Corrigido subitens 2.1 e 2.2|João Alves|
-|12/11|0.9|Corrigido subitem 4.1|João Pedro|
-|17/11|1.0|Modificando subitem 4.1|João Pedro|
+|10/11|0.9|Adicionando diagrama de casos de uso|Kevin Luis|
+
 ## 1. Introdução
 
 ### 1.1 Finalidade 
@@ -26,12 +26,7 @@ Por meio desse documento pretende-se apresentar de forma estruturada a construç
 
 ### 2.1 Diagrama de relações
 
-
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20de%20Relações.png" />
-</p>
-
-
+![](https://i.ibb.co/6wZ9dGF/Diagrama-de-Rela-es.png)
 
 ### 2.1.1 Front-End
 
@@ -41,25 +36,23 @@ O front-end é a parte responsável pela troca de mensagens, ou seja, o Telegram
 
 O back-end é reponsável por interpretar a mensagem do usuário, e responder da melhor forma, caso seja requisitado alguma função que envolva entrada de dados do usuário(Login, informe diário e etc), ele fará o registro, transportará os dados para a API do Guardiões e também para o banco de dados do próprio bot.
 
-### 2.2 Tecnologias
+### 2.2 Diagrama de casos de uso
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/python.png" />
-</p>
+![](https://i.ibb.co/p4DkQVK/diagrama-casos-de-uso.png)
+
+### 2.3 Tecnologias
+
+<p align = "center"> &emsp;&emsp; <img src="https://i.ibb.co/M6wZRbb/python.png" width="150" height="150"/> </p> 
 
 O projeto em sua maior parte será feito na linguagem [Python](https://www.python.org). Este software ficará responsável por interpretar as mensagens recebidas, respondelas e quando necessário ela também fará toda a comunicação entre a API responsável pelo armazenamento de dados(Guardiões da Saúde) e a API responsável pela entrada de dados(Telegram Bot API).
 
 <br>
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/telegram.png" />
-</p>
+<p align = "center"> &emsp;&emsp; <img src="https://i.ibb.co/ZJV4pXM/telegram.png" width="150" height="150"/> </p>  
 
 A entrada de dados ocorre somente por meio do Telegram, que fornece uma API que envia todas as mensagens (dados) recebidas para o codigo do DoctorS, onde ocorre a validação de dados, reconhecimento de comandos e mensagens recebidas.
 
 <br>
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-Grupo-5/blob/develop/assets/doc_arquitetura/GuardioesLogo.png" />
-</p>
+<p align = "center"> &emsp;&emsp; <img src="https://i.ibb.co/RjyfJ6T/Guardioes-Logo.png" width="150" height="150"/> </p>  
 
 A partir do momento que for solicitado algum acesso ao nosso banco de dados, nossa API fará uma request para a API do Guardiões da Saúde pedindo ou inserindo todos os dados requisitados caso o pedido seja válido.
 
@@ -87,26 +80,18 @@ Os objetivos do DoctorS são :
 
 Os diagramas de pacotes mostram a interação entre as relações das pastas e seus arquivos.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Telegram.png" />
-</p>
+![](https://i.ibb.co/ZzHbXxz/Diagrama-Telegram.png)
 
 Imagem 5 - Diagrama de pacotes do Microsserviço Conexão com o Telegram.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Guardi%C3%B5es.png" />
-</p>
+![](https://i.ibb.co/YP3YVMf/Diagrama-Guardi-es.png)
 
 Imagem 6 - Diagrama de pacotes do Microsserviço Conexão com Guardiões da Saúde.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20AWS.png" />
-</p>
+![](https://i.ibb.co/r5GsBTD/Diagrama-Python.png)
 
-Imagem 7 - Diagrama de pacotes do Microsserviço Conexão com AWS.
+Imagem 7 - Diagrama de pacotes do Microsserviço Bot em python.
 
-<p align="center">
-  <img src="https://github.com/fga-eps-mds/2020-1-DoctorS-Bot/blob/develop/assets/doc_arquitetura/Diagrama%20Geral%20(1).png" />
-</p>
+![](https://i.ibb.co/wMLSnx6/Diagrama-Geral.png)
 
 Imagem 8 - Diagrama de pacotes geral dos Microsserviços.
