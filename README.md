@@ -1,7 +1,7 @@
 # DoctorS Bot
 <p align = "center"> &emsp;&emsp; <img src="https://i.ibb.co/KXy8s4z/DoctorS.png"/> </p>
 
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/fga-eps-mds/2020-1-DoctorS-Bot.svg)](http://isitmaintained.com/project/fga-eps-mds/2020-1-DoctorS-Bot "Percentage of issues still open")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/fga-eps-mds/2020.1-DoctorS-Bot.svg)](http://isitmaintained.com/project/fga-eps-mds/2020-1-DoctorS-Bot "Percentage of issues still open")
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
